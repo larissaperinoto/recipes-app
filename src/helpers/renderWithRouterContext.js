@@ -2,7 +2,7 @@ import React from 'react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { render } from '@testing-library/react';
-import Provider from '../context/Provider';
+// import Provider from '../context/Provider';
 
 export function withRouter(component, history) {
   return (
@@ -25,14 +25,14 @@ export function renderWithRouter(
   };
 }
 
-export function renderWithContext(component, initialPath = '/') {
-  const history = createMemoryHistory([initialPath]);
-  return {
-    ...render(
-      <Provider>
-        {component}
-      </Provider>,
-      history,
-    ),
-  };
-}
+// export function renderWithContext(component, initialPath = '/') {
+//   const history = createMemoryHistory([initialPath]);
+//   return {
+//     ...render(
+//       <Provider>
+//         {component}
+//       </Provider>,
+//       history,
+//     ),
+//   };
+// }

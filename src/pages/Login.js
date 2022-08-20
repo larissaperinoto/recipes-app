@@ -15,9 +15,9 @@ export default function Login() {
     return setUserSenha({ senha: { isValid: senha.length > MIN_CARACTERS } });
   }
 
-  function hendleSendLogin() {
-    console.log('Logado!!!');
-  }
+  // function hendleSendLogin() {
+  //   console.log('Logado!!!');
+  // }
 
   return (
     <div>
@@ -40,7 +40,7 @@ export default function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ !(userEmail.user.isValid && userSenha.senha.isValid) }
-        onClick={ hendleSendLogin }
+        // onClick={ hendleSendLogin }
       >
         Enter
       </button>
