@@ -16,6 +16,10 @@ describe('Verifica renderização do componente Header', () => {
 
    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
    expect(screen.getByRole("textbox")).toBeInTheDocument();
+   expect(screen.getByRole("radio", { name: /ingrediente/i })).toBeInTheDocument();
+   expect(screen.getByRole("radio", { name: /nome/i })).toBeInTheDocument();
+   expect(screen.getByRole("radio", { name: /iniciais/i })).toBeInTheDocument();
+   expect(screen.getByRole("button", { name: /seleção/i })).toBeInTheDocument();
   });
 
   test('Verifica se ícones e título renderizados corretamente na rota /drinks', () => {

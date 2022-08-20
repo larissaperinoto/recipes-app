@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
-import SearchHeader from './searchIcon';
+import HeaderSearchIcon from './HeaderSearchIcon';
+import SearchBar from './SearchBar';
 
 function Header({ title }) {
   const [showSearchIcon, setshowSearchIcon] = useState(true);
@@ -42,8 +43,9 @@ function Header({ title }) {
           data-testid="profile-top-btn"
         />
       </button>
-      { showSearchIcon && <SearchHeader handleClickSearch={ handleClickSearch } /> }
+      { showSearchIcon && <HeaderSearchIcon handleClickSearch={ handleClickSearch } /> }
       { showSearchInput && <input type="text" data-testid="search-input" /> }
+      { showSearchInput && <SearchBar /> }
       <h1 data-testid="page-title">{ title }</h1>
     </div>
   );
