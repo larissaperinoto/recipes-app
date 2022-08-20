@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
-class DoneRecipes extends Component {
-  render() {
-    const { history: { location: { pathname } } } = this.props;
-    console.log('oi');
-    return (
-      <Header title={ pathname } />
-    );
-  }
+function DoneRecipes() {
+  return (
+    <Header title="Done Recipes" />
+  );
 }
 
 DoneRecipes.propTypes = {

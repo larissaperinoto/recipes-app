@@ -1,81 +1,50 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import './Header.css';
 
-class Header extends Component {
-  constructor() {
-    super();
+function Header({ title }) {
+  const [showSearchIcon, setshowSearchIcon] = useState(true);
+  const [redirect, setRedirect] = useState(false);
 
-    this.state = {
-      searchClass: 'show',
-    };
-  }
-
-  componentDidMount() {
-    this.handleIcons();
-  }
-
-  handleIcons = () => {
-    const { title } = this.props;
-    if (title === '/favorite-recipes'
-      || title === '/done-recipes'
-      || title === '/profile') {
-      this.setState({ searchClass: 'hide' });
+  const handleIcons = () => {
+    if (title === 'Favorite Recipes'
+      || title === 'Done Recipes'
+      || title === 'Profile') {
+      setshowSearchIcon(false);
     }
-  }
+  };
 
-  favoriteTitleGenerator = (title) => {
-    const initialLetterF = title.split('/')[1][0].toUpperCase();
-    const quiteLetterF = title.split('f')[1].toString().split('-')[0];
-    const initialLetterR = title.split('-')[1][0].toUpperCase();
-    const quiteLetterR = title.split('r')[2];
-    return `${initialLetterF}${quiteLetterF} ${initialLetterR}${quiteLetterR}`;
-  }
+  const handleClickProfile = () => {
+    setRedirect(true);
+  };
 
-  doneTitleGenerator = (title) => {
-    const initialLetterD = title.split('/')[1][0].toUpperCase();
-    const quiteLetterD = title.split('d')[1].toString().split('-')[0];
-    const initialLetterR = title.split('-')[1][0].toUpperCase();
-    const quiteLetterR = title.split('r')[1];
-    return `${initialLetterD}${quiteLetterD} ${initialLetterR}${quiteLetterR}`;
-  }
+  useEffect(() => {
+    handleIcons();
+  }, []);
 
-  titleGenerator = () => {
-    const { title } = this.props;
-    if (title === '/done-recipes') {
-      return this.doneTitleGenerator(title);
-    }
-
-    if (title === '/favorite-recipes') {
-      return this.favoriteTitleGenerator(title);
-    }
-    const initialLetter = title.split('/')[1][0].toUpperCase();
-    const finalLetter = title.split('/')[1].substring(1);
-    return `${initialLetter}${finalLetter}`;
-  }
-
-  render() {
-    const { searchClass } = this.state;
-    return (
-      <div>
-        <profileIcon />
+  return (
+    <div>
+      { redirect && <Redirect to="/profile" />}
+      <button
+        type="button"
+        onClick={ () => handleClickProfile() }
+      >
         <img
           src={ profileIcon }
           alt="profileIcon"
           data-testid="profile-top-btn"
         />
-        <img
-          scr={ searchIcon }
-          alt="searchIcon"
-          data-testid="search-top-btn"
-          className={ searchClass }
-        />
-        <h1 data-testis="page-title">{ this.titleGenerator() }</h1>
-      </div>
-    );
-  }
+      </button>
+      { showSearchIcon && <img
+        src={ searchIcon }
+        alt="searchIcon"
+        data-testid="search-top-btn"
+      /> }
+      <h1 data-testid="page-title">{ title }</h1>
+    </div>
+  );
 }
 
 Header.propTypes = {

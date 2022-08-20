@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
-class Drinks extends Component {
-  render() {
-    const { history: { location: { pathname } } } = this.props;
-    return (
-      <Header title={ pathname } />
-    );
-  }
+function Drinks() {
+  return (
+    <Header title="Drinks" />
+  );
 }
 
 Drinks.propTypes = {
