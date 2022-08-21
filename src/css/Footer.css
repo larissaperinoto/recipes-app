@@ -1,0 +1,15 @@
+footer {
+  bottom: 0;
+  position: fixed;
+}
+
+button {
+  background-color: #b9b4b4;
+  border: none;
+  color: white;
+  cursor: pointer;
+  height: 70px;
+  margin: 8px;
+  padding: 14px;
+  width: 70px;
+}
