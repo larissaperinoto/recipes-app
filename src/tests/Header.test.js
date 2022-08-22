@@ -66,6 +66,10 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.click(screen.getByRole("button", { name: /seleção/i }));
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=vegan'));
+
+    expect(screen.getAllByTestId(/recipe-card/i).length).toBe(2);
+    expect(screen.getAllByTestId(/card-img/i).length).toBe(2);
+    expect(screen.getAllByTestId(/card-name/i).length).toBe(2);
   });
 
   test('Verifica se é possível pesquisar por um drink usando os filtros', async () => {
@@ -86,9 +90,14 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.click(screen.getByRole("button", { name: /seleção/i }));
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=lemon'));
+
+    expect(screen.getAllByTestId(/recipe-card/i).length).toBe(12);
+    expect(screen.getAllByTestId(/card-img/i).length).toBe(12);
+    expect(screen.getAllByTestId(/card-name/i).length).toBe(12);
   });
 
   test('Verifica se a página pe redirecionada quando apenas uma receita é encontrada', async () => {
+
     fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue(mealsWithNameLemon)
     })
@@ -108,6 +117,71 @@ describe('Verifica renderização do componente Header', () => {
 
     const { location: { pathname } } = history;
     expect(pathname).toBe('/foods/53009');
+  });
 
+  test('Verifica se um alerta é mostrado ao pesquisar usando o filtro First Letter com mais de uma letra', async () => {
+
+    fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mealsWithNameLemon)
+    })
+
+    global.alert = jest.fn();
+
+    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+
+    history.push('/foods');
+
+    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
+
+    userEvent.type(screen.getByTestId("search-input"), 'lemon');
+    userEvent.click(screen.getByText("First letter"));
+
+    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+
+    expect(global.alert).toBeCalled();
+  });
+
+  test('Verifica se o filtro First Letter funciona corretamente na página Foods', async () => {
+    fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mealsWithNameLemon)
+    })
+
+    global.alert = jest.fn();
+
+    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+
+    history.push('/foods');
+
+    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
+
+    userEvent.type(screen.getByTestId("search-input"), 'l');
+    userEvent.click(screen.getByText("First letter"));
+
+    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+
+    expect(global.alert).not.toBeCalled();
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?f=l'));
+  });
+
+  test('Verifica se o filtro First Letter funciona corretamente na página Drinks', async () => {
+    fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mealsWithNameLemon)
+    })
+
+    global.alert = jest.fn();
+
+    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+
+    history.push('/drinks');
+
+    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
+
+    userEvent.type(screen.getByTestId("search-input"), 'd');
+    userEvent.click(screen.getByText("First letter"));
+
+    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+
+    expect(global.alert).not.toBeCalled();
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=d'));
   });
 });
