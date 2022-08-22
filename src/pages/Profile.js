@@ -4,9 +4,13 @@ import React from 'react';
 import Footer from '../components/Footer';
 
 export default function Profile() {
+  function getEmail() {
+    return localStorage.getItem('user');
+  }
+
   return (
     <div>
-      <h1 data-testid="profile-email">email</h1>
+      <h1 data-testid="profile-email">{ getEmail() }</h1>
       <a href="/">
         <button
           type="button"
