@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 
 export default function Login() {
   const { userEmail, setUserEmail, userSenha, setUserSenha } = useContext(Context);
-  // const history = useHistory();
+  const history = useHistory();
 
   function validarEmail(email) {
     const regexE = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
@@ -28,7 +28,7 @@ export default function Login() {
     localStorage.setItem('mealsToken', mealsToken);
     localStorage.setItem('cocktailsToken', cocktailsToken);
     // console.log('Logado!!!');
-    // history.push('/foods');
+    history.push('/foods');
   }
 
   return (
