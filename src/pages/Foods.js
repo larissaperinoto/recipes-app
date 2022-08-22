@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HeaderContext from '../context/HeaderContext';
@@ -13,7 +12,6 @@ function Foods() {
       {searchData.length > 1 && <MealList data={ searchData } />}
       <Footer />
     </>
-
   );
 }
 

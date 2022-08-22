@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Profile() {
   return (
-    <Header title="Profile" />
+    <>
+      <Header title="Profile" />
+      <Footer />
+    </>
   );
 }
-
-Profile.propTypes = {
-  history: PropTypes.objectOf(),
-}.isRequired;
 
 export default Profile;

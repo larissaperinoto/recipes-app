@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 function DoneRecipes() {
@@ -7,9 +6,5 @@ function DoneRecipes() {
     <Header title="Done Recipes" />
   );
 }
-
-DoneRecipes.propTypes = {
-  history: PropTypes.objectOf(),
-}.isRequired;
 
 export default DoneRecipes;
