@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import DrinkList from '../components/DrinkList';
 import HeaderContext from '../context/HeaderContext';
 
@@ -11,12 +12,9 @@ function Drinks() {
     <>
       <Header title="Drinks" />
       {searchData.length > 1 && <DrinkList data={ searchData.slice(0, recipesToShow) } />}
+      <Footer />
     </>
   );
 }
-
-Drinks.propTypes = {
-  history: PropTypes.objectOf(),
-}.isRequired;
 
 export default Drinks;
