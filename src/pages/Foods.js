@@ -6,9 +6,11 @@ import MealList from '../components/MealList';
 
 function Foods() {
   const { searchData } = useContext(HeaderContext);
+  console.log(searchData);
   return (
     <>
       <Header title="Foods" />
+      {searchData.length > 1 && <MealList data={ searchData } />}
       {searchData.length > 1 && <MealList data={ searchData } />}
     </>
 

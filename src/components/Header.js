@@ -49,7 +49,7 @@ function Header({ title }) {
   return (
     <div>
       { oneRecipe && <Redirect to={ `/${recipeId.type}/${recipeId.id}` } />}
-      { error && global.alert('Your search must have only 1 (one) character') }
+      { error && global.alert(error) }
       { redirect && <Redirect to="/profile" />}
       <button
         type="button"

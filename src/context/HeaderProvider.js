@@ -14,7 +14,7 @@ function MyProvider({ children }) {
   };
 
   const [searchData, setSearchData] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const [path, setPath] = useState('');
   const [recipeId, setRecipeId] = useState({
     id: '',
@@ -24,22 +24,30 @@ function MyProvider({ children }) {
   const handleSearch = async () => {
     const { filter, value } = search;
     if (filter === 'First letter' && value.length !== 1) {
-      setError(true);
+      setError('Your search must have only 1 (one) character');
     }
     if (path === 'Foods') {
       const data = await requestMealsAPI(filter, value);
-      setRecipeId({
-        id: data[0].idMeal,
-        type: 'foods',
-      });
-      setSearchData(data);
+      if (data) {
+        setRecipeId({
+          id: data[0].idMeal,
+          type: 'foods',
+        });
+        setSearchData(data);
+      } else {
+        setError('Sorry, we haven\'t found any recipes for these filters.');
+      }
     } else {
       const data = await requestDrinksAPI(filter, value);
-      setRecipeId({
-        id: data[0].idDrink,
-        type: 'drinks',
-      });
-      setSearchData(data);
+      if (data) {
+        setRecipeId({
+          id: data[0].idDrink,
+          type: 'drinks',
+        });
+        setSearchData(data);
+      } else {
+        setError('Sorry, we haven\'t found any recipes for these filters.');
+      }
     }
   };
 
