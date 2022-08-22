@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import HeaderContext from '../context/HeaderContext';
+import MealList from '../components/MealList';
 
 function Foods() {
+  const { searchData } = useContext(HeaderContext);
   return (
-    <Header title="Foods" />
+    <>
+      <Header title="Foods" />
+      {searchData.length > 1 && <MealList data={ searchData } />}
+    </>
+
   );
 }
 
