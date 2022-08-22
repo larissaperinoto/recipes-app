@@ -9,8 +9,15 @@ import HeaderContext from '../context/HeaderContext';
 function Header({ title }) {
   const [showSearchIcon, setshowSearchIcon] = useState(true);
   const [showSearchInput, setshowSearchInput] = useState(false);
+  const [oneRecipe, setOneRecipe] = useState(false);
+
   const [redirect, setRedirect] = useState(false);
-  const { handleSearchChange, error, setPath } = useContext(HeaderContext);
+  const {
+    handleSearchChange,
+    error,
+    setPath,
+    searchData,
+    recipeId } = useContext(HeaderContext);
 
   const handleIcons = () => {
     if (title === 'Favorite Recipes'
@@ -33,8 +40,17 @@ function Header({ title }) {
     setPath(title);
   }, []);
 
+  useEffect(() => {
+    if (searchData.length === 1) {
+      setOneRecipe(true);
+    }
+  }, [searchData]);
+
+  console.log(recipeId);
+
   return (
     <div>
+      { oneRecipe && <Redirect to={ `/${recipeId.type}/${recipeId.id}` } />}
       { error && global.alert('Your search must have only 1 (one) character') }
       { redirect && <Redirect to="/profile" />}
       <button

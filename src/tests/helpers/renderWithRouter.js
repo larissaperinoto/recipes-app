@@ -12,7 +12,7 @@ function renderWithRouter(
 ) {
   return {
     ...render(
-      <Router history={ history }>
+    <Router history={ history }>
       { component }
     </Router>
     ),

@@ -14,9 +14,12 @@ function MyProvider({ children }) {
   };
 
   const [searchData, setSearchData] = useState([]);
-  console.log(searchData);
   const [error, setError] = useState(false);
   const [path, setPath] = useState('');
+  const [recipeId, setRecipeId] = useState({
+    id: '',
+    type: '',
+  });
 
   const handleSearch = async () => {
     const { filter, value } = search;
@@ -25,9 +28,17 @@ function MyProvider({ children }) {
     }
     if (path === 'Foods') {
       const data = await requestMealsAPI(filter, value);
+      setRecipeId({
+        id: data[0].idMeal,
+        type: 'foods',
+      });
       setSearchData(data);
     } else {
       const data = await requestDrinksAPI(filter, value);
+      setRecipeId({
+        id: data[0].idDrink,
+        type: 'drinks',
+      });
       setSearchData(data);
     }
   };
@@ -37,6 +48,8 @@ function MyProvider({ children }) {
     handleSearch,
     error,
     setPath,
+    searchData,
+    recipeId,
   };
 
   return (
