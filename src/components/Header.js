@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import HeaderSearchIcon from './HeaderSearchIcon';
 import SearchBar from './SearchBar';
+import MyContext from '../context/MyContext';
 
 function Header({ title }) {
   const [showSearchIcon, setshowSearchIcon] = useState(true);
   const [showSearchInput, setshowSearchInput] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const { handleSearchChange, error } = useContext(MyContext);
 
   const handleIcons = () => {
     if (title === 'Favorite Recipes'
@@ -22,7 +24,7 @@ function Header({ title }) {
     setRedirect(true);
   };
 
-  const handleClickSearch = () => {
+  const handleShowInput = () => {
     setshowSearchInput(!showSearchInput);
   };
 
@@ -32,6 +34,7 @@ function Header({ title }) {
 
   return (
     <div>
+      { error && global.alert('Your search must have only 1 (one) character') }
       { redirect && <Redirect to="/profile" />}
       <button
         type="button"
@@ -43,8 +46,14 @@ function Header({ title }) {
           data-testid="profile-top-btn"
         />
       </button>
-      { showSearchIcon && <HeaderSearchIcon handleClickSearch={ handleClickSearch } /> }
-      { showSearchInput && <input type="text" data-testid="search-input" /> }
+      { showSearchIcon && <HeaderSearchIcon handleShowInput={ handleShowInput } /> }
+      { showSearchInput
+        && <input
+          type="text"
+          data-testid="search-input"
+          name="value"
+          onChange={ handleSearchChange }
+        /> }
       { showSearchInput && <SearchBar /> }
       <h1 data-testid="page-title">{ title }</h1>
     </div>

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import searchIcon from '../images/searchIcon.svg';
 
-function HeaderSearchIcon({ handleClickSearch }) {
+function HeaderSearchIcon({ handleShowInput }) {
   return (
     <button
       type="button"
-      onClick={ handleClickSearch }
+      onClick={ handleShowInput }
     >
       <img
         src={ searchIcon }
@@ -18,7 +18,7 @@ function HeaderSearchIcon({ handleClickSearch }) {
 }
 
 HeaderSearchIcon.propTypes = {
-  handleClickSearch: PropTypes.func,
+  handleShowInput: PropTypes.func,
 }.isRequired;
 
 export default HeaderSearchIcon;
