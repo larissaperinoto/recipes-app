@@ -46,8 +46,6 @@ function Header({ title }) {
     }
   }, [searchData]);
 
-  console.log(recipeId);
-
   return (
     <div>
       { oneRecipe && <Redirect to={ `/${recipeId.type}/${recipeId.id}` } />}

@@ -277,3 +277,63 @@ export const drinksWithLemon = {
     }
   ]
 };
+
+export const mealsWithNameLemon = {
+  "meals": [
+    {
+      "idMeal": "53009",
+      "strMeal": "Lamb and Lemon Souvlaki",
+      "strDrinkAlternate": null,
+      "strCategory": "Lamb",
+      "strArea": "Greek",
+      "strInstructions": "Pound the garlic with sea salt in a pestle and mortar (or use a small food processor), until the garlic forms a paste. Whisk together the oil, lemon juice, zest, dill and garlic. Mix in the lamb and combine well. Cover and marinate for at least 2 hrs or overnight in the fridge. If you’re going to use bamboo skewers, soak them in cold water.\r\n\r\nIf you’ve prepared the lamb the previous day, take it out of the fridge 30 mins before cooking. Thread the meat onto the soaked or metal skewers. Heat the grill to high or have a hot griddle pan or barbecue ready. Cook the skewers for 2-3 mins on each side, basting with the remaining marinade. Heat the pitta or flatbreads briefly, then stuff with the souvlaki. Add Greek salad (see 'Goes well with', right) and Tzatziki (below), if you like.",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/rjhf741585564676.jpg",
+      "strTags": null,
+      "strYoutube": "https://www.youtube.com/watch?v=krR4rhjR75Y",
+      "strIngredient1": "Garlic",
+      "strIngredient2": "Sea Salt",
+      "strIngredient3": "Olive Oil",
+      "strIngredient4": "Lemon",
+      "strIngredient5": "Dill",
+      "strIngredient6": "Lamb Leg",
+      "strIngredient7": "Pita Bread",
+      "strIngredient8": "",
+      "strIngredient9": "",
+      "strIngredient10": "",
+      "strIngredient11": "",
+      "strIngredient12": "",
+      "strIngredient13": "",
+      "strIngredient14": "",
+      "strIngredient15": "",
+      "strIngredient16": "",
+      "strIngredient17": "",
+      "strIngredient18": "",
+      "strIngredient19": "",
+      "strIngredient20": "",
+      "strMeasure1": "2 cloves",
+      "strMeasure2": "2 tsp",
+      "strMeasure3": "4 tbs",
+      "strMeasure4": "Zest and juice of 1",
+      "strMeasure5": "1 tbs",
+      "strMeasure6": "750g",
+      "strMeasure7": "To serve",
+      "strMeasure8": " ",
+      "strMeasure9": " ",
+      "strMeasure10": " ",
+      "strMeasure11": " ",
+      "strMeasure12": " ",
+      "strMeasure13": " ",
+      "strMeasure14": " ",
+      "strMeasure15": " ",
+      "strMeasure16": " ",
+      "strMeasure17": " ",
+      "strMeasure18": " ",
+      "strMeasure19": " ",
+      "strMeasure20": " ",
+      "strSource": "https://www.bbcgoodfood.com/recipes/lamb-lemon-dill-souvlaki",
+      "strImageSource": null,
+      "strCreativeCommonsConfirmed": null,
+      "dateModified": null
+    }
+  ]
+};

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import HeaderProvider from '../context/HeaderProvider';
 import rendeWithRouter from './helpers/renderWithRouter';
-import { veganMeals, drinksWithLemon } from './helpers/mockData';
+import { veganMeals, drinksWithLemon, mealsWithNameLemon } from './helpers/mockData';
 import App from '../App';
 
 describe('Verifica renderização do componente Header', () => {
@@ -86,5 +86,28 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.click(screen.getByRole("button", { name: /seleção/i }));
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=lemon'));
+  });
+
+  test('Verifica se a página pe redirecionada quando apenas uma receita é encontrada', async () => {
+    fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mealsWithNameLemon)
+    })
+
+    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+
+    history.push('/foods');
+
+    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
+
+    userEvent.type(screen.getByTestId("search-input"), 'lemon');
+    userEvent.click(screen.getByText("Name"));
+
+    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=lemon'));
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/foods/53009');
+
   });
 });

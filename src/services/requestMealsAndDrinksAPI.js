@@ -26,6 +26,7 @@ const urlDrinkGenerator = (filter, value) => {
 
 export const requestMealsAPI = async (filter, value) => {
   const endpoint = urlFoodGenerator(filter, value);
+  console.log(endpoint);
 
   const { meals } = await fetch(endpoint).then((response) => response.json());
   return meals;
@@ -33,7 +34,6 @@ export const requestMealsAPI = async (filter, value) => {
 
 export const requestDrinksAPI = async (filter, value) => {
   const endpoint = urlDrinkGenerator(filter, value);
-  console.log(endpoint);
 
   const { drinks } = await fetch(endpoint).then((response) => response.json());
   return drinks;
