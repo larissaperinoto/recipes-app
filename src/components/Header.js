@@ -4,13 +4,13 @@ import { Redirect } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import HeaderSearchIcon from './HeaderSearchIcon';
 import SearchBar from './SearchBar';
-import MyContext from '../context/MyContext';
+import HeaderContext from '../context/HeaderContext';
 
 function Header({ title }) {
   const [showSearchIcon, setshowSearchIcon] = useState(true);
   const [showSearchInput, setshowSearchInput] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const { handleSearchChange, error } = useContext(MyContext);
+  const { handleSearchChange, error, setPath } = useContext(HeaderContext);
 
   const handleIcons = () => {
     if (title === 'Favorite Recipes'
@@ -30,6 +30,7 @@ function Header({ title }) {
 
   useEffect(() => {
     handleIcons();
+    setPath(title);
   }, []);
 
   return (

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import MyContext from '../context/MyContext';
+import HeaderContext from '../context/HeaderContext';
 
 function SearchBar() {
-  const { handleSearchChange, handleSearch } = useContext(MyContext);
+  const { handleSearchChange, handleSearch } = useContext(HeaderContext);
   return (
     <form>
       <label htmlFor="ingredient-search-radio">

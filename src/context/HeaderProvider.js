@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import MyContext from './MyContext';
-import requestMealsAPI from '../services/requestMealsAPI';
+import HeaderContext from './HeaderContext';
+import { requestMealsAPI, requestDrinksAPI } from '../services/requestMealsAndDrinksAPI';
 
 function MyProvider({ children }) {
   const [search, setSearch] = useState({
@@ -16,13 +16,18 @@ function MyProvider({ children }) {
   const [searchData, setSearchData] = useState([]);
   console.log(searchData);
   const [error, setError] = useState(false);
+  const [path, setPath] = useState('');
 
   const handleSearch = async () => {
     const { filter, value } = search;
     if (filter === 'First letter' && value.length !== 1) {
       setError(true);
-    } else {
+    }
+    if (path === 'Foods') {
       const data = await requestMealsAPI(filter, value);
+      setSearchData(data);
+    } else {
+      const data = await requestDrinksAPI(filter, value);
       setSearchData(data);
     }
   };
@@ -31,12 +36,13 @@ function MyProvider({ children }) {
     handleSearchChange,
     handleSearch,
     error,
+    setPath,
   };
 
   return (
-    <MyContext.Provider value={ value }>
+    <HeaderContext.Provider value={ value }>
       { children }
-    </MyContext.Provider>
+    </HeaderContext.Provider>
   );
 }
 
