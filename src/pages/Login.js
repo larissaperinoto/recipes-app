@@ -18,6 +18,15 @@ export default function Login() {
   }
 
   function handleSendLogin() {
+    const sendUser = {
+      email: userEmail.user.email,
+    };
+    const mealsToken = '1';
+    const cocktailsToken = '1';
+
+    localStorage.setItem('user', JSON.stringify(sendUser));
+    localStorage.setItem('mealsToken', mealsToken);
+    localStorage.setItem('cocktailsToken', cocktailsToken);
     // console.log('Logado!!!');
     history.push('/foods');
   }
