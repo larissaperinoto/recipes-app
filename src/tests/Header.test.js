@@ -6,6 +6,7 @@ import HeaderProvider from '../context/HeaderProvider';
 import rendeWithRouter from './helpers/renderWithRouter';
 import { veganMeals, drinksWithLemon, mealsWithNameLemon } from './helpers/mockData';
 import App from '../App';
+import { act } from 'react-dom/test-utils';
 
 describe('Verifica renderização do componente Header', () => {
   test('Verifica se ícones e título renderizados corretamente na rota /foods', () => {
@@ -96,7 +97,7 @@ describe('Verifica renderização do componente Header', () => {
     expect(screen.getAllByTestId(/card-name/i).length).toBe(12);
   });
 
-  test('Verifica se a página pe redirecionada quando apenas uma receita é encontrada', async () => {
+  test('Verifica se a página é redirecionada quando apenas uma receita é encontrada', async () => {
 
     fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue(mealsWithNameLemon)
@@ -138,7 +139,7 @@ describe('Verifica renderização do componente Header', () => {
 
     userEvent.click(screen.getByRole("button", { name: /seleção/i }));
 
-    expect(global.alert).toBeCalled();
+    expect(global.alert).toBeCalledWith('Your search must have only 1 (one) character');
   });
 
   test('Verifica se o filtro First Letter funciona corretamente na página Foods', async () => {
@@ -183,5 +184,49 @@ describe('Verifica renderização do componente Header', () => {
 
     expect(global.alert).not.toBeCalled();
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=d'));
+  });
+
+  test('Verifica se um alerta é mostrado quando não é encontrado nenhum resultado para a busca na página Foods', async () => {
+
+    fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mealsWithNameLemon)
+    })
+
+    jest.spyOn(global, 'alert').mockImplementation(() => 'Sorry, we haven\'t found any recipes for these filters.');
+
+    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+
+    history.push('/foods');
+
+    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
+    userEvent.type(screen.getByTestId("search-input"), 'sdsadadfdsf');
+    userEvent.click(screen.getByText("Ingredient"));
+    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+
+    await waitFor(() => expect(fetch).toBeCalled());
+
+    expect(global.alert()).toBe('Sorry, we haven\'t found any recipes for these filters.');
+    expect(global.alert).toBeCalled();
+  });
+
+  test('Verifica se um alerta é mostrado quando não é encontrado nenhum resultado para a busca na página Drinks', async () => {
+
+    fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mealsWithNameLemon)
+    })
+
+    jest.spyOn(global, 'alert').mockImplementation(() => 'Sorry, we haven\'t found any recipes for these filters.');
+
+    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+
+    history.push('/drinks');
+
+    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
+    userEvent.type(screen.getByTestId("search-input"), 'xablau');
+    userEvent.click(screen.getByText("Ingredient"));
+    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+
+    expect(global.alert()).toBe('Sorry, we haven\'t found any recipes for these filters.');
+    expect(global.alert).toBeCalled();
   });
 });
