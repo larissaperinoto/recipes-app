@@ -4,14 +4,13 @@ import React from 'react';
 import Footer from '../components/Footer';
 
 export default function Profile() {
-  function getEmail() {
-    return localStorage.getItem('user');
-  }
-
   return (
     <div>
-      <h1 data-testid="profile-email">{ getEmail() }</h1>
-      <a href="/">
+      <h1 data-testid="profile-email">
+        { JSON.parse(localStorage.getItem('user')).email }
+      </h1>
+
+      <a href="/done-recipes">
         <button
           type="button"
           data-testid="profile-done-btn"

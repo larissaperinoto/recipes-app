@@ -3,7 +3,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Provider from './context/Provider';
-import Footer from './components/Footer';
 import { Login, Foods, Drinks, Profile } from './pages/index';
 
 function App() {

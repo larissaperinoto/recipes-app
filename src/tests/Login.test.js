@@ -27,7 +27,6 @@ describe('Componente Login', () => {
   });
 
   test('Testa se o botão "Enter" direciona para a rota /foods', async () => {
-    // const { history } = renderWithRouter(<App />);
     renderWithRouter(<App />);
 
     const emailInput = screen.getByTestId("email-input");
@@ -43,7 +42,6 @@ describe('Componente Login', () => {
     // expect(pathname).toBe('/foods')
 
     const foodsHeading = screen.getByRole('heading', { level: 1 });
-
     expect(foodsHeading).toBeInTheDocument();
   })
 });
