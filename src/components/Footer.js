@@ -9,11 +9,11 @@ import '../css/Footer.css';
 export default function Footer() {
   const history = useHistory();
 
-  function hendleSendDrinks() {
+  function handleSendDrinks() {
     history.push('/drinks');
   }
 
-  function hendleSendFoods() {
+  function handleSendFoods() {
     history.push('/foods');
   }
 
@@ -22,7 +22,7 @@ export default function Footer() {
       <button
         data-testid="drinks-bottom-btn"
         type="button"
-        onClick={ hendleSendDrinks }
+        onClick={ handleSendDrinks }
         src={ drinkIcon }
       >
         <img src={ drinkIcon } alt="drinkIcon" />
@@ -30,7 +30,7 @@ export default function Footer() {
       <button
         data-testid="food-bottom-btn"
         type="button"
-        onClick={ hendleSendFoods }
+        onClick={ handleSendFoods }
         src={ mealIcon }
       >
         <img src={ mealIcon } alt="mealIcon" />
