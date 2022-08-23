@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
+import HeaderContext from '../context/HeaderContext';
+import MealList from '../components/MealList';
 
-export default function Foods() {
+function Foods() {
+  const { searchData } = useContext(HeaderContext);
   return (
-    <div>
-      <h1>Foods</h1>
+    <>
+      <Header title="Foods" />
+      {searchData.length > 1 && <MealList data={ searchData } />}
       <Footer />
-    </div>
+    </>
   );
 }
+
+export default Foods;

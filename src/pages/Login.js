@@ -27,7 +27,6 @@ export default function Login() {
     localStorage.setItem('user', JSON.stringify(sendUser));
     localStorage.setItem('mealsToken', mealsToken);
     localStorage.setItem('cocktailsToken', cocktailsToken);
-    // console.log('Logado!!!');
     history.push('/foods');
   }
 
@@ -57,6 +56,5 @@ export default function Login() {
         Enter
       </button>
     </div>
-
   );
 }
