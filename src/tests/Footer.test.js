@@ -1,13 +1,15 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouter } from '../helpers/renderWithRouterContext';
+import renderWithRouter from './helpers/renderWithRouter';
 import Footer from '../components/Footer';
 
-describe('Componente Footer', () => {
+import HeaderProvider from '../context/HeaderProvider';
+import Provider from '../context/Provider';
 
+describe('Componente Footer', () => {
     test('Deve renderizar os data-testids no Footer', () => {
-        const { history } = renderWithRouter(<Footer />, '/foods');
+        const { history } = renderWithRouter(<Provider><HeaderProvider><Footer /></HeaderProvider></Provider>, '/foods');
         expect(screen.getByTestId('drinks-bottom-btn')).toBeInTheDocument();
         expect(screen.getByTestId('food-bottom-btn')).toBeInTheDocument();
         expect(screen.getByTestId('footer')).toBeInTheDocument();
@@ -16,7 +18,7 @@ describe('Componente Footer', () => {
         const path = history.location.pathname;
         userEvent.click(screen.getByTestId('food-bottom-btn'));
         expect(path).toBe('/drinks');
-    
+
     });
 
 });

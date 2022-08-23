@@ -1,16 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import * as serviceWorker from './serviceWorker';
+import HeaderProvider from './context/HeaderProvider';
+import Provider from './context/Provider';
 import './index.css';
 import App from './App';
-import Provider from './context/Provider';
-import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-
   <Provider>
-    <App />
+    <HeaderProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HeaderProvider>
   </Provider>,
-
   document.getElementById('root'),
 );
 

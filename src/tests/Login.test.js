@@ -2,18 +2,20 @@ import React from 'react';
 import App from '../App';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouter } from '../helpers/renderWithRouterContext';
+import renderWithRouter from './helpers/renderWithRouter';
+import HeaderProvider from '../context/HeaderProvider';
+import Provider from '../context/Provider';
 
 describe('Componente Login', () => {
   test('Deve renderizar os data-testids do Login', () => {
-    renderWithRouter(<App />);
+    renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
     expect(screen.getByTestId('email-input')).toBeInTheDocument();
     expect(screen.getByTestId('password-input')).toBeInTheDocument();
     expect(screen.getByTestId('login-submit-btn')).toBeInTheDocument();
   });
 
   test('Deve verificar se o botão está habilidado quando o campo email e senha estão corretos', () => {
-    renderWithRouter(<App />);
+    renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
     const emailInput = screen.getByTestId('email-input');
     const senhaInput = screen.getByTestId('password-input');
     const loginSubmitBtn = screen.getByTestId('login-submit-btn');

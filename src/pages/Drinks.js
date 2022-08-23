@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Header from '../components/Header';
 import Footer from '../components/Footer';
+import DrinkList from '../components/DrinkList';
+import HeaderContext from '../context/HeaderContext';
 
-export default function Drinks() {
+function Drinks() {
+  const { searchData } = useContext(HeaderContext);
+  const recipesToShow = 12;
   return (
-    <div>
-      <h1>Drinks</h1>
+    <>
+      <Header title="Drinks" />
+      {searchData.length > 1 && <DrinkList data={ searchData.slice(0, recipesToShow) } />}
       <Footer />
-    </div>
+    </>
   );
 }
+
+export default Drinks;
