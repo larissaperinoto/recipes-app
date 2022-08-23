@@ -38,15 +38,22 @@ describe('Verifica renderização do componente Header', () => {
 
   test('Verifica se ícones e título renderizados corretamente na rota /done-recipes', () => {
     const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+
     history.push('/done-recipes');
 
      expect(screen.getByRole("heading", { name: /done recipes/i })).toBeInTheDocument();
      expect(screen.getByRole("img", { name: /profileicon/i })).toBeInTheDocument();
+  });
 
-     userEvent.click(screen.getByRole("img", { name: /profileicon/i }));
+  test('Verifica se o botão de Profile redireciona para a rota "/profile"', () => {
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
-     const { location: { pathname }} = history;
-     expect(pathname).toBe('/profile');
+    history.push('/done-recipes');
+
+    userEvent.click(screen.getByTestId(/profile-top-btn/i));
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/profile');
   });
 
   test('Verifica se é possível pesquisar por uma comida usando os filtros', async () => {
