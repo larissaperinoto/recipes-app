@@ -1,13 +1,25 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 // import Context from '../context/Context';
 import Footer from '../components/Footer';
 
 export default function Profile() {
+  const history = useHistory();
+
+  function getEmail() {
+    return JSON.parse(localStorage.getItem('user')).email;
+    // return localStorage.getItem('user');
+  }
+
+  function handleLogoutButton() {
+    localStorage.clear();
+    history.push('/');
+  }
+
   return (
     <div>
       <h1 data-testid="profile-email">
-        { JSON.parse(localStorage.getItem('user')).email }
+        { getEmail() }
       </h1>
 
       <a href="/done-recipes">
@@ -28,14 +40,14 @@ export default function Profile() {
         </button>
       </a>
 
-      <a href="/">
-        <button
-          type="button"
-          data-testid="profile-logout-btn"
-        >
-          Logout
-        </button>
-      </a>
+      <button
+        type="button"
+        data-testid="profile-logout-btn"
+        onClick={ handleLogoutButton }
+      >
+        Logout
+      </button>
+
       <Footer />
     </div>
   );

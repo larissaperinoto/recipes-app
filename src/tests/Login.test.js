@@ -26,22 +26,18 @@ describe('Componente Login', () => {
     expect(loginSubmitBtn.disabled).toBe(false);
   });
 
-  test('Testa se o botão "Enter" direciona para a rota /foods', async () => {
+  test('Testa se o botão "Enter" direciona para a rota /foods', () => {
     renderWithRouter(<App />);
 
-    const emailInput = screen.getByTestId("email-input");
-    const senhaInput = screen.getByTestId("password-input");
-    const loginSubmitBtn = screen.getByTestId("login-submit-btn");
-
+    const emailInput = screen.getByTestId('email-input');
+    const senhaInput = screen.getByTestId('password-input');
+    const loginSubmitBtn = screen.getByTestId('login-submit-btn');
+    
     userEvent.type(emailInput, 'teste@teste.com');
     userEvent.type(senhaInput, 'password');
-    // expect(loginSubmitBtn).toHaveProperty('disabled', false);
+    expect(loginSubmitBtn).toHaveProperty('disabled', false);
     userEvent.click(loginSubmitBtn);
-
-    // const { pathname } = history.location;
-    // expect(pathname).toBe('/foods')
-
-    const foodsHeading = screen.getByRole('heading', { level: 1 });
-    expect(foodsHeading).toBeInTheDocument();
-  })
+    
+    expect(screen.getByText('Foods')).toBeInTheDocument();
+  });
 });
