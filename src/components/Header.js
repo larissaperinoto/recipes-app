@@ -38,6 +38,7 @@ function Header({ title }) {
   useEffect(() => {
     handleIcons();
     setPath(title);
+    return () => setPath();
   }, []);
 
   useEffect(() => {

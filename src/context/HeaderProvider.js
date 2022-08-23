@@ -58,6 +58,7 @@ function MyProvider({ children }) {
     setPath,
     searchData,
     recipeId,
+    setSearchData,
   };
 
   return (
