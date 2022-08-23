@@ -3,14 +3,14 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import HeaderProvider from '../context/HeaderProvider';
+import Provider from '../context/Provider';
 import rendeWithRouter from './helpers/renderWithRouter';
 import { veganMeals, drinksWithLemon, mealsWithNameLemon } from './helpers/mockData';
 import App from '../App';
-import { act } from 'react-dom/test-utils';
 
 describe('Verifica renderização do componente Header', () => {
   test('Verifica se ícones e título renderizados corretamente na rota /foods', () => {
-  const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+  const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
   history.push('/foods');
 
@@ -23,11 +23,11 @@ describe('Verifica renderização do componente Header', () => {
    expect(screen.getByRole("radio", { name: /ingredient/i })).toBeInTheDocument();
    expect(screen.getByRole("radio", { name: /name/i })).toBeInTheDocument();
    expect(screen.getByRole("radio", { name: /first letter/i })).toBeInTheDocument();
-   expect(screen.getByRole("button", { name: /seleção/i })).toBeInTheDocument();
+   expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
   });
 
   test('Verifica se ícones e título renderizados corretamente na rota /drinks', () => {
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/drinks');
 
@@ -37,7 +37,7 @@ describe('Verifica renderização do componente Header', () => {
   });
 
   test('Verifica se ícones e título renderizados corretamente na rota /done-recipes', () => {
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
     history.push('/done-recipes');
 
      expect(screen.getByRole("heading", { name: /done recipes/i })).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe('Verifica renderização do componente Header', () => {
       json: jest.fn().mockResolvedValue(veganMeals)
     })
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/foods');
 
@@ -64,7 +64,7 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.type(screen.getByTestId("search-input"), 'vegan');
     userEvent.click(screen.getByText("Name"));
 
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=vegan'));
 
@@ -79,7 +79,7 @@ describe('Verifica renderização do componente Header', () => {
       json: jest.fn().mockResolvedValue(drinksWithLemon)
     })
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/drinks');
 
@@ -88,7 +88,7 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.type(screen.getByTestId("search-input"), 'lemon');
     userEvent.click(screen.getByText("Ingredient"));
 
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=lemon'));
 
@@ -103,7 +103,7 @@ describe('Verifica renderização do componente Header', () => {
       json: jest.fn().mockResolvedValue(mealsWithNameLemon)
     })
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/foods');
 
@@ -112,7 +112,7 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.type(screen.getByTestId("search-input"), 'lemon');
     userEvent.click(screen.getByText("Name"));
 
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=lemon'));
 
@@ -128,7 +128,7 @@ describe('Verifica renderização do componente Header', () => {
 
     global.alert = jest.fn();
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/foods');
 
@@ -137,7 +137,7 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.type(screen.getByTestId("search-input"), 'lemon');
     userEvent.click(screen.getByText("First letter"));
 
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     expect(global.alert).toBeCalledWith('Your search must have only 1 (one) character');
   });
@@ -149,7 +149,7 @@ describe('Verifica renderização do componente Header', () => {
 
     global.alert = jest.fn();
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/foods');
 
@@ -158,7 +158,7 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.type(screen.getByTestId("search-input"), 'l');
     userEvent.click(screen.getByText("First letter"));
 
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     expect(global.alert).not.toBeCalled();
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?f=l'));
@@ -171,7 +171,7 @@ describe('Verifica renderização do componente Header', () => {
 
     global.alert = jest.fn();
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/drinks');
 
@@ -180,7 +180,7 @@ describe('Verifica renderização do componente Header', () => {
     userEvent.type(screen.getByTestId("search-input"), 'd');
     userEvent.click(screen.getByText("First letter"));
 
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     expect(global.alert).not.toBeCalled();
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=d'));
@@ -194,14 +194,14 @@ describe('Verifica renderização do componente Header', () => {
 
     jest.spyOn(global, 'alert').mockImplementation(() => 'Sorry, we haven\'t found any recipes for these filters.');
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/foods');
 
     userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
     userEvent.type(screen.getByTestId("search-input"), 'sdsadadfdsf');
     userEvent.click(screen.getByText("Ingredient"));
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     await waitFor(() => expect(fetch).toBeCalled());
 
@@ -217,14 +217,14 @@ describe('Verifica renderização do componente Header', () => {
 
     jest.spyOn(global, 'alert').mockImplementation(() => 'Sorry, we haven\'t found any recipes for these filters.');
 
-    const { history } = rendeWithRouter(<HeaderProvider><App /></HeaderProvider>);
+    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     history.push('/drinks');
 
     userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
     userEvent.type(screen.getByTestId("search-input"), 'xablau');
     userEvent.click(screen.getByText("Ingredient"));
-    userEvent.click(screen.getByRole("button", { name: /seleção/i }));
+    userEvent.click(screen.getByTestId('exec-search-btn'));
 
     expect(global.alert()).toBe('Sorry, we haven\'t found any recipes for these filters.');
     expect(global.alert).toBeCalled();
