@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Recipe() {
+function RecipeDetails() {
   return (
     <h1>Hello World</h1>
   );
 }
 
-export default Recipe;
+export default RecipeDetails;

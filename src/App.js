@@ -10,7 +10,7 @@ import {
   Profile,
   DoneRecipes,
   FavoriteRecipes,
-  Recipe } from './pages/index';
+  RecipeDetails } from './pages/index';
 
 function App() {
   return (
@@ -18,8 +18,8 @@ function App() {
       <Route exact path="/" component={ Login } />
       <Route exact path="/foods" component={ Foods } />
       <Route exact path="/drinks" component={ Drinks } />
-      <Route path="/foods/:id" component={ Recipe } />
-      <Route path="/drinks/:id" component={ Recipe } />
+      <Route path="/foods/:id" component={ RecipeDetails } />
+      <Route path="/drinks/:id" component={ RecipeDetails } />
       <Route path="/foods/{id-da-receita}/in-progress" />
       <Route path="/drinks/{id-da-receita}/in-progress" />
       <Route path="/profile" component={ Profile } />
