@@ -7,6 +7,12 @@ function Provider({ children }) {
   const [userSenha, setUserSenha] = useState({ senha: { isValid: false } });
   const [recipeType, setRecipeType] = useState('foods');
 
+  const [recipeDetails, setRecipeDetails] = useState([]);
+  const [recipeIngredients, setRecipeIngredients] = useState([]);
+  const [recomendations, setRecomendations] = useState([]);
+
+  console.log(recipeType);
+
   const value = {
     userEmail,
     setUserEmail,
@@ -14,6 +20,12 @@ function Provider({ children }) {
     setUserSenha,
     recipeType,
     setRecipeType,
+    recipeDetails,
+    setRecipeDetails,
+    recipeIngredients,
+    setRecipeIngredients,
+    recomendations,
+    setRecomendations,
   };
 
   return (
