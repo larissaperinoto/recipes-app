@@ -1,9 +1,11 @@
 import React from 'react';
-import Profile from '../pages/Profile';
-import App from '../App';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from '../helpers/renderWithRouterContext';
+
+import HeaderProvider from '../context/HeaderProvider';
+import Provider from '../context/Provider';
+import Profile from '../pages/Profile';
 
 describe('Profile page', () => {
   test('Deve renderizar o e-mail e todos os três botões: Done Recipes, Favorite Recipes, Logout', () => {
@@ -13,8 +15,8 @@ describe('Profile page', () => {
 
     localStorage.setItem('user', JSON.stringify(sendUser));
 
-    render(<Profile />);
-
+    renderWithRouter(<Provider><HeaderProvider><Profile /></HeaderProvider></Provider>);
+    
     expect(screen.getByTestId('profile-email')).toBeInTheDocument();
     expect(screen.getByTestId('profile-done-btn')).toBeInTheDocument();
     expect(screen.getByTestId('profile-favorite-btn')).toBeInTheDocument();
@@ -22,7 +24,7 @@ describe('Profile page', () => {
   });
 
   test('Verifica se após o clicar em "Logout", o usuário é redirecionado para "Login"', () => {
-    const { history } = renderWithRouter(<Profile />);
+    const { history } = renderWithRouter(<Provider><HeaderProvider><Profile /></HeaderProvider></Provider>);
 
     const logoutButton = screen.getByTestId('profile-logout-btn');
     expect(logoutButton).toBeInTheDocument();

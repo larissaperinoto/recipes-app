@@ -9,6 +9,7 @@ import Provider from '../context/Provider';
 describe('Componente Login', () => {
   test('Deve renderizar os data-testids do Login', () => {
     renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+
     expect(screen.getByTestId('email-input')).toBeInTheDocument();
     expect(screen.getByTestId('password-input')).toBeInTheDocument();
     expect(screen.getByTestId('login-submit-btn')).toBeInTheDocument();
@@ -16,6 +17,7 @@ describe('Componente Login', () => {
 
   test('Deve verificar se o botão está habilidado quando o campo email e senha estão corretos', () => {
     renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+
     const emailInput = screen.getByTestId('email-input');
     const senhaInput = screen.getByTestId('password-input');
     const loginSubmitBtn = screen.getByTestId('login-submit-btn');
@@ -29,7 +31,7 @@ describe('Componente Login', () => {
   });
 
   test('Testa se o botão "Enter" direciona para a rota /foods', () => {
-    renderWithRouter(<App />);
+    const { history } = renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
     const emailInput = screen.getByTestId('email-input');
     const senhaInput = screen.getByTestId('password-input');
@@ -40,6 +42,7 @@ describe('Componente Login', () => {
     expect(loginSubmitBtn).toHaveProperty('disabled', false);
     userEvent.click(loginSubmitBtn);
     
-    expect(screen.getByText('Foods')).toBeInTheDocument();
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/foods');
   });
 });
