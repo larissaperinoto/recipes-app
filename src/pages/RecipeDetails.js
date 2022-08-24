@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import Context from '../context/Context';
-import HeaderContext from '../context/HeaderContext';
 import {
   requestMealWithId,
   requestDrinkWithId,
@@ -13,13 +12,19 @@ import DrinkDetails from '../components/DrinkDetails';
 
 function RecipeDetails({ history }) {
   const { setRecipeDetails } = useContext(Context);
-  const { recipeId: { type, id } } = useContext(HeaderContext);
+
+  const { location: { pathname } } = history;
+  const id = pathname.split('/')[2];
+  const type = pathname.split('/')[1];
 
   const getIngredients = (data) => {
     const max = 30;
     const ingredient = [];
     for (let index = 1; index <= max; index += 1) {
-      if (data[`strIngredient${index}`]) ingredient.push(data[`strIngredient${index}`]);
+      if (data[`strIngredient${index}`]) {
+        const string = `${data[`strMeasure${index}`]} ${data[`strIngredient${index}`]}`;
+        ingredient.push(string);
+      }
     }
     return ingredient;
   };
@@ -42,7 +47,7 @@ function RecipeDetails({ history }) {
       });
     };
     requestData();
-  }, []);
+  }, [id, type]);
 
   return (
     <div>

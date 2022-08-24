@@ -5,9 +5,9 @@ import { useHistory } from 'react-router-dom';
 function DrinkList({ data }) {
   const history = useHistory();
 
-  function gotDetal(idDrink) {
+  const gotDetal = (idDrink) => {
     history.push(`/drinks/${idDrink}`);
-  }
+  };
 
   const QTDS_LIST = 12;
   return (

@@ -4,7 +4,7 @@ import Context from '../context/Context';
 
 function MealsDetails() {
   const {
-    recipeDetails: { details, ingredients },
+    recipeDetails: { details, ingredients, recomendations },
   } = useContext(Context);
 
   return (
@@ -35,7 +35,16 @@ function MealsDetails() {
         title="Embedded youtube"
         data-testid="video"
       />
-      <div data-testid="index-recomendation-card" />
+      <div>
+        { recomendations.map((recomendation, index) => (
+          <img
+            src={ recomendation.strDrinkThumb }
+            alt={ recomendation.strGlass }
+            key={ index }
+            data-testid={ `${index}-recomendation-card` }
+          />
+        ))}
+      </div>
     </div>
   );
 }
