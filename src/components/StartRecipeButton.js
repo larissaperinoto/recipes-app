@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function StartRecipeButton({ handleStartRecipe }) {
+  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
   return (
     <button
       type="button"
@@ -9,7 +11,7 @@ function StartRecipeButton({ handleStartRecipe }) {
       className="start-recipe-btn"
       onClick={ handleStartRecipe }
     >
-      Start Recipe
+      { inProgressRecipes ? 'Continue Recipe' : 'Start Recipe' }
     </button>
   );
 }
