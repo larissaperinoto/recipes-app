@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import HeaderContext from '../context/HeaderContext';
+import Context from '../context/Context';
 import {
   requestCategoryFood,
   requestCategoryDrinks,
@@ -13,19 +14,20 @@ function Category() {
   const [categoryDrinks, setCategoryDrinks] = useState([]);
   const history = useHistory();
   const { pathname } = history.location;
-  const { searchData, setSearchData } = useContext(HeaderContext);
+  const { setSearchData } = useContext(HeaderContext);
+  const { dataDrinks, setdataFoods, dataFoods, setdataDrinks } = useContext(Context);
 
   const handleSendCategoryFoods = async (category) => {
     const getDrinsCategory = await requestCategorysFoods(category);
-    setSearchData((getDrinsCategory === null
-      ? searchData : getDrinsCategory) || searchData);
+    setdataFoods((getDrinsCategory === null
+      ? dataFoods : getDrinsCategory) || dataFoods);
     // console.log(getDrinsCategory);
   };
 
   const handleSendCategoryDrinks = async (category) => {
     const getDrinsCategory = await requestCategorysDrinks(category);
-    setSearchData((getDrinsCategory === null
-      ? searchData : getDrinsCategory) || searchData);
+    setdataDrinks((getDrinsCategory === null
+      ? dataDrinks : getDrinsCategory) || dataDrinks);
     // console.log(getDrinsCategory);
   };
 

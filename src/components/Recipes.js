@@ -43,18 +43,26 @@ function Recipes({ data }) {
   if (pathname === '/drinks') {
     setRecipeType('drink');
     return (
-      searchData.length >= 1
-        ? <DrinkList data={ searchData } />
-        : <DrinkList data={ dataDrinks } />
+      <div>
+        { searchData.length > 1 && <DrinkList data={ searchData } />}
+        { dataDrinks.length >= 1 && <DrinkList data={ dataDrinks } />}
+      </div>
+      // searchData.length >= 1
+      //   ? <DrinkList data={ searchData } />
+      //   : <DrinkList data={ dataDrinks } />
     );
   }
 
   if (pathname === '/foods') {
     setRecipeType('drink');
     return (
-      searchData.length >= 1
-        ? <MealList data={ searchData } />
-        : <MealList data={ dataFoods } />
+      <div>
+        { searchData.length > 1 && <MealList data={ searchData } />}
+        { dataFoods.length >= 1 && <MealList data={ dataFoods } />}
+      </div>
+      // searchData.length >= 1
+      //   ? <MealList data={ searchData } />
+      //   : <MealList data={ dataFoods } />
     );
   }
 }
