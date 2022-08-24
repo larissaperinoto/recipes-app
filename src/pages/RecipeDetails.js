@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 
 import '../css/RecipeDetails.css';
 import Context from '../context/Context';
+import MealsDetails from '../components/MealsDetails';
+import DrinkDetails from '../components/DrinkDetails';
 import {
   requestMealWithId,
   requestDrinkWithId,
   requestDrinksRecomendation,
   requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
-import MealsDetails from '../components/MealsDetails';
-import DrinkDetails from '../components/DrinkDetails';
 
 function RecipeDetails({ history }) {
   const { setRecipeDetails } = useContext(Context);
@@ -20,14 +20,14 @@ function RecipeDetails({ history }) {
 
   const getIngredients = (data) => {
     const max = 30;
-    const ingredient = [];
+    const ingredients = [];
     for (let index = 1; index <= max; index += 1) {
       if (data[`strIngredient${index}`]) {
         const string = `${data[`strMeasure${index}`]} ${data[`strIngredient${index}`]}`;
-        ingredient.push(string);
+        ingredients.push(string);
       }
     }
-    return ingredient;
+    return ingredients;
   };
 
   const handleStartRecipe = () => {
