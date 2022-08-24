@@ -13,10 +13,7 @@ import DrinkDetails from '../components/DrinkDetails';
 
 function RecipeDetails({ history }) {
   const { setRecipeDetails } = useContext(Context);
-  const { recipeId: { type } } = useContext(HeaderContext);
-
-  const { location: { pathname } } = history;
-  const id = pathname.split('/')[2];
+  const { recipeId: { type, id } } = useContext(HeaderContext);
 
   const getIngredients = (data) => {
     const max = 30;
@@ -25,6 +22,10 @@ function RecipeDetails({ history }) {
       if (data[`strIngredient${index}`]) ingredient.push(data[`strIngredient${index}`]);
     }
     return ingredient;
+  };
+
+  const handleStartRecipe = () => {
+    history.push(`/foods/${id}/in-progress`);
   };
 
   useEffect(() => {
@@ -51,6 +52,7 @@ function RecipeDetails({ history }) {
       <button
         type="button"
         data-testid="start-recipe-btn"
+        onClick={ handleStartRecipe }
       >
         Start Recipe
       </button>
