@@ -116,6 +116,9 @@ describe('Verifica renderização do componente Header', () => {
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=lemon'));
 
+    const primeiroLista = screen.getByTestId('0-recipe-card');
+    userEvent.click(primeiroLista);
+
     const { location: { pathname } } = history;
     expect(pathname).toBe('/foods/53009');
   });
@@ -246,6 +249,7 @@ describe('Verifica renderização do componente Header', () => {
     const path = history.location.pathname;
 
     expect(path).toBe('/foods');
+    expect(screen.getByTestId('All-category-filter')).toBeInTheDocument();
     expect(screen.getByTestId('Beef-category-filter')).toBeInTheDocument();
     expect(screen.getByTestId('Breakfast-category-filter')).toBeInTheDocument();
     expect(screen.getByTestId('Chicken-category-filter')).toBeInTheDocument();
@@ -255,8 +259,11 @@ describe('Verifica renderização do componente Header', () => {
     expect(screen.getByTestId('drinks-bottom-btn')).toBeInTheDocument();
     expect(screen.getByTestId('food-bottom-btn')).toBeInTheDocument();
 
+
+
     expect(path).toBe('/drinks');
 
+    expect(screen.getByTestId('All-category-filter')).toBeInTheDocument();
     expect(screen.getByTestId('Ordinary Drink-category-filter')).toBeInTheDocument();
     expect(screen.getByTestId('Cocktail-category-filter')).toBeInTheDocument();
     expect(screen.getByTestId('Shake-category-filter')).toBeInTheDocument();

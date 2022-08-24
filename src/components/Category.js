@@ -20,18 +20,24 @@ function Category() {
   const handleSendCategoryFoods = async (category) => {
     const getDrinsCategory = await requestCategorysFoods(category);
     setToggleFilter(!toggleFilter);
-    setSearchData(getDrinsCategory || searchData);
+    if (toggleFilter === false) {
+      setSearchData(getDrinsCategory || searchData);
+    } else {
+      setSearchData([]);
+    }
   };
 
   const handleSendCategoryDrinks = async (category) => {
     const getDrinsCategory = await requestCategorysDrinks(category);
     setToggleFilter(!toggleFilter);
-    setSearchData(getDrinsCategory || searchData);
+    if (toggleFilter === false) {
+      setSearchData(getDrinsCategory || searchData);
+    } else {
+      setSearchData([]);
+    }
   };
 
-  const clearCategory = () => {
-    setSearchData([]);
-  };
+  const clearCategory = () => setSearchData([]);
 
   useEffect(() => {
     const QTDS_LIST = 5;
