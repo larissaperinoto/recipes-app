@@ -34,7 +34,11 @@ function RecipeDetails({ history }) {
   };
 
   const handleStartRecipe = () => {
-    history.push(`/foods/${id}/in-progress`);
+    if (type === 'foods') {
+      history.push(`/foods/${id}/in-progress`);
+    } else {
+      history.push(`/drinks/${id}/in-progress`);
+    }
   };
 
   useEffect(() => {
