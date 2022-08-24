@@ -1,6 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+
 import Context from '../context/Context';
+import HeaderContext from '../context/HeaderContext';
 import {
   requestMealWithId,
   requestDrinkWithId,
@@ -10,54 +12,48 @@ import MealsDetails from '../components/MealsDetails';
 import DrinkDetails from '../components/DrinkDetails';
 
 function RecipeDetails({ history }) {
-  const {
-    recipeType,
-    recipeDetails,
-    setRecipeDetails,
-    setRecipeIngredients,
-    setRecomendations,
-  } = useContext(Context);
+  const { setRecipeDetails } = useContext(Context);
+  const { recipeId: { type } } = useContext(HeaderContext);
 
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
 
-  const getIngredients = () => {
+  const getIngredients = (data) => {
     const max = 30;
     const ingredient = [];
     for (let index = 1; index <= max; index += 1) {
-      if (recipeDetails[`strIngredient${index}`]) {
-        ingredient.push(recipeDetails[`strIngredient${index}`]);
-      }
+      if (data[`strIngredient${index}`]) ingredient.push(data[`strIngredient${index}`]);
     }
-    setRecipeIngredients(ingredient);
+    return ingredient;
   };
 
   useEffect(() => {
-    getIngredients();
-  }, [recipeDetails]);
-
-  useEffect(() => {
     const requestData = async () => {
-      if (recipeType === 'foods') {
-        const data = await requestMealWithId(id);
-        const recomendationList = await requestDrinksRecomendation();
-        setRecomendations(recomendationList);
-        setRecipeDetails(data[0]);
-      } else {
-        const data = await requestDrinkWithId(id);
-        const recomendationList = await requestFoodsRecomendation();
-        setRecomendations(recomendationList);
-        setRecipeDetails(data[0]);
-      }
+      const data = type === 'foods'
+        ? await requestMealWithId(id) : await requestDrinkWithId(id);
+      const recomendationList = type === 'foods'
+        ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
+      const ingredientsList = getIngredients(data[0]);
+      setRecipeDetails({
+        details: data[0],
+        ingredients: ingredientsList,
+        recomendations: recomendationList,
+      });
     };
     requestData();
   }, []);
 
   return (
     <div>
-      { recipeType === 'foods'
+      { type === 'foods'
         ? <MealsDetails />
         : <DrinkDetails /> }
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }

@@ -4,21 +4,20 @@ import Context from '../context/Context';
 
 function DrinksDetails() {
   const {
-    recipeDetails,
-    recipeIngredients,
+    recipeDetails: { details, ingredients },
   } = useContext(Context);
 
   return (
     <div>
       <img
         data-testid="recipe-photo"
-        src={ recipeDetails.strDrinkThumb }
-        alt={ recipeDetails.strDrink }
+        src={ details.strDrinkThumb }
+        alt={ details.strDrink }
       />
-      <h2 data-testid="recipe-title">{ recipeDetails.strDrink }</h2>
-      <p data-testid="recipe-category">{ recipeDetails.strCategory }</p>
+      <h2 data-testid="recipe-title">{ details.strDrink }</h2>
+      <p data-testid="recipe-category">{ details.strCategory }</p>
       <ul>
-        { recipeIngredients.map((ingredient, index) => (
+        { ingredients.map((ingredient, index) => (
           <li
             key={ index }
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -27,7 +26,8 @@ function DrinksDetails() {
           </li>
         ))}
       </ul>
-      <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
+      <p data-testid="instructions">{ details.strInstructions }</p>
+      <div data-testid="index-recomendation-card" />
     </div>
   );
 }

@@ -41,22 +41,26 @@ export const requestDrinksAPI = async (filter, value) => {
 export const requestMealWithId = async (id) => {
   const endpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 
+  console.log(endpoint);
+
   const { meals } = await fetch(endpoint).then((response) => response.json());
   return meals;
 };
 
 export const requestDrinkWithId = async (id) => {
   const endpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const maxRecomendation = 6;
 
   const { drinks } = await fetch(endpoint).then((response) => response.json());
-  return drinks;
+  return drinks.slice(0, maxRecomendation);
 };
 
 export const requestFoodsRecomendation = async () => {
   const endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const maxRecomendation = 6;
 
   const { foods } = await fetch(endpoint).then((response) => response.json());
-  return foods;
+  return foods.slice(0, maxRecomendation);
 };
 
 export const requestDrinksRecomendation = async () => {

@@ -4,21 +4,20 @@ import Context from '../context/Context';
 
 function MealsDetails() {
   const {
-    recipeDetails,
-    recipeIngredients,
+    recipeDetails: { details, ingredients },
   } = useContext(Context);
 
   return (
     <div>
       <img
         data-testid="recipe-photo"
-        src={ recipeDetails.strMealThumb }
-        alt={ recipeDetails.strMeal }
+        src={ details.strMealThumb }
+        alt={ details.strMeal }
       />
-      <h2 data-testid="recipe-title">{ recipeDetails.strMeal }</h2>
-      <p data-testid="recipe-category">{ recipeDetails.strCategory }</p>
+      <h2 data-testid="recipe-title">{ details.strMeal }</h2>
+      <p data-testid="recipe-category">{ details.strCategory }</p>
       <ul>
-        { recipeIngredients.map((ingredient, index) => (
+        { ingredients.map((ingredient, index) => (
           <li
             key={ index }
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -27,14 +26,16 @@ function MealsDetails() {
           </li>
         ))}
       </ul>
-      <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
+      <p data-testid="instructions">{ details.strInstructions }</p>
       <iframe
         width="853"
         height="480"
-        src={ recipeDetails.strYoutube }
+        src={ details.strYoutube }
         frameBorder="0"
         title="Embedded youtube"
+        data-testid="video"
       />
+      <div data-testid="index-recomendation-card" />
     </div>
   );
 }
