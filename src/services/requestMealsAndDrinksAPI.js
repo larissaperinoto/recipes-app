@@ -97,3 +97,33 @@ export const requestCategorysDrinks = async (getCatebory) => {
     return error;
   }
 };
+
+export const requestMealWithId = async (id) => {
+  const endpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+
+  const { meals } = await fetch(endpoint).then((response) => response.json());
+  return meals;
+};
+
+export const requestDrinkWithId = async (id) => {
+  const endpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+
+  const { drinks } = await fetch(endpoint).then((response) => response.json());
+  return drinks;
+};
+
+const maxRecomendation = 7;
+
+export const requestFoodsRecomendation = async () => {
+  const endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+
+  const { meals } = await fetch(endpoint).then((response) => response.json());
+  return meals.slice(1, maxRecomendation);
+};
+
+export const requestDrinksRecomendation = async () => {
+  const endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
+  const { drinks } = await fetch(endpoint).then((response) => response.json());
+  return drinks.slice(1, maxRecomendation);
+};

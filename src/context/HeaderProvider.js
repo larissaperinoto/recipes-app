@@ -16,10 +16,6 @@ function MyProvider({ children }) {
   const [searchData, setSearchData] = useState([]);
   const [error, setError] = useState('');
   const [path, setPath] = useState('');
-  const [recipeId, setRecipeId] = useState({
-    id: '',
-    type: '',
-  });
 
   const handleSearch = async () => {
     const { filter, value } = search;
@@ -29,10 +25,6 @@ function MyProvider({ children }) {
     if (path === 'Foods') {
       const data = await requestMealsAPI(filter, value);
       if (data) {
-        setRecipeId({
-          id: data[0].idMeal,
-          type: 'foods',
-        });
         setSearchData(data);
       } else {
         setError('Sorry, we haven\'t found any recipes for these filters.');
@@ -40,10 +32,6 @@ function MyProvider({ children }) {
     } else {
       const data = await requestDrinksAPI(filter, value);
       if (data) {
-        setRecipeId({
-          id: data[0].idDrink,
-          type: 'drinks',
-        });
         setSearchData(data);
       } else {
         setError('Sorry, we haven\'t found any recipes for these filters.');
@@ -57,7 +45,6 @@ function MyProvider({ children }) {
     error,
     setPath,
     searchData,
-    recipeId,
     setSearchData,
   };
 

@@ -10,23 +10,31 @@ function Provider({ children }) {
   const [recipeType, setRecipeType] = useState('');
   const [toggleFilter, setToggleFilter] = useState(false);
 
+  const [recipeDetails, setRecipeDetails] = useState({
+    details: [],
+    ingredients: [],
+    recomendations: [],
+  });
+
+  const value = {
+    userEmail,
+    setUserEmail,
+    userSenha,
+    setUserSenha,
+    recipeDetails,
+    setRecipeDetails,
+    dataFoods,
+    setdataFoods,
+    dataDrinks,
+    setdataDrinks,
+    recipeType,
+    setRecipeType,
+    toggleFilter,
+    setToggleFilter,
+  };
+
   return (
-    <Context.Provider
-      value={ {
-        userEmail,
-        setUserEmail,
-        userSenha,
-        setUserSenha,
-        dataFoods,
-        setdataFoods,
-        dataDrinks,
-        setdataDrinks,
-        recipeType,
-        setRecipeType,
-        toggleFilter,
-        setToggleFilter,
-      } }
-    >
+    <Context.Provider value={ value }>
       {children}
     </Context.Provider>
   );
