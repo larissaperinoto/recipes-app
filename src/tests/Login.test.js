@@ -9,6 +9,7 @@ import Provider from '../context/Provider';
 describe('Componente Login', () => {
   test('Deve renderizar os data-testids do Login', () => {
     renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+
     expect(screen.getByTestId('email-input')).toBeInTheDocument();
     expect(screen.getByTestId('password-input')).toBeInTheDocument();
     expect(screen.getByTestId('login-submit-btn')).toBeInTheDocument();
@@ -16,6 +17,7 @@ describe('Componente Login', () => {
 
   test('Deve verificar se o botão está habilidado quando o campo email e senha estão corretos', () => {
     renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+
     const emailInput = screen.getByTestId('email-input');
     const senhaInput = screen.getByTestId('password-input');
     const loginSubmitBtn = screen.getByTestId('login-submit-btn');
@@ -28,24 +30,19 @@ describe('Componente Login', () => {
     expect(loginSubmitBtn.disabled).toBe(false);
   });
 
-  test('Testa se o botão "Enter" direciona para a rota /foods', async () => {
-    // const { history } = renderWithRouter(<App />);
-    renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+  test('Testa se o botão "Enter" direciona para a rota /foods', () => {
+    const { history } = renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
 
-    const emailInput = screen.getByTestId("email-input");
-    const senhaInput = screen.getByTestId("password-input");
-    const loginSubmitBtn = screen.getByTestId("login-submit-btn");
-
+    const emailInput = screen.getByTestId('email-input');
+    const senhaInput = screen.getByTestId('password-input');
+    const loginSubmitBtn = screen.getByTestId('login-submit-btn');
+    
     userEvent.type(emailInput, 'teste@teste.com');
     userEvent.type(senhaInput, 'password');
-    // expect(loginSubmitBtn).toHaveProperty('disabled', false);
+    expect(loginSubmitBtn).toHaveProperty('disabled', false);
     userEvent.click(loginSubmitBtn);
-
-    // const { pathname } = history.location;
-    // expect(pathname).toBe('/foods')
-
-    const foodsHeading = screen.getByRole('heading', { level: 1 });
-
-    expect(foodsHeading).toBeInTheDocument();
-  })
+    
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/foods');
+  });
 });

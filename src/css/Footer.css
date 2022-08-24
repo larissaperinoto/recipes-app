@@ -1,6 +1,11 @@
 footer {
+  align-items: center;
+  background-color: #1d4552;
   bottom: 0;
+  display: flex;
+  justify-content: space-evenly;
   position: fixed;
+  width: 100%;
 }
 
 button {

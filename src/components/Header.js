@@ -44,7 +44,7 @@ function Header({ title }) {
     if (searchData.length === 1) {
       setOneRecipe(true);
     }
-  }, [searchData]);
+  }, []);
 
   return (
     <div>
