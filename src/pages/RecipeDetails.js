@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 
+import '../css/RecipeDetails.css';
 import Context from '../context/Context';
 import {
   requestMealWithId,
@@ -57,6 +58,7 @@ function RecipeDetails({ history }) {
       <button
         type="button"
         data-testid="start-recipe-btn"
+        className="start-recipe-btn"
         onClick={ handleStartRecipe }
       >
         Start Recipe
