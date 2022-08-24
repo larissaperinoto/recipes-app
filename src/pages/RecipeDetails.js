@@ -5,6 +5,7 @@ import '../css/RecipeDetails.css';
 import Context from '../context/Context';
 import MealsDetails from '../components/MealsDetails';
 import DrinkDetails from '../components/DrinkDetails';
+import StartRecipeButton from '../components/StartRecipeButton';
 import {
   requestMealWithId,
   requestDrinkWithId,
@@ -17,6 +18,8 @@ function RecipeDetails({ history }) {
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
   const type = pathname.split('/')[1];
+
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
 
   const getIngredients = (data) => {
     const max = 30;
@@ -55,14 +58,8 @@ function RecipeDetails({ history }) {
       { type === 'foods'
         ? <MealsDetails />
         : <DrinkDetails /> }
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn"
-        onClick={ handleStartRecipe }
-      >
-        Start Recipe
-      </button>
+
+      { !doneRecipes && <StartRecipeButton handleStartRecipe={ handleStartRecipe } /> }
     </div>
   );
 }

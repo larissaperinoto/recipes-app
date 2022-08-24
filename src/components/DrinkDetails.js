@@ -27,7 +27,7 @@ function DrinksDetails() {
         ))}
       </ul>
       <p data-testid="instructions">{ details.strInstructions }</p>
-      { recomendations.map((recomendation, index) => (
+      { recomendations && recomendations.map((recomendation, index) => (
         <div
           key={ index }
           data-testid={ `${index}-recomendation-card` }
