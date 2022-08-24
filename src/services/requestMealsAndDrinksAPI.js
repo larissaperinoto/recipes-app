@@ -92,7 +92,7 @@ export const requestCategorysDrinks = async (getCatebory) => {
   try {
     const fetchApi = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${getCatebory}`);
     const response = await fetchApi.json();
-    return response.meals;
+    return response.drinks;
   } catch (error) {
     return error;
   }

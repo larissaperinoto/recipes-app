@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import HeaderContext from '../context/HeaderContext';
 import Context from '../context/Context';
+import HeaderContext from '../context/HeaderContext';
 import {
   requestCategoryFood,
   requestCategoryDrinks,
@@ -14,31 +14,24 @@ function Category() {
   const [categoryDrinks, setCategoryDrinks] = useState([]);
   const history = useHistory();
   const { pathname } = history.location;
-  const { setSearchData } = useContext(HeaderContext);
-  const { dataDrinks, setdataFoods, dataFoods, setdataDrinks } = useContext(Context);
+  const { searchData, setSearchData } = useContext(HeaderContext);
+  const { toggleFilter, setToggleFilter } = useContext(Context);
 
   const handleSendCategoryFoods = async (category) => {
     const getDrinsCategory = await requestCategorysFoods(category);
-    setdataFoods((getDrinsCategory === null
-      ? dataFoods : getDrinsCategory) || dataFoods);
-    // console.log(getDrinsCategory);
+    setToggleFilter(!toggleFilter);
+    setSearchData(getDrinsCategory || searchData);
   };
 
   const handleSendCategoryDrinks = async (category) => {
     const getDrinsCategory = await requestCategorysDrinks(category);
-    setdataDrinks((getDrinsCategory === null
-      ? dataDrinks : getDrinsCategory) || dataDrinks);
-    // console.log(getDrinsCategory);
+    setToggleFilter(!toggleFilter);
+    setSearchData(getDrinsCategory || searchData);
   };
 
   const clearCategory = () => {
     setSearchData([]);
   };
-
-  useEffect(() => {
-    handleSendCategoryFoods();
-    handleSendCategoryDrinks();
-  }, []);
 
   useEffect(() => {
     const QTDS_LIST = 5;

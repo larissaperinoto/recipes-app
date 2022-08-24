@@ -10,7 +10,7 @@ import {
   requestDrinksAPINULL,
 } from '../services/requestMealsAndDrinksAPI';
 
-function Recipes({ data }) {
+function Recipes() {
   const { dataFoods,
     setdataFoods,
     dataDrinks,
@@ -21,48 +21,31 @@ function Recipes({ data }) {
   const history = useHistory();
   const { pathname } = history.location;
 
-  const QTDS_LIST = 12;
   const getRequestAPINULL = async () => {
     const getMeals12 = await requestMealsAPINULL();
     const getDrins12 = await requestDrinksAPINULL();
-    if (searchData.length > 1) {
-      data.slice(0, QTDS_LIST);
-    } else {
-      setdataFoods(getMeals12.slice(0, QTDS_LIST));
-      setdataDrinks(getDrins12.slice(0, QTDS_LIST));
-    }
+    setdataFoods(getMeals12);
+    setdataDrinks(getDrins12);
   };
   useEffect(() => {
     getRequestAPINULL();
-    return () => {
-      setdataFoods();
-      setdataDrinks();
-    };
   }, []);
 
   if (pathname === '/drinks') {
     setRecipeType('drink');
     return (
-      <div>
-        { searchData.length > 1 && <DrinkList data={ searchData } />}
-        { dataDrinks.length >= 1 && <DrinkList data={ dataDrinks } />}
-      </div>
-      // searchData.length >= 1
-      //   ? <DrinkList data={ searchData } />
-      //   : <DrinkList data={ dataDrinks } />
+      searchData.length >= 1
+        ? <DrinkList data={ searchData } />
+        : <DrinkList data={ dataDrinks } />
     );
   }
 
   if (pathname === '/foods') {
-    setRecipeType('drink');
+    setRecipeType('foods');
     return (
-      <div>
-        { searchData.length > 1 && <MealList data={ searchData } />}
-        { dataFoods.length >= 1 && <MealList data={ dataFoods } />}
-      </div>
-      // searchData.length >= 1
-      //   ? <MealList data={ searchData } />
-      //   : <MealList data={ dataFoods } />
+      searchData.length >= 1
+        ? <MealList data={ searchData } />
+        : <MealList data={ dataFoods } />
     );
   }
 }

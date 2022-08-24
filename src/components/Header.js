@@ -38,14 +38,13 @@ function Header({ title }) {
   useEffect(() => {
     handleIcons();
     setPath(title);
-    return () => setPath();
   }, []);
 
   useEffect(() => {
     if (searchData.length === 1) {
       setOneRecipe(true);
     }
-  }, [searchData]);
+  }, []);
 
   return (
     <div>

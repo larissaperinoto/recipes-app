@@ -8,6 +8,7 @@ function Provider({ children }) {
   const [dataFoods, setdataFoods] = useState([]);
   const [dataDrinks, setdataDrinks] = useState([]);
   const [recipeType, setRecipeType] = useState('');
+  const [toggleFilter, setToggleFilter] = useState(false);
 
   return (
     <Context.Provider
@@ -21,7 +22,10 @@ function Provider({ children }) {
         dataDrinks,
         setdataDrinks,
         recipeType,
-        setRecipeType } }
+        setRecipeType,
+        toggleFilter,
+        setToggleFilter,
+      } }
     >
       {children}
     </Context.Provider>
