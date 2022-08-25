@@ -36,7 +36,7 @@ function MealsDetails() {
         data-testid="video"
       />
       <div>
-        { recomendations.map((recomendation, index) => (
+        { recomendations && recomendations.map((recomendation, index) => (
           <img
             src={ recomendation.strDrinkThumb }
             alt={ recomendation.strGlass }

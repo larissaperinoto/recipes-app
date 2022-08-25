@@ -1,8 +1,31 @@
 import React, { useContext } from 'react';
-import HeaderContext from '../context/HeaderContext';
+import { useHistory } from 'react-router-dom';
+import Context from '../../context/Context';
+import {
+  requestMealsAPI,
+  requestDrinksAPI } from '../../services/requestMealsAndDrinksAPI';
 
 function SearchBar() {
-  const { handleSearchChange, handleSearch } = useContext(HeaderContext);
+  const { setSearchData, search, setError, handleSearchChange } = useContext(Context);
+  const history = useHistory();
+  const { pathname } = history.location;
+  const path = pathname.split('/')[1];
+
+  const handleSearch = async () => {
+    const { filter, value } = search;
+    if (filter === 'First letter' && value.length !== 1) {
+      setError('Your search must have only 1 (one) character');
+    }
+    const data = path === 'foods'
+      ? await requestMealsAPI(filter, value) : await requestDrinksAPI(filter, value);
+
+    if (data) {
+      setSearchData(data);
+    } else {
+      setError('Sorry, we haven\'t found any recipes for these filters.');
+    }
+  };
+
   return (
     <form>
       <label htmlFor="ingredient-search-radio">
