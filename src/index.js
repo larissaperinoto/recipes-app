@@ -2,18 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
-import HeaderProvider from './context/HeaderProvider';
 import Provider from './context/Provider';
 import './index.css';
 import App from './App';
 
 ReactDOM.render(
   <Provider>
-    <HeaderProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </HeaderProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root'),
 );

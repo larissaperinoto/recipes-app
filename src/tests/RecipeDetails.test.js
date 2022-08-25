@@ -2,7 +2,6 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import HeaderProvider from '../context/HeaderProvider';
 import Provider from '../context/Provider';
 import rendeWithRouter from './helpers/renderWithRouter';
 import App from '../App';
@@ -27,7 +26,7 @@ describe('Verifica renderização  da página de detalhes', () => {
     }
   })
 
-  const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+  const { history } = rendeWithRouter(<Provider><App /></Provider>);
 
   history.push('/foods/52771');
 
@@ -57,7 +56,7 @@ describe('Verifica renderização  da página de detalhes', () => {
       }
     })
 
-    const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+    const { history } = rendeWithRouter(<Provider><App /></Provider>);
 
     history.push('/drinks/178319');
 
@@ -69,7 +68,7 @@ describe('Verifica renderização  da página de detalhes', () => {
     expect(screen.getByTestId('recipe-category')).toBeInTheDocument();
     expect(screen.getAllByTestId(/ingredient-name-and-measure/i).length).toBe(3);
     expect(screen.getByTestId('instructions')).toBeInTheDocument();
-    expect(screen.getByTestId('video')).toBeInTheDocument();
+    // expect(screen.getByTestId('video')).toBeInTheDocument();
     expect(screen.getAllByTestId(/recomendation-card/i).length).toBe(6);
     });
 });

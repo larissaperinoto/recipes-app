@@ -38,26 +38,6 @@ export const requestDrinksAPI = async (filter, value) => {
   return drinks;
 };
 
-export const requestMealsAPINULL = async () => {
-  try {
-    const fetchApi = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-    const response = await fetchApi.json();
-    return response.meals;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const requestDrinksAPINULL = async () => {
-  try {
-    const fetchApi = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    const response = await fetchApi.json();
-    return response.drinks;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const requestCategoryFood = async () => {
   try {
     const fetchApi = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
@@ -107,24 +87,30 @@ export const requestMealWithId = async (id) => {
 
 export const requestDrinkWithId = async (id) => {
   const endpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-  console.log('id');
+
   const { drinks } = await fetch(endpoint).then((response) => response.json());
   return drinks;
 };
 
-const maxRecomendation = 7;
+const maxInicialOptions = 13;
+const maxRecomendation = 6;
 
-export const requestFoodsRecomendation = async () => {
+export const requestFoodsRecomendation = async (param) => {
   const endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-  console.log('recomendação');
 
   const { meals } = await fetch(endpoint).then((response) => response.json());
-  return meals.slice(1, maxRecomendation);
+  if (param === 'initial') {
+    return meals.slice(0, maxInicialOptions);
+  }
+  return meals.slice(0, maxRecomendation);
 };
 
-export const requestDrinksRecomendation = async () => {
+export const requestDrinksRecomendation = async (param) => {
   const endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
   const { drinks } = await fetch(endpoint).then((response) => response.json());
-  return drinks.slice(1, maxRecomendation);
+  if (param === 'initial') {
+    return drinks.slice(0, maxInicialOptions);
+  }
+  return drinks.slice(0, maxRecomendation);
 };

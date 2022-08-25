@@ -1,56 +1,52 @@
 import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import profileIcon from '../images/profileIcon.svg';
+import { useHistory } from 'react-router-dom';
+import profileIcon from '../../images/profileIcon.svg';
 import HeaderSearchIcon from './HeaderSearchIcon';
 import SearchBar from './SearchBar';
-import HeaderContext from '../context/HeaderContext';
+import Context from '../../context/Context';
 
 function Header({ title }) {
   const [showSearchIcon, setshowSearchIcon] = useState(true);
   const [showSearchInput, setshowSearchInput] = useState(false);
-  const [oneRecipe, setOneRecipe] = useState(false);
 
-  const [redirect, setRedirect] = useState(false);
   const {
     handleSearchChange,
     error,
-    setPath,
-    searchData,
-    recipeId } = useContext(HeaderContext);
+    searchData } = useContext(Context);
+
+  const history = useHistory();
 
   const handleIcons = () => {
     if (title === 'Favorite Recipes'
-      || title === 'Done Recipes'
+    || title === 'Done Recipes'
       || title === 'Profile') {
       setshowSearchIcon(false);
     }
   };
 
   const handleClickProfile = () => {
-    setRedirect(true);
+    history.push('/profile');
   };
 
   const handleShowInput = () => {
     setshowSearchInput(!showSearchInput);
   };
 
-  useEffect(() => {
-    handleIcons();
-    setPath(title);
-  }, []);
+  useEffect(() => handleIcons(), []);
 
   useEffect(() => {
     if (searchData.length === 1) {
-      setOneRecipe(true);
+      const pathname = history.location;
+      const type = pathname.pathname.split('/')[1];
+      const id = type === 'foods' ? searchData[0].idMeal : searchData[0].idDrink;
+      history.push(`/${type}/${id}`);
     }
-  }, []);
+  }, [searchData]);
 
   return (
     <div>
-      { oneRecipe && <Redirect to={ `/${recipeId.type}/${recipeId.id}` } />}
       { error && global.alert(error) }
-      { redirect && <Redirect to="/profile" />}
       <button
         type="button"
         onClick={ () => handleClickProfile() }
