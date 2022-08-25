@@ -1,51 +1,65 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
-import HeaderContext from '../context/HeaderContext';
 import {
   requestCategoryFood,
   requestCategoryDrinks,
   requestCategorysFoods,
   requestCategorysDrinks,
+  requestFoodsRecomendation,
+  requestDrinksRecomendation,
 } from '../services/requestMealsAndDrinksAPI';
 
 function Category() {
   const [categoryFoods, setCategoryFoods] = useState([]);
   const [categoryDrinks, setCategoryDrinks] = useState([]);
+
+  const {
+    setDataFoods,
+    setDataDrinks,
+    toggleFilter,
+    setToggleFilter } = useContext(Context);
+
   const history = useHistory();
   const { pathname } = history.location;
-  const { searchData, setSearchData } = useContext(HeaderContext);
-  const { toggleFilter, setToggleFilter } = useContext(Context);
+  const type = pathname.split('/')[1];
 
   const handleSendCategoryFoods = async (category) => {
-    const getDrinsCategory = await requestCategorysFoods(category);
+    const getFoodsCategory = toggleFilter
+      ? await requestFoodsRecomendation('initial')
+      : await requestCategorysFoods(category);
+    setDataFoods(getFoodsCategory);
     setToggleFilter(!toggleFilter);
-    if (toggleFilter === false) {
-      setSearchData(getDrinsCategory || searchData);
-    } else {
-      setSearchData([]);
-    }
   };
 
   const handleSendCategoryDrinks = async (category) => {
-    const getDrinsCategory = await requestCategorysDrinks(category);
+    const getDrinsCategory = toggleFilter
+      ? await requestDrinksRecomendation('initial')
+      : await requestCategorysDrinks(category);
+    setDataDrinks(getDrinsCategory);
     setToggleFilter(!toggleFilter);
-    if (toggleFilter === false) {
-      setSearchData(getDrinsCategory || searchData);
-    } else {
-      setSearchData([]);
-    }
   };
 
-  const clearCategory = () => setSearchData([]);
+  const clearCategory = async () => {
+    if (type === 'foods') {
+      const getMeals12 = await requestFoodsRecomendation('initial');
+      setDataFoods(getMeals12);
+    } else {
+      const getDrins12 = await requestDrinksRecomendation('initial');
+      setDataDrinks(getDrins12);
+    }
+  };
 
   useEffect(() => {
     const QTDS_LIST = 5;
     const getRequestAPINULL = async () => {
-      const getCateFoods = await requestCategoryFood();
-      const getCateDrinks = await requestCategoryDrinks();
-      setCategoryFoods(getCateFoods.slice(0, QTDS_LIST));
-      setCategoryDrinks(getCateDrinks.slice(0, QTDS_LIST));
+      if (pathname === '/foods') {
+        const getCateFoods = await requestCategoryFood();
+        setCategoryFoods(getCateFoods.slice(0, QTDS_LIST));
+      } else {
+        const getCateDrinks = await requestCategoryDrinks();
+        setCategoryDrinks(getCateDrinks.slice(0, QTDS_LIST));
+      }
     };
     getRequestAPINULL();
     return () => {

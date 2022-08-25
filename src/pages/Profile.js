@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 // import Context from '../context/Context';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
+import Header from '../components/headerComponents/Header';
 
 export default function Profile() {
   const history = useHistory();

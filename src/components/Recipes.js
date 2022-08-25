@@ -4,48 +4,51 @@ import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 import DrinkList from './DrinkList';
 import MealList from './MealList';
-import HeaderContext from '../context/HeaderContext';
 import {
-  requestMealsAPINULL,
-  requestDrinksAPINULL,
+  requestDrinksRecomendation,
+  requestFoodsRecomendation,
 } from '../services/requestMealsAndDrinksAPI';
 
 function Recipes() {
   const { dataFoods,
-    setdataFoods,
+    setDataFoods,
     dataDrinks,
-    setdataDrinks,
-    setRecipeType,
+    setDataDrinks,
+    searchData,
   } = useContext(Context);
-  const { searchData } = useContext(HeaderContext);
+
   const history = useHistory();
   const { pathname } = history.location;
+  const type = pathname.split('/')[1];
 
   const getRequestAPINULL = async () => {
-    const getMeals12 = await requestMealsAPINULL();
-    const getDrins12 = await requestDrinksAPINULL();
-    setdataFoods(getMeals12);
-    setdataDrinks(getDrins12);
+    if (type === 'foods') {
+      const getMeals12 = await requestFoodsRecomendation('initial');
+      setDataFoods(getMeals12);
+    } else {
+      const getDrins12 = await requestDrinksRecomendation('initial');
+      setDataDrinks(getDrins12);
+    }
   };
-  useEffect(() => {
-    getRequestAPINULL();
-  }, []);
+  useEffect(() => getRequestAPINULL(), []);
 
   if (pathname === '/drinks') {
-    setRecipeType('drink');
+    const condition = searchData.length === 0 && dataDrinks.length >= 1;
     return (
-      searchData.length >= 1
-        ? <DrinkList data={ searchData } />
-        : <DrinkList data={ dataDrinks } />
+      <div>
+        { condition && <DrinkList data={ dataDrinks } /> }
+        { searchData.length > 1 && <DrinkList data={ searchData } /> }
+      </div>
     );
   }
 
   if (pathname === '/foods') {
-    setRecipeType('foods');
+    const condition = searchData.length === 0 && dataFoods.length >= 1;
     return (
-      searchData.length >= 1
-        ? <MealList data={ searchData } />
-        : <MealList data={ dataFoods } />
+      <div>
+        { condition && <MealList data={ dataFoods } /> }
+        { searchData.length > 1 && <MealList data={ searchData } /> }
+      </div>
     );
   }
 }
