@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
+import Slider from './Slider';
 
 function MealsDetails() {
   const {
@@ -36,14 +37,7 @@ function MealsDetails() {
         data-testid="video"
       />
       <div>
-        { recomendations && recomendations.map((recomendation, index) => (
-          <img
-            src={ recomendation.strDrinkThumb }
-            alt={ recomendation.strGlass }
-            key={ index }
-            data-testid={ `${index}-recomendation-card` }
-          />
-        ))}
+        { recomendations && <Slider /> }
       </div>
     </div>
   );
