@@ -3,12 +3,11 @@ import App from '../App';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
-import HeaderProvider from '../context/HeaderProvider';
 import Provider from '../context/Provider';
 
 describe('Componente Login', () => {
   test('Deve renderizar os data-testids do Login', () => {
-    renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+    renderWithRouter(<Provider><App /></Provider>);
 
     expect(screen.getByTestId('email-input')).toBeInTheDocument();
     expect(screen.getByTestId('password-input')).toBeInTheDocument();
@@ -16,7 +15,7 @@ describe('Componente Login', () => {
   });
 
   test('Deve verificar se o botão está habilidado quando o campo email e senha estão corretos', () => {
-    renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+    renderWithRouter(<Provider><App /></Provider>);
 
     const emailInput = screen.getByTestId('email-input');
     const senhaInput = screen.getByTestId('password-input');
@@ -31,17 +30,17 @@ describe('Componente Login', () => {
   });
 
   test('Testa se o botão "Enter" direciona para a rota /foods', () => {
-    const { history } = renderWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>);
+    const { history } = renderWithRouter(<Provider><App /></Provider>);
 
     const emailInput = screen.getByTestId('email-input');
     const senhaInput = screen.getByTestId('password-input');
     const loginSubmitBtn = screen.getByTestId('login-submit-btn');
-    
+
     userEvent.type(emailInput, 'teste@teste.com');
     userEvent.type(senhaInput, 'password');
     expect(loginSubmitBtn).toHaveProperty('disabled', false);
     userEvent.click(loginSubmitBtn);
-    
+
     const { location: { pathname } } = history;
     expect(pathname).toBe('/foods');
   });
