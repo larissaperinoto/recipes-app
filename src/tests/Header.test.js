@@ -238,19 +238,22 @@ describe('Verifica renderização do componente Header', () => {
 
     expect(global.alert()).toBe('Sorry, we haven\'t found any recipes for these filters.');
     expect(global.alert).toBeCalled();
-  });test('Deve renderizar os data-testids no Recipes', async () => {
+
+  });
+
+  test('Deve renderizar os data-testids no Recipes', async () => {
     const { history } = rendeWithRouter(<Provider><HeaderProvider><App /></HeaderProvider></Provider>, '/foods');
 
     fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue(foodsCategory)
     })
-    
+
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/list.php?c=list'));
 
     fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue(drinksCategory)
     })
-    
+
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list'));
 
     const path = history.location.pathname;
@@ -279,7 +282,7 @@ describe('Verifica renderização do componente Header', () => {
 
     expect(screen.getByTestId('drinks-bottom-btn')).toBeInTheDocument();
     expect(screen.getByTestId('food-bottom-btn')).toBeInTheDocument();
-    
+
     expect(screen.getByTestId('0-recipe-card')).toBeInTheDocument();
     expect(screen.getByTestId('1-recipe-card')).toBeInTheDocument();
     expect(screen.getByTestId('2-recipe-card')).toBeInTheDocument();
@@ -296,5 +299,5 @@ describe('Verifica renderização do componente Header', () => {
     // userEvent.click(screen.getByTestId(''));
 
     });
-  
+
 });
