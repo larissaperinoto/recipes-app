@@ -31,6 +31,7 @@ function Provider({ children }) {
     ingredients: [],
     recomendations: [],
   });
+  console.log(recipeDetails);
 
   const value = {
     setSearch,
