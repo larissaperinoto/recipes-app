@@ -20,11 +20,13 @@ function RecipeInProgress() {
     sethistoryDoneRecipes,
   } = useContext(Context);
   const { details: { strMeal,
+    strDrinkThumb,
+    strDrink,
     strMealThumb, strCategory, strInstructions }, ingredients } = recipeDetails;
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
   const type = pathname.split('/')[1];
-  console.log(recipeDetails);
+
   const getIngredients = (data) => {
     const max = 30;
     const ingredient = [];
@@ -84,9 +86,15 @@ function RecipeInProgress() {
   return (
     <div>
       <div>
-        <div><img data-testid="recipe-photo" src={ strMealThumb } alt={ strMeal } /></div>
         <div>
-          <span data-testid="recipe-title">{strMeal}</span>
+          <img
+            data-testid="recipe-photo"
+            src={ strMealThumb || strDrinkThumb }
+            alt={ strMeal || strDrink }
+          />
+        </div>
+        <div>
+          <span data-testid="recipe-title">{ strMeal || strDrink }</span>
           <span>
             <button data-testid="share-btn" type="button">
               Compartilhar
@@ -153,7 +161,7 @@ function RecipeInProgress() {
           data-testid="finish-recipe-btn"
           className="btn-finish-recipes"
           type="button"
-          disabled
+          disabled={ ingredients.length !== doneRecipes.arr.length }
           onClick={ handleSendDone }
         >
           Finish Recipe
