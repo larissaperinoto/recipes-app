@@ -10,3 +10,4 @@ export { default as FavoriteButton } from './FavoriteButton';
 export { default as StartRecipeButton } from './StartRecipeButton';
 export { default as MealsDetails } from './MealsDetails';
 export { default as DrinkDetails } from './DrinkDetails';
+export { default as DoneRecipesCard } from './DoneRecipesCard';
