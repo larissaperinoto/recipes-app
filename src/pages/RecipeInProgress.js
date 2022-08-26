@@ -3,79 +3,57 @@ import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 import '../css/Footer.css';
 import '../css/RecipesInProgress.css';
-import {
-  requestMealWithId,
-  requestDrinkWithId,
-  requestDrinksRecomendation,
-  requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
 
 function RecipeInProgress() {
   const history = useHistory();
   const {
     recipeDetails,
-    setRecipeDetails,
-    doneRecipes,
-    setDoneRecipes,
-    historyDoneRecipes,
-    sethistoryDoneRecipes,
+    inProgressRecipes,
+    setInProgressRecipes,
+    requestData,
   } = useContext(Context);
+
   const { details: { strMeal,
     strDrinkThumb,
     strDrink,
     strMealThumb, strCategory, strInstructions }, ingredients } = recipeDetails;
+
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
   const type = pathname.split('/')[1];
 
-  const getIngredients = (data) => {
-    const max = 30;
-    const ingredient = [];
-    for (let index = 1; index <= max; index += 1) {
-      if (data[`strIngredient${index}`]) {
-        const string = `${data[`strMeasure${index}`]} ${data[`strIngredient${index}`]}`;
-        ingredient.push(string);
-      }
-    }
-    return ingredient;
-  };
-
   useEffect(() => {
-    const requestData = async () => {
-      const data = type === 'foods'
-        ? await requestMealWithId(id) : await requestDrinkWithId(id);
-      const recomendationList = type === 'foods'
-        ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
-      const ingredientsList = getIngredients(data[0]);
-      setRecipeDetails({
-        details: data[0],
-        ingredients: ingredientsList,
-        recomendations: recomendationList,
-      });
-    };
-    requestData();
-  }, [id, type]);
+    requestData(type, id);
+  }, [type, id]);
 
   const handleRiscar = (index) => {
-    if (doneRecipes.arr.some((rec) => rec === index)) {
-      setDoneRecipes({ id,
-        arr: [...doneRecipes.arr.filter((risco) => risco !== index)] });
+    if (inProgressRecipes.arr.some((rec) => rec === index)) {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        arr: [...inProgressRecipes.arr.filter((risco) => risco !== index)] });
     } else {
-      setDoneRecipes({ id, arr: [...doneRecipes.arr, index] });
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        arr: [...inProgressRecipes.arr, index],
+      });
     }
   };
 
   useEffect(() => {
-    if (doneRecipes.id.length !== 0) {
-      localStorage.setItem('historyRiscar', JSON.stringify(doneRecipes));
+    if (inProgressRecipes.arr.length !== 0) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     }
-  }, [doneRecipes]);
+  }, [inProgressRecipes]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('historyRiscar'));
+    const data = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (data === null) {
-      sethistoryDoneRecipes({ id: '', arr: [] });
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     } else {
-      sethistoryDoneRecipes(data);
+      setInProgressRecipes({
+        id,
+        arr: data.arr,
+      });
     }
   }, []);
 
@@ -117,9 +95,8 @@ function RecipeInProgress() {
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
               >
-                {historyDoneRecipes.id === id
-                    && (historyDoneRecipes.arr.includes(index)
-                    || doneRecipes.arr.includes(index))
+                {inProgressRecipes.id === id
+                    && inProgressRecipes.arr.includes(index)
                   ? (
                     <input
                       type="checkbox"
@@ -137,9 +114,8 @@ function RecipeInProgress() {
                       onChange={ () => handleRiscar(index) }
                     />
                   )}
-                {historyDoneRecipes.id === id
-                    && (historyDoneRecipes.arr.includes(index)
-                    || doneRecipes.arr.includes(index))
+                {inProgressRecipes.id === id
+                    && inProgressRecipes.arr.includes(index)
                   ? (
                     <span className="riscado">{ingredient}</span>
                   )
@@ -161,7 +137,7 @@ function RecipeInProgress() {
           data-testid="finish-recipe-btn"
           className="btn-finish-recipes"
           type="button"
-          disabled={ ingredients.length !== doneRecipes.arr.length }
+          disabled={ ingredients.length !== inProgressRecipes.arr.length }
           onClick={ handleSendDone }
         >
           Finish Recipe
