@@ -32,6 +32,9 @@ function Provider({ children }) {
     recomendations: [],
   });
 
+  const [doneRecipes, setDoneRecipes] = useState({ id: '', arr: [] });
+  const [historyDoneRecipes, sethistoryDoneRecipes] = useState({ id: '', arr: [] });
+
   const value = {
     setSearch,
     search,
@@ -52,6 +55,10 @@ function Provider({ children }) {
     setDataDrinks,
     toggleFilter,
     setToggleFilter,
+    doneRecipes,
+    setDoneRecipes,
+    historyDoneRecipes,
+    sethistoryDoneRecipes,
   };
 
   return (

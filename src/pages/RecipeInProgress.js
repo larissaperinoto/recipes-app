@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 import '../css/Footer.css';
@@ -11,8 +11,14 @@ import {
 
 function RecipeInProgress() {
   const history = useHistory();
-  const [riscar, setRiscar] = useState([]);
-  const { recipeDetails, setRecipeDetails } = useContext(Context);
+  const {
+    recipeDetails,
+    setRecipeDetails,
+    doneRecipes,
+    setDoneRecipes,
+    historyDoneRecipes,
+    sethistoryDoneRecipes,
+  } = useContext(Context);
   const { details: { strMeal,
     strMealThumb, strTags, strInstructions }, ingredients } = recipeDetails;
   const { location: { pathname } } = history;
@@ -48,12 +54,28 @@ function RecipeInProgress() {
   }, [id, type]);
 
   const handleRiscar = (index) => {
-    setRiscar([...riscar.filter((risco) => risco !== index && risco !== ''),
-      riscar.includes(index) ? '' : index]);
-    localStorage.setItem('historyRiscar', JSON.stringify([...riscar
-      .filter((risco) => risco !== index && risco !== ''),
-    riscar.includes(index) ? '' : index]));
+    if (doneRecipes.arr.some((rec) => rec === index)) {
+      setDoneRecipes({ id,
+        arr: [...doneRecipes.arr.filter((risco) => risco !== index)] });
+    } else {
+      setDoneRecipes({ id, arr: [...doneRecipes.arr, index] });
+    }
   };
+
+  useEffect(() => {
+    if (doneRecipes.id.length !== 0) {
+      localStorage.setItem('historyRiscar', JSON.stringify(doneRecipes));
+    }
+  }, [doneRecipes]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('historyRiscar'));
+    if (data === null) {
+      sethistoryDoneRecipes({ id: '', arr: [] });
+    } else {
+      sethistoryDoneRecipes(data);
+    }
+  }, []);
 
   const handleSendDone = () => {
     history.push('/done-recipes');
@@ -87,13 +109,16 @@ function RecipeInProgress() {
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
               >
-                { riscar.length > 0
+                {historyDoneRecipes.id === id
+                    && (historyDoneRecipes.arr.includes(index)
+                    || doneRecipes.arr.includes(index))
                   ? (
                     <input
                       type="checkbox"
                       name="ingredient"
                       value={ index }
                       onChange={ () => handleRiscar(index) }
+                      checked
                     />
                   )
                   : (
@@ -104,9 +129,15 @@ function RecipeInProgress() {
                       onChange={ () => handleRiscar(index) }
                     />
                   )}
-                {riscar.includes(index)
-                  ? <span className="riscado">{ingredient }</span>
-                  : <span>{ingredient}</span>}
+                {historyDoneRecipes.id === id
+                    && (historyDoneRecipes.arr.includes(index)
+                    || doneRecipes.arr.includes(index))
+                  ? (
+                    <span className="riscado">{ingredient}</span>
+                  )
+                  : (
+                    <span>{ingredient}</span>
+                  )}
 
               </li>
             ))}
