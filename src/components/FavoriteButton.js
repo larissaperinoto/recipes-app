@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import clipboardCopy from 'clipboard-copy';
-// import { useHistory } from 'react-router-dom';
-// import context from 'react-bootstrap/esm/AccordionContext';
 
 function FavoriteButton() {
   const [copy, setCopy] = useState(false);
+
   function copyLink() {
     clipboardCopy(window.location.href);
     setCopy(true);
@@ -13,7 +12,7 @@ function FavoriteButton() {
   return (
     <main>
       <div>
-        {copy && <p>Link copied!</p> }
+        { copy && <p>Link copied!</p> }
 
         <button
           type="submit"
@@ -29,10 +28,8 @@ function FavoriteButton() {
           data-testid="favorite-btn"
         >
           Favoritar
-
         </button>
       </div>
-      {/* </div> */}
     </main>
 
   );
