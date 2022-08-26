@@ -20,11 +20,11 @@ function RecipeInProgress() {
     sethistoryDoneRecipes,
   } = useContext(Context);
   const { details: { strMeal,
-    strMealThumb, strTags, strInstructions }, ingredients } = recipeDetails;
+    strMealThumb, strCategory, strInstructions }, ingredients } = recipeDetails;
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
   const type = pathname.split('/')[1];
-
+  console.log(recipeDetails);
   const getIngredients = (data) => {
     const max = 30;
     const ingredient = [];
@@ -98,7 +98,7 @@ function RecipeInProgress() {
             </button>
           </span>
         </div>
-        <div data-testid="recipe-category">{strTags}</div>
+        <div data-testid="recipe-category">{strCategory}</div>
       </div>
       <div>
         <div>Ingredientes:</div>
