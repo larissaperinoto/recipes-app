@@ -7,10 +7,7 @@ import rendeWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 import {
     mockFoodWithId,
-    drinksRecomendation,
-    mockDrinkWithId,
-    foodsRecomendation } from './helpers/mockData';
-import { beforeEach } from 'mocha';
+    drinksRecomendation } from './helpers/mockData';
 
 describe('Verifica renderização  da página de In progress', () => {
   test('Verifica se os detalhes renderizados para uma receita de food', async () => {
