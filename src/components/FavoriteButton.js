@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import clipboardCopy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
@@ -9,10 +9,16 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 // import context from 'react-bootstrap/esm/AccordionContext';
 
 function FavoriteButton() {
-  const [isFavorite, setIsFavorite] = useState({ id: [], isFavorite: false });
-  const [isCopy, setisCopy] = useState(false);
-  const [isFavoriteId, setIsFavoriteId] = useState(false);
-  const { recipeDetails } = useContext(Context);
+  const {
+    recipeDetails,
+    isFavorite,
+    setIsFavorite,
+    isCopy,
+    setisCopy,
+    isFavoriteId,
+    setIsFavoriteId,
+  } = useContext(Context);
+
   const history = useHistory();
 
   function copyLink({ target }) {

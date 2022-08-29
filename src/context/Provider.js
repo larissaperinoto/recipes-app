@@ -67,6 +67,11 @@ function Provider({ children }) {
   // Recipe in Progress
   const [inProgressRecipes, setInProgressRecipes] = useState({ id: '', arr: [] });
 
+  // Favorite Button
+  const [isFavorite, setIsFavorite] = useState({ id: [], isFavorite: false });
+  const [isCopy, setisCopy] = useState(false);
+  const [isFavoriteId, setIsFavoriteId] = useState(false);
+
   const value = {
     setSearch,
     search,
@@ -90,6 +95,12 @@ function Provider({ children }) {
     requestData,
     inProgressRecipes,
     setInProgressRecipes,
+    isFavorite,
+    setIsFavorite,
+    isCopy,
+    setisCopy,
+    isFavoriteId,
+    setIsFavoriteId,
   };
 
   return (
