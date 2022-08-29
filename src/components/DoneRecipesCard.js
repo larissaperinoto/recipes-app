@@ -5,15 +5,14 @@ import shareIcon from '../images/shareIcon.svg';
 export default function DoneRecipesCard({ doneRecipes }) {
   const [copy, setCopy] = useState(false);
 
-  function copyLink() {
-    clipboardCopy(window.location.href);
+  function copyLink(id, type) {
+    clipboardCopy(window.location.href.replace('/done-recipes', `/${type}s/${id}`));
     setCopy(true);
   }
 
   console.log(doneRecipes);
 
   return (
-    // Fazer o map do localStorage aqui!
     doneRecipes && doneRecipes.map((recipe, index) => (
       <div id="card" key={ index }>
         <img
@@ -32,7 +31,7 @@ export default function DoneRecipesCard({ doneRecipes }) {
         </p>
         <button
           type="button"
-          onClick={ copyLink }
+          onClick={ () => copyLink(recipe.id, recipe.type) }
         >
           <img
             data-testid={ `${index}-horizontal-share-btn` }
