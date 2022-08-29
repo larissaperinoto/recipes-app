@@ -63,8 +63,8 @@ function RecipeInProgress() {
   }, []);
 
   useEffect(() => {
-    console.log('oi');
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    if (doneRecipes.some((recipe) => recipe.id === id)) history.push('/done-recipes');
   }, [doneRecipes]);
 
   const dateGenerator = () => {
@@ -89,10 +89,10 @@ function RecipeInProgress() {
         image: type === 'foods'
           ? recipeDetails.details.strMealThumb : recipeDetails.details.strDrinkThumb,
         doneDate: dateGenerator(),
-        tags: recipeDetails.details.strTags.split(','),
+        tags: recipeDetails.details.strTags
+          ? recipeDetails.details.strTags.split(',') : '',
       },
     ]);
-    history.push('/done-recipes');
   };
 
   return (
