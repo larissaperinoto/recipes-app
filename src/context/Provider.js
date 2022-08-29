@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
+import {
+  requestMealWithId,
+  requestDrinkWithId,
+  requestDrinksRecomendation,
+  requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
+
 function Provider({ children }) {
   // Header
   const [search, setSearch] = useState({
@@ -33,6 +39,39 @@ function Provider({ children }) {
   });
   console.log(recipeDetails);
 
+  const getIngredients = (data) => {
+    const max = 30;
+    const ingredients = [];
+    for (let index = 1; index <= max; index += 1) {
+      if (data[`strIngredient${index}`]) {
+        const string = `${data[`strMeasure${index}`]} ${data[`strIngredient${index}`]}`;
+        ingredients.push(string);
+      }
+    }
+    return ingredients;
+  };
+
+  const requestData = async (type, id) => {
+    const data = type === 'foods'
+      ? await requestMealWithId(id) : await requestDrinkWithId(id);
+    const recomendationList = type === 'foods'
+      ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
+    const ingredientsList = getIngredients(data[0]);
+    setRecipeDetails({
+      details: data[0],
+      ingredients: ingredientsList,
+      recomendations: recomendationList,
+    });
+  };
+
+  // Recipe in Progress
+  const [inProgressRecipes, setInProgressRecipes] = useState({ id: '', arr: [] });
+
+  // Favorite Button
+  const [isFavorite, setIsFavorite] = useState({ id: [], isFavorite: false });
+  const [isCopy, setisCopy] = useState(false);
+  const [isFavoriteId, setIsFavoriteId] = useState(false);
+
   const value = {
     setSearch,
     search,
@@ -53,6 +92,15 @@ function Provider({ children }) {
     setDataDrinks,
     toggleFilter,
     setToggleFilter,
+    requestData,
+    inProgressRecipes,
+    setInProgressRecipes,
+    isFavorite,
+    setIsFavorite,
+    isCopy,
+    setisCopy,
+    isFavoriteId,
+    setIsFavoriteId,
   };
 
   return (

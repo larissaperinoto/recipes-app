@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './styles/Slider.css';
+import '../styles/Slider.css';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 

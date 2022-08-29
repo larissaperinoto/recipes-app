@@ -3,44 +3,18 @@ import PropTypes from 'prop-types';
 
 import '../css/RecipeDetails.css';
 import Context from '../context/Context';
-import {
-  MealsDetails,
-  DrinkDetails,
-  FavoriteButton,
-  StartRecipeButton,
-} from '../components/index';
-
-import {
-  requestMealWithId,
-  requestDrinkWithId,
-  requestDrinksRecomendation,
-  requestFoodsRecomendation,
-} from '../services/requestMealsAndDrinksAPI';
+import MealsDetails from '../components/MealsDetails';
+import DrinkDetails from '../components/DrinkDetails';
+import StartRecipeButton from '../components/StartRecipeButton';
 
 function RecipeDetails({ history }) {
-  const { setRecipeDetails } = useContext(Context);
+  const { requestData } = useContext(Context);
 
-  const {
-    location: { pathname },
-  } = history;
+  const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
   const type = pathname.split('/')[1];
 
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-
-  const getIngredients = (data) => {
-    const max = 30;
-    const ingredients = [];
-    for (let index = 1; index <= max; index += 1) {
-      if (data[`strIngredient${index}`]) {
-        const string = `${data[`strMeasure${index}`]} ${
-          data[`strIngredient${index}`]
-        }`;
-        ingredients.push(string);
-      }
-    }
-    return ingredients;
-  };
 
   const handleStartRecipe = () => {
     if (type === 'foods') {
@@ -51,31 +25,16 @@ function RecipeDetails({ history }) {
   };
 
   useEffect(() => {
-    const requestData = async () => {
-      const data = type === 'foods'
-        ? await requestMealWithId(id)
-        : await requestDrinkWithId(id);
-      const recomendationList = type === 'foods'
-        ? await requestDrinksRecomendation()
-        : await requestFoodsRecomendation();
-      const ingredientsList = getIngredients(data[0]);
-      setRecipeDetails({
-        details: data[0],
-        ingredients: ingredientsList,
-        recomendations: recomendationList,
-      });
-    };
-    requestData();
+    requestData(type, id);
   }, [id, type]);
 
   return (
     <div>
-      <FavoriteButton />
-      {type === 'foods' ? <MealsDetails /> : <DrinkDetails />}
+      { type === 'foods'
+        ? <MealsDetails />
+        : <DrinkDetails /> }
 
-      {!doneRecipes && (
-        <StartRecipeButton handleStartRecipe={ handleStartRecipe } />
-      )}
+      { !doneRecipes && <StartRecipeButton handleStartRecipe={ handleStartRecipe } /> }
     </div>
   );
 }

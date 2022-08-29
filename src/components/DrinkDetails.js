@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
+import FavoriteButton from './FavoriteButton';
 import Slider from './Slider';
 
 function DrinksDetails() {
@@ -15,6 +16,7 @@ function DrinksDetails() {
         src={ details.strDrinkThumb }
         alt={ details.strDrink }
       />
+      <FavoriteButton />
       <h2 data-testid="recipe-title">{ details.strDrink }</h2>
       <p data-testid="recipe-category">{ details.strAlcoholic }</p>
       <ul>

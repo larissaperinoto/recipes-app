@@ -53,4 +53,13 @@ describe('Verifica renderização do componente Header', () => {
     const { location: { pathname } } = history;
     expect(pathname).toBe('/profile');
   });
+  test('Verifica se o valor do retorno do localStorage é um objeto"', () => {
+    
+    const store = { id: '0000', arr: [0] };
+    localStorage.setItem('teste', JSON.stringify(store));
+    const pega = JSON.parse(localStorage.getItem('teste')); 
+
+    expect(typeof pega).toBe('object');
+
+  });
 });

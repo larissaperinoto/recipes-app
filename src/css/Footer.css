@@ -15,6 +15,11 @@ button {
   cursor: pointer;
   height: 70px;
   margin: 8px;
-  padding: 14px;
   width: 70px;
+}
+
+.btn-finish-recipes {
+  bottom: 0;
+  margin-left: 100px;
+  position: fixed;
 }

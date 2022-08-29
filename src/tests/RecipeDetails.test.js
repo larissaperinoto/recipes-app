@@ -68,7 +68,7 @@ describe('Verifica renderização  da página de detalhes', () => {
     expect(screen.getByTestId('recipe-category')).toBeInTheDocument();
     expect(screen.getAllByTestId(/ingredient-name-and-measure/i).length).toBe(3);
     expect(screen.getByTestId('instructions')).toBeInTheDocument();
-    // expect(screen.getByTestId('video')).toBeInTheDocument();
+    expect(screen.getByTestId('start-recipe-btn')).toBeInTheDocument();
     expect(screen.getAllByTestId(/recomendation-card/i).length).toBe(6);
     });
 });
