@@ -6,7 +6,7 @@ import Provider from '../context/Provider';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
-// describe('Verifica a renderização da tela de receitas cocluídas', () => {
+describe('Verifica a renderização da tela de receitas cocluídas', () => {
 //   test('Verifica se o ícone Profile redireciona para a rota /profile', () => {
 //     const { history } = renderWithRouter(<Provider><App /></Provider>);
 

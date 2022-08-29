@@ -63,9 +63,8 @@ function RecipeInProgress() {
   }, []);
 
   useEffect(() => {
-    if (doneRecipes.length !== 0) {
-      localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    }
+    console.log('oi');
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
   }, [doneRecipes]);
 
   const dateGenerator = () => {
@@ -81,7 +80,7 @@ function RecipeInProgress() {
       ...doneRecipes,
       {
         id,
-        type,
+        type: type.split('s')[0],
         nationality: type === 'foods' ? recipeDetails.details.strArea : '',
         category: type === 'foods' ? recipeDetails.details.strCategory : '',
         alcoholicOrNot: type === 'foods' ? '' : recipeDetails.details.strAlcoholic,
