@@ -37,6 +37,7 @@ function Provider({ children }) {
     ingredients: [],
     recomendations: [],
   });
+  console.log(recipeDetails);
 
   const getIngredients = (data) => {
     const max = 30;

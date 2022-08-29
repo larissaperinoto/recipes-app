@@ -12,6 +12,7 @@ import {
   FavoriteRecipes,
   RecipeDetails,
   RecipeInProgress } from './pages/index';
+import Slider from './components/Slider';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
       <Route path="/foods/:id" component={ RecipeDetails } />
       <Route path="/drinks/:id" component={ RecipeDetails } />
+      <Route path="/details" component={ Slider } />
       <Route path="/profile" component={ Profile } />
       <Route path="/done-recipes" component={ DoneRecipes } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />

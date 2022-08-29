@@ -38,14 +38,7 @@ function MealsDetails() {
         data-testid="video"
       />
       <div>
-        { recomendations && recomendations.map((recomendation, index) => (
-          <img
-            src={ recomendation.strDrinkThumb }
-            alt={ recomendation.strGlass }
-            key={ index }
-            data-testid={ `${index}-recomendation-card` }
-          />
-        ))}
+        { recomendations && <Slider /> }
       </div>
     </div>
   );
