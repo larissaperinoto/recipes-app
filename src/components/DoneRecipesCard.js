@@ -19,7 +19,8 @@ export default function DoneRecipesCard({ doneRecipes }) {
           alt=""
         />
         <h4 data-testid={ `${index}-horizontal-top-text` }>
-          { `${recipe.nationality} - ${recipe.category}` }
+          { recipe.type === 'food'
+            ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot }
         </h4>
         <h3 data-testid={ `${index}-horizontal-name` }>
           { recipe.name }

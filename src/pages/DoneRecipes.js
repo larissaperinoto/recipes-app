@@ -6,12 +6,10 @@ function DoneRecipes() {
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
 
   const handleFilters = ({ target: { name } }) => {
-    if (doneRecipes) {
-      if (name === 'all') setFilter(doneRecipes);
-      if (name === 'food') setFilter(doneRecipes.filter((done) => done.type === 'food'));
-      if (name === 'drinks') {
-        setFilter(doneRecipes.filter((done) => done.type === 'drink'));
-      }
+    if (name === 'all') setFilter(doneRecipes);
+    if (name === 'food') setFilter(doneRecipes.filter((done) => done.type === 'food'));
+    if (name === 'drinks') {
+      setFilter(doneRecipes.filter((done) => done.type === 'drink'));
     }
   };
 
