@@ -12,12 +12,16 @@ function RecipeInProgress() {
     inProgressRecipes,
     setInProgressRecipes,
     requestData,
+    doneRecipes,
+    setDoneRecipes,
   } = useContext(Context);
 
   const { details: { strMeal,
     strDrinkThumb,
     strDrink,
-    strMealThumb, strCategory, strInstructions }, ingredients } = recipeDetails;
+    strMealThumb,
+    strCategory,
+    strInstructions }, ingredients } = recipeDetails;
 
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
@@ -58,7 +62,29 @@ function RecipeInProgress() {
     }
   }, []);
 
+  useEffect(() => {
+    if (doneRecipes.length !== 0) {
+      localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    }
+  }, [doneRecipes]);
+
   const handleSendDone = () => {
+    setDoneRecipes([
+      ...doneRecipes,
+      {
+        id,
+        type,
+        nationality: type === 'foods' ? recipeDetails.details.strArea : '',
+        category: type === 'foods' ? recipeDetails.details.strCategory : '',
+        alcoholicOrNot: type === 'foods' ? '' : recipeDetails.details.strAlcoholic,
+        name: type === 'foods'
+          ? recipeDetails.details.strMeal : recipeDetails.details.strDrink,
+        image: type === 'foods'
+          ? recipeDetails.details.strMealThumb : recipeDetails.details.strDrinkThumb,
+        doneDate: Date(),
+        tags: [...recipeDetails.details.strTags],
+      },
+    ]);
     history.push('/done-recipes');
   };
 
