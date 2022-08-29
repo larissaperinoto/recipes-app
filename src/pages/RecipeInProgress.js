@@ -63,9 +63,8 @@ function RecipeInProgress() {
   }, []);
 
   useEffect(() => {
-    if (doneRecipes.length !== 0) {
-      localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    }
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    if (doneRecipes.some((recipe) => recipe.id === id)) history.push('/done-recipes');
   }, [doneRecipes]);
 
   const dateGenerator = () => {
@@ -81,7 +80,7 @@ function RecipeInProgress() {
       ...doneRecipes,
       {
         id,
-        type,
+        type: type.split('s')[0],
         nationality: type === 'foods' ? recipeDetails.details.strArea : '',
         category: type === 'foods' ? recipeDetails.details.strCategory : '',
         alcoholicOrNot: type === 'foods' ? '' : recipeDetails.details.strAlcoholic,
@@ -90,10 +89,10 @@ function RecipeInProgress() {
         image: type === 'foods'
           ? recipeDetails.details.strMealThumb : recipeDetails.details.strDrinkThumb,
         doneDate: dateGenerator(),
-        tags: recipeDetails.details.strTags.split(','),
+        tags: recipeDetails.details.strTags
+          ? recipeDetails.details.strTags.split(',') : '',
       },
     ]);
-    history.push('/done-recipes');
   };
 
   return (

@@ -1,42 +1,72 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
+import shareIcon from '../images/shareIcon.svg';
 
-export default function DoneRecipesCard() {
+export default function DoneRecipesCard({ doneRecipes }) {
   const [copy, setCopy] = useState(false);
 
-  function copyLink() {
-    clipboardCopy(window.location.href);
+  function copyLink(id, type) {
+    clipboardCopy(window.location.href.replace('/done-recipes', `/${type}s/${id}`));
     setCopy(true);
   }
 
+  const history = useHistory();
+
+  const handleClick = (id, type) => {
+    history.push(`/${type}s/${id}`);
+    console.log('oi');
+  };
+
   return (
-    // Fazer o map do localStorage aqui!
-    doneRecipes.map((recipe, index) => (
+    doneRecipes && doneRecipes.map((recipe, index) => (
       <div id="card" key={ index }>
-        <img
-          src="/"
-          data-testid={ `${index}-horizontal-image` }
-          alt=""
-        />
-        <h4 data-testid={ `${index}-horizontal-top-text">categoria` }>
-          categoria
-        </h4>
-        <h3 data-testid={ ` ${index}-horizontal-name` }>
+        <button
+          type="button"
+          onClick={ () => handleClick(recipe.id, recipe.type) }
+        >
+          <img
+            src={ recipe.image }
+            data-testid={ `${index}-horizontal-image` }
+            alt={ recipe.name }
+          />
+        </button>
+        <button
+          type="button"
+          onClick={ () => handleClick(recipe.id, recipe.type) }
+        >
+          <h4
+            data-testid={ `${index}-horizontal-top-text` }
+          >
+            { recipe.type === 'food'
+              ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot }
+          </h4>
+        </button>
+        <h3 data-testid={ `${index}-horizontal-name` }>
           { recipe.name }
         </h3>
         <p data-testid={ `${index}-horizontal-done-date` }>
-          { recipe.date }
+          { recipe.doneDate }
         </p>
         <button
           type="button"
-          data-testid={ `${index}-horizontal-share-btn` }
-          onClick={ copyLink }
+          onClick={ () => copyLink(recipe.id, recipe.type) }
         >
-          Compartilhar
+          <img
+            data-testid={ `${index}-horizontal-share-btn` }
+            src={ shareIcon }
+            alt="shareIcon"
+          />
         </button>
         { copy && <p>Link copied!</p> }
-        <p data-testid={ `${index}-${tagName}-horizontal-tag` }>
-          { recipe.tag }
-        </p>
+        { recipe.tags.length > 0 && recipe.tags.map((item, i) => (
+          <p
+            data-testid={ `${index}-${item}-horizontal-tag` }
+            key={ i }
+          >
+            { item }
+          </p>
+        ))}
       </div>
     ))
   );
