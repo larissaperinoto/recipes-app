@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import FavoriteButton from '../components/FavoriteButton';
 import Context from '../context/Context';
 import '../css/Footer.css';
 import '../css/RecipesInProgress.css';
@@ -74,14 +75,7 @@ function RecipeInProgress() {
         <div>
           <span data-testid="recipe-title">{ strMeal || strDrink }</span>
           <span>
-            <button data-testid="share-btn" type="button">
-              Compartilhar
-            </button>
-          </span>
-          <span>
-            <button data-testid="favorite-btn" type="button">
-              Favoritar
-            </button>
+            <FavoriteButton />
           </span>
         </div>
         <div data-testid="recipe-category">{strCategory}</div>
