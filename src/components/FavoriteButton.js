@@ -5,6 +5,7 @@ import Context from '../context/Context';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+
 function FavoriteButton() {
   const {
     recipeDetails,
@@ -61,6 +62,7 @@ function FavoriteButton() {
       clipboardCopy('');
     }
   }, [isFavoriteId, isFavorite]);
+
   return (
     <main>
       <div>

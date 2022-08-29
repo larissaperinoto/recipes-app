@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function DoneRecipesCard() {
   const [copy, setCopy] = useState(false);
