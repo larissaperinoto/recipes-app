@@ -10,8 +10,6 @@ export default function DoneRecipesCard({ doneRecipes }) {
     setCopy(true);
   }
 
-  console.log(doneRecipes);
-
   return (
     doneRecipes && doneRecipes.map((recipe, index) => (
       <div id="card" key={ index }>

@@ -9,7 +9,9 @@ function DoneRecipes() {
     if (doneRecipes) {
       if (name === 'all') setFilter(doneRecipes);
       if (name === 'food') setFilter(doneRecipes.filter((done) => done.type === 'food'));
-      if (name === 'drink') setFilter(doneRecipes.filter((done) => done.type === drink));
+      if (name === 'drinks') {
+        setFilter(doneRecipes.filter((done) => done.type === 'drink'));
+      }
     }
   };
 
@@ -28,7 +30,7 @@ function DoneRecipes() {
 
         <button
           type="button"
-          name="foods"
+          name="food"
           data-testid="filter-by-food-btn"
           onClick={ handleFilters }
         >
@@ -37,7 +39,7 @@ function DoneRecipes() {
 
         <button
           type="button"
-          name="drink"
+          name="drinks"
           data-testid="filter-by-drink-btn"
           onClick={ handleFilters }
         >
