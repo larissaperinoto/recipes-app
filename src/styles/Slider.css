@@ -1,16 +1,16 @@
 .slides-container {
-    display: flex;
-    list-style: none;
-    overflow: scroll;
-    padding: 0;
-    width: 100%;
-  }
+  display: flex;
+  list-style: none;
+  overflow: scroll;
+  padding: 0;
+  width: 100%;
+}
   
-  .slide {
-    border: 1px solid black;
-    flex: 2 0 50%;
-    height: 100%;
-    margin: 0 0.25em;
-    text-align: center;
-    width: 45%;
-  }
+.slide {
+  border: 1px solid black;
+  flex: 2 0 50%;
+  height: 100%;
+  margin: 0 0.25em;
+  text-align: center;
+  width: 45%;
+}
