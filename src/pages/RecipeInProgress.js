@@ -68,6 +68,14 @@ function RecipeInProgress() {
     }
   }, [doneRecipes]);
 
+  const dateGenerator = () => {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   const handleSendDone = () => {
     setDoneRecipes([
       ...doneRecipes,
@@ -81,8 +89,8 @@ function RecipeInProgress() {
           ? recipeDetails.details.strMeal : recipeDetails.details.strDrink,
         image: type === 'foods'
           ? recipeDetails.details.strMealThumb : recipeDetails.details.strDrinkThumb,
-        doneDate: Date(),
-        tags: [...recipeDetails.details.strTags],
+        doneDate: dateGenerator(),
+        tags: recipeDetails.details.strTags.split(','),
       },
     ]);
     history.push('/done-recipes');
