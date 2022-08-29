@@ -12,12 +12,16 @@ function RecipeInProgress() {
     inProgressRecipes,
     setInProgressRecipes,
     requestData,
+    doneRecipes,
+    setDoneRecipes,
   } = useContext(Context);
 
   const { details: { strMeal,
     strDrinkThumb,
     strDrink,
-    strMealThumb, strCategory, strInstructions }, ingredients } = recipeDetails;
+    strMealThumb,
+    strCategory,
+    strInstructions }, ingredients } = recipeDetails;
 
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
@@ -58,7 +62,37 @@ function RecipeInProgress() {
     }
   }, []);
 
+  useEffect(() => {
+    if (doneRecipes.length !== 0) {
+      localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    }
+  }, [doneRecipes]);
+
+  const dateGenerator = () => {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   const handleSendDone = () => {
+    setDoneRecipes([
+      ...doneRecipes,
+      {
+        id,
+        type,
+        nationality: type === 'foods' ? recipeDetails.details.strArea : '',
+        category: type === 'foods' ? recipeDetails.details.strCategory : '',
+        alcoholicOrNot: type === 'foods' ? '' : recipeDetails.details.strAlcoholic,
+        name: type === 'foods'
+          ? recipeDetails.details.strMeal : recipeDetails.details.strDrink,
+        image: type === 'foods'
+          ? recipeDetails.details.strMealThumb : recipeDetails.details.strDrinkThumb,
+        doneDate: dateGenerator(),
+        tags: recipeDetails.details.strTags.split(','),
+      },
+    ]);
     history.push('/done-recipes');
   };
 

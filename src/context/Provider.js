@@ -37,7 +37,6 @@ function Provider({ children }) {
     ingredients: [],
     recomendations: [],
   });
-  console.log(recipeDetails);
 
   const getIngredients = (data) => {
     const max = 30;
@@ -72,6 +71,9 @@ function Provider({ children }) {
   const [isCopy, setisCopy] = useState(false);
   const [isFavoriteId, setIsFavoriteId] = useState(false);
 
+  // Done Recipes
+  const [doneRecipes, setDoneRecipes] = useState([]);
+
   const value = {
     setSearch,
     search,
@@ -101,6 +103,8 @@ function Provider({ children }) {
     setisCopy,
     isFavoriteId,
     setIsFavoriteId,
+    doneRecipes,
+    setDoneRecipes,
   };
 
   return (
