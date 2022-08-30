@@ -17,8 +17,6 @@ function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite }) {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
   }, [favoriteRecipes]);
 
-  console.log(favoriteRecipes);
-
   return (
     <main>
       <div>
@@ -40,7 +38,8 @@ function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite }) {
           >
             <img
               data-testid={ testIdFavorite }
-              alt="favoriteIcon"
+              alt={ favoriteRecipes.some((recipe) => Number(recipe.id) === Number(id))
+                ? 'blackHeartIcon' : 'whiteHeartIcon' }
               src={ favoriteRecipes.some((recipe) => Number(recipe.id) === Number(id))
                 ? blackHeartIcon : whiteHeartIcon }
             />

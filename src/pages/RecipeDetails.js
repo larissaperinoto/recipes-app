@@ -17,7 +17,7 @@ function RecipeDetails({ history }) {
   const id = pathname.split('/')[2];
   const type = pathname.split('/')[1].split('s')[0];
 
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
 
   const handleStartRecipe = () => {
     if (type === 'food') {
@@ -46,7 +46,8 @@ function RecipeDetails({ history }) {
         { recomendations && <Slider /> }
       </div>
 
-      { !doneRecipes && <StartRecipeButton handleStartRecipe={ handleStartRecipe } /> }
+      { !doneRecipes.some((recipe) => Number(recipe.id) === Number(id))
+        && <StartRecipeButton handleStartRecipe={ handleStartRecipe } /> }
     </div>
   );
 }
