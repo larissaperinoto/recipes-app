@@ -4,22 +4,22 @@ import clipboardCopy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-export default function DoneRecipesCard({ doneRecipes }) {
+export default function FavoriteRecipesCard({ favoriteRecipes }) {
   const [copy, setCopy] = useState(false);
 
+  // const history = useHistory();
+
   function copyLink(id, type) {
-    clipboardCopy(window.location.href.replace('/done-recipes', `/${type}s/${id}`));
+    clipboardCopy(window.location.href.replace('/favorite-recipes', `/${type}s/${id}`));
     setCopy(true);
   }
-
-  // const history = useHistory();
 
   /* const handleClick = (id, type) => {
     history.push(`/${type}s/${id}`);
   }; */
 
   return (
-    doneRecipes && doneRecipes.map((recipe, index) => (
+    favoriteRecipes && favoriteRecipes.map((recipe, index) => (
       <div id="card" key={ index }>
         <img
           src={ recipe.image }
@@ -36,9 +36,6 @@ export default function DoneRecipesCard({ doneRecipes }) {
         <h3 data-testid={ `${index}-horizontal-name` }>
           { recipe.name }
         </h3>
-        <p data-testid={ `${index}-horizontal-done-date` }>
-          { recipe.doneDate }
-        </p>
         <button
           type="button"
           onClick={ () => copyLink(recipe.id, recipe.type) }
@@ -59,14 +56,6 @@ export default function DoneRecipesCard({ doneRecipes }) {
             alt="shareIcon"
           />
         </button>
-        { recipe.tags.length > 0 && recipe.tags.map((item, i) => (
-          <p
-            data-testid={ `${index}-${item}-horizontal-tag` }
-            key={ i }
-          >
-            { item }
-          </p>
-        ))}
       </div>
     ))
   );

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Header, DoneRecipesCard } from '../components/index';
+import { Header, FavoriteRecipesCard } from '../components/index';
 
 export default function FavoriteRecipes() {
   const [filter, setFilter] = useState([]);
   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-
-  console.log(filter, favoriteRecipes);
 
   const handleFilters = ({ target: { name } }) => {
     if (name === 'all') setFilter(favoriteRecipes);
@@ -51,8 +49,8 @@ export default function FavoriteRecipes() {
 
       <div id="cards">
         { filter.length > 0
-          ? <DoneRecipesCard doneRecipes={ filter } />
-          : <DoneRecipesCard doneRecipes={ favoriteRecipes } />}
+          ? <FavoriteRecipesCard favoriteRecipes={ filter } />
+          : <FavoriteRecipesCard favoriteRecipes={ favoriteRecipes } />}
       </div>
     </>
   );
