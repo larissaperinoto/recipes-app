@@ -42,7 +42,7 @@ describe('Verifica renderização  da página de detalhes', () => {
   expect(screen.getAllByTestId(/recomendation-card/i).length).toBe(6);
   });
 
-  test('Verifica se os detalhes renderizados para uma receita de drink', async () => {
+  test('Verifica se os detalhes são renderizados para uma receita de drink', async () => {
 
     fetch = jest.fn().mockImplementation((url) => {
       if (url == 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=178319') {

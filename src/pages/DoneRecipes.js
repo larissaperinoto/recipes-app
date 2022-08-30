@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Header, DoneRecipesCard } from '../components/index';
+import Context from '../context/Context';
 
 function DoneRecipes() {
-  const [filter, setFilter] = useState([]);
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const { handleFilters, filter, setFilter } = useContext(Context);
 
-  const handleFilters = ({ target: { name } }) => {
-    if (name === 'all') setFilter(doneRecipes);
-    if (name === 'food') setFilter(doneRecipes.filter((done) => done.type === 'food'));
-    if (name === 'drinks') {
-      setFilter(doneRecipes.filter((done) => done.type === 'drink'));
-    }
-  };
+  useEffect(() => {
+    setFilter(JSON.parse(localStorage.getItem('doneRecipes')) || []);
+  }, []);
 
   return (
     <>
@@ -21,7 +17,7 @@ function DoneRecipes() {
           type="button"
           name="all"
           data-testid="filter-by-all-btn"
-          onClick={ handleFilters }
+          onClick={ (event) => handleFilters(event, 'doneRecipes') }
         >
           All
         </button>
@@ -30,7 +26,7 @@ function DoneRecipes() {
           type="button"
           name="food"
           data-testid="filter-by-food-btn"
-          onClick={ handleFilters }
+          onClick={ (event) => handleFilters(event, 'doneRecipes') }
         >
           Food
         </button>
@@ -39,15 +35,13 @@ function DoneRecipes() {
           type="button"
           name="drinks"
           data-testid="filter-by-drink-btn"
-          onClick={ handleFilters }
+          onClick={ (event) => handleFilters(event, 'doneRecipes') }
         >
           Drinks
         </button>
       </div>
       <div id="cards">
-        { filter.length > 0
-          ? <DoneRecipesCard doneRecipes={ filter } />
-          : <DoneRecipesCard doneRecipes={ doneRecipes } />}
+        { filter.length > 0 && <DoneRecipesCard doneRecipes={ filter } /> }
       </div>
     </>
   );

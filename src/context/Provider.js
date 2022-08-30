@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import clipboardCopy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
@@ -51,9 +52,9 @@ function Provider({ children }) {
   };
 
   const requestData = async (type, id) => {
-    const data = type === 'foods'
+    const data = type === 'food'
       ? await requestMealWithId(id) : await requestDrinkWithId(id);
-    const recomendationList = type === 'foods'
+    const recomendationList = type === 'food'
       ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
     const ingredientsList = getIngredients(data[0]);
     setRecipeDetails({
@@ -67,12 +68,55 @@ function Provider({ children }) {
   const [inProgressRecipes, setInProgressRecipes] = useState({ id: '', arr: [] });
 
   // Favorite Button
-  const [isFavorite, setIsFavorite] = useState({ id: [], isFavorite: false });
-  const [isCopy, setisCopy] = useState(false);
-  const [isFavoriteId, setIsFavoriteId] = useState(false);
+  const [favoriteRecipes,
+    setFavoriteRecipes,
+  ] = useState(JSON.parse((localStorage.getItem('favoriteRecipes'))) || []);
+
+  const [isCopy, setIsCopy] = useState(false);
+
+  const handleFavoriteRecipes = (type, id) => {
+    if (favoriteRecipes.some((recipe) => recipe.id === id)) {
+      setFavoriteRecipes(favoriteRecipes.filter((recipe) => recipe.id !== id));
+    } else {
+      const { details } = recipeDetails;
+      setFavoriteRecipes([
+        ...favoriteRecipes,
+        { id,
+          type,
+          nationality: type === 'food' ? details.strArea : '',
+          category: details.strCategory,
+          alcoholicOrNot: type === 'food' ? '' : details.strAlcoholic,
+          name: details.strMeal || details.strDrink,
+          image: details.strMealThumb || details.strDrinkThumb,
+        },
+      ]);
+    }
+  };
+
+  function copyLink(type, id, testIdShare) {
+    if (testIdShare === 'share-btn') {
+      clipboardCopy(window.location.href.replace(/\/in-progress/i, ''));
+      setIsCopy(!isCopy);
+    } else {
+      clipboardCopy(window.location.href.replace('/done-recipes', `/${type}s/${id}`));
+      setIsCopy(true);
+    }
+  }
 
   // Done Recipes
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [filter, setFilter] = useState([]);
+
+  const handleFilters = ({ target: { name } }, param) => {
+    const data = JSON.parse(localStorage.getItem(param)) || [];
+    if (name === 'all') setFilter(data);
+    if (name === 'food') {
+      setFilter(data.filter((done) => done.type === 'food'));
+    }
+    if (name === 'drinks') {
+      setFilter(data.filter((done) => done.type === 'drink'));
+    }
+  };
 
   const value = {
     setSearch,
@@ -97,14 +141,17 @@ function Provider({ children }) {
     requestData,
     inProgressRecipes,
     setInProgressRecipes,
-    isFavorite,
-    setIsFavorite,
-    isCopy,
-    setisCopy,
-    isFavoriteId,
-    setIsFavoriteId,
+    favoriteRecipes,
+    setFavoriteRecipes,
+    handleFavoriteRecipes,
     doneRecipes,
     setDoneRecipes,
+    filter,
+    setFilter,
+    handleFilters,
+    copyLink,
+    isCopy,
+    setIsCopy,
   };
 
   return (

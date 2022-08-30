@@ -1,12 +1,9 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import Context from '../context/Context';
-import FavoriteButton from './FavoriteButton';
-import Slider from './Slider';
 
 function MealsDetails() {
   const {
-    recipeDetails: { details, ingredients, recomendations },
+    recipeDetails: { details, ingredients },
   } = useContext(Context);
 
   return (
@@ -16,7 +13,6 @@ function MealsDetails() {
         src={ details.strMealThumb }
         alt={ details.strMeal }
       />
-      <FavoriteButton />
       <h2 data-testid="recipe-title">{ details.strMeal }</h2>
       <p data-testid="recipe-category">{ details.strCategory }</p>
       <ul>
@@ -38,16 +34,8 @@ function MealsDetails() {
         title="Embedded youtube"
         data-testid="video"
       />
-      <div>
-        { recomendations && <Slider /> }
-      </div>
     </div>
   );
 }
-
-MealsDetails.propTypes = {
-  data: PropTypes.objectOf(PropTypes.string),
-  ingredients: PropTypes.arrayOf(PropTypes.string),
-}.isRequired;
 
 export default MealsDetails;

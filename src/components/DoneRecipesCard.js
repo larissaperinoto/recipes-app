@@ -1,17 +1,7 @@
-import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
-import clipboardCopy from 'clipboard-copy';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import React from 'react';
+import FavoriteAndShareButtons from './FavoriteAndShareButtons';
 
 export default function DoneRecipesCard({ doneRecipes }) {
-  const [copy, setCopy] = useState(false);
-
-  function copyLink(id, type) {
-    clipboardCopy(window.location.href.replace('/done-recipes', `/${type}s/${id}`));
-    setCopy(true);
-  }
-
   // const history = useHistory();
 
   /* const handleClick = (id, type) => {
@@ -39,26 +29,12 @@ export default function DoneRecipesCard({ doneRecipes }) {
         <p data-testid={ `${index}-horizontal-done-date` }>
           { recipe.doneDate }
         </p>
-        <button
-          type="button"
-          onClick={ () => copyLink(recipe.id, recipe.type) }
-        >
-          <img
-            data-testid={ `${index}-horizontal-share-btn` }
-            src={ shareIcon }
-            alt="shareIcon"
-          />
-        </button>
-        { copy && <p>Link copied!</p> }
-        <button
-          type="button"
-        >
-          <img
-            data-testid={ `${index}-horizontal-favorite-btn` }
-            src={ blackHeartIcon }
-            alt="shareIcon"
-          />
-        </button>
+        <FavoriteAndShareButtons
+          type={ recipe.type }
+          id={ recipe.id }
+          testIdShare={ `${index}-horizontal-share-btn` }
+          testIdFavorite={ `${index}-horizontal-favorite-btn` }
+        />
         { recipe.tags.length > 0 && recipe.tags.map((item, i) => (
           <p
             data-testid={ `${index}-${item}-horizontal-tag` }

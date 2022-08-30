@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import FavoriteButton from '../components/FavoriteButton';
+
+import FavoriteAndShareButtons from '../components/FavoriteAndShareButtons';
 import Context from '../context/Context';
 import '../css/Footer.css';
 import '../css/RecipesInProgress.css';
@@ -16,6 +17,8 @@ function RecipeInProgress() {
     setDoneRecipes,
   } = useContext(Context);
 
+  const { details } = recipeDetails;
+
   const { details: { strMeal,
     strDrinkThumb,
     strDrink,
@@ -25,7 +28,7 @@ function RecipeInProgress() {
 
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
-  const type = pathname.split('/')[1];
+  const type = pathname.split('/')[1].split('s')[0];
 
   useEffect(() => {
     requestData(type, id);
@@ -81,16 +84,14 @@ function RecipeInProgress() {
       {
         id,
         type: type.split('s')[0],
-        nationality: type === 'foods' ? recipeDetails.details.strArea : '',
-        category: type === 'foods' ? recipeDetails.details.strCategory : '',
-        alcoholicOrNot: type === 'foods' ? '' : recipeDetails.details.strAlcoholic,
-        name: type === 'foods'
-          ? recipeDetails.details.strMeal : recipeDetails.details.strDrink,
-        image: type === 'foods'
-          ? recipeDetails.details.strMealThumb : recipeDetails.details.strDrinkThumb,
+        nationality: type === 'food' ? details.strArea : '',
+        category: type === 'food' ? details.strCategory : '',
+        alcoholicOrNot: type === 'food' ? '' : details.strAlcoholic,
+        name: details.strMeal || details.strDrink,
+        image: details.strMealThumb || details.strDrinkThumb,
         doneDate: dateGenerator(),
-        tags: recipeDetails.details.strTags
-          ? recipeDetails.details.strTags.split(',') : '',
+        tags: details.strTags
+          ? details.strTags.split(',') : '',
       },
     ]);
   };
@@ -108,7 +109,12 @@ function RecipeInProgress() {
         <div>
           <span data-testid="recipe-title">{ strMeal || strDrink }</span>
           <span>
-            <FavoriteButton />
+            <FavoriteAndShareButtons
+              type={ type }
+              id={ id }
+              testIdShare="share-btn"
+              testIdFavorite="favorite-btn"
+            />
           </span>
         </div>
         <div data-testid="recipe-category">{strCategory}</div>
