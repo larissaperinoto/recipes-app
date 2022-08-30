@@ -24,7 +24,21 @@ describe('Verifica renderização  da página de detalhes', () => {
           json: jest.fn().mockResolvedValue(drinksRecomendation)
         })
       }
-    })
+    });
+
+    const doneRecipes = [{
+      id: '52771',
+      type: 'food',
+      nationality: 'Italian',
+      category: 'Vegetarian',
+      alcoholicOrNot: '',
+      name: 'Spicy Arrabiata Penne',
+      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+      doneDate: '22/6/2020',
+      tags: ['Pasta', 'Curry']
+    }];
+
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
 
     const { history } = rendeWithRouter(<Provider><App /></Provider>);
 
@@ -46,19 +60,11 @@ describe('Verifica renderização  da página de detalhes', () => {
     expect(screen.getByRole('button', { name: /shareicon/i })).toBeInTheDocument();
     expect(favoriteButton).toBeInTheDocument();
     expect(favoriteButton.alt.includes('whiteHeartIcon')).toBeTruthy();
-    expect(screen.getByTestId('start-recipe-btn')).toBeInTheDocument();
-
-    /* userEvent.click(screen.getByRole('button', { name: /shareicon/i }));
-    expect(screen.getByText("Link copied!")).toBeInTheDocument(); */
-
+    /* expect(screen.getByTestId('start-recipe-btn')).not.toBeInTheDocument();
+ */
     userEvent.click(favoriteButton);
     expect(favoriteButton.alt.includes('blackHeartIcon')).toBeTruthy();
 
-    userEvent.click(screen.getByTestId('start-recipe-btn'));
-
-   /*  const pathname = history.location;
-
-    expect(pathname).not.tobe('/foods/52771'); */
   });
 
   test('Verifica se os detalhes são renderizados para uma receita de drink', async () => {
@@ -96,9 +102,6 @@ describe('Verifica renderização  da página de detalhes', () => {
     expect(favoriteButton).toBeInTheDocument();
     expect(favoriteButton.alt.includes('whiteHeartIcon')).toBeTruthy();
     expect(screen.getByTestId('start-recipe-btn')).toBeInTheDocument();
-
-    /* userEvent.click(screen.getByRole('button', { name: /shareicon/i }));
-    expect(screen.getByText("Link copied!")).toBeInTheDocument(); */
 
     userEvent.click(favoriteButton);
     expect(favoriteButton.alt.includes('blackHeartIcon')).toBeTruthy();

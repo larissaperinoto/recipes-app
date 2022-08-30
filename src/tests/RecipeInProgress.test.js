@@ -10,7 +10,7 @@ import {
     drinksRecomendation } from './helpers/mockData';
 
 describe('Verifica renderização  da página de In progress', () => {
-  test('Verifica se os detalhes renderizados para uma receita de food', async () => {
+  test('Verifica se os detalhes renderizados para uma receita na rota /foods', async () => {
 
   fetch = jest.fn().mockImplementation((url) => {
     if (url == 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771') {
@@ -93,13 +93,9 @@ describe('Verifica renderização  da página de In progress', () => {
 
     const { history } = rendeWithRouter(<Provider><App /></Provider>);
 
-    history.push('/foods/52771');
+    history.push('/foods/52771/in-progress');
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771'));
-
-    userEvent.click(screen.getByRole("button", { name: /continue recipe/i }));
-
-    history.push('/foods/52771/in-progress');
 
     const pathname = history.location.pathname;
     expect(pathname).toBe('/foods/52771/in-progress');
