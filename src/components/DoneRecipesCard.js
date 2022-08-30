@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 export default function DoneRecipesCard({ doneRecipes }) {
   const [copy, setCopy] = useState(false);
@@ -11,42 +12,38 @@ export default function DoneRecipesCard({ doneRecipes }) {
     setCopy(true);
   }
 
-  const history = useHistory();
+  console.log(doneRecipes);
 
-  const handleClick = (id, type) => {
+  const history = useHistory();
+  const { pathname } = history.location;
+
+  /* const handleClick = (id, type) => {
     history.push(`/${type}s/${id}`);
-    console.log('oi');
-  };
+  }; */
+
+  const type = pathname.split('/')[1];
+
+  const tagsCondition = type === 'done-recipes' && recipe.tags.length > 0;
 
   return (
     doneRecipes && doneRecipes.map((recipe, index) => (
       <div id="card" key={ index }>
-        <button
-          type="button"
-          onClick={ () => handleClick(recipe.id, recipe.type) }
+        <img
+          src={ recipe.image }
+          data-testid={ `${index}-horizontal-image` }
+          alt={ recipe.name }
+        />
+        <h4
+          data-testid={ `${index}-horizontal-top-text` }
         >
-          <img
-            src={ recipe.image }
-            data-testid={ `${index}-horizontal-image` }
-            alt={ recipe.name }
-          />
-        </button>
-        <button
-          type="button"
-          onClick={ () => handleClick(recipe.id, recipe.type) }
-        >
-          <h4
-            data-testid={ `${index}-horizontal-top-text` }
-          >
-            { recipe.type === 'food'
-              ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot }
-          </h4>
-        </button>
+          { recipe.type === 'food'
+            ? `${recipe.nationality} - ${recipe.category}` : recipe.alcoholicOrNot }
+        </h4>
         <h3 data-testid={ `${index}-horizontal-name` }>
           { recipe.name }
         </h3>
         <p data-testid={ `${index}-horizontal-done-date` }>
-          { recipe.doneDate }
+          { type === 'done-recipes' && recipe.doneDate }
         </p>
         <button
           type="button"
@@ -59,7 +56,16 @@ export default function DoneRecipesCard({ doneRecipes }) {
           />
         </button>
         { copy && <p>Link copied!</p> }
-        { recipe.tags.length > 0 && recipe.tags.map((item, i) => (
+        <button
+          type="button"
+        >
+          <img
+            data-testid={ `${index}-horizontal-favorite-btn` }
+            src={ blackHeartIcon }
+            alt="shareIcon"
+          />
+        </button>
+        { tagsCondition && recipe.tags.map((item, i) => (
           <p
             data-testid={ `${index}-${item}-horizontal-tag` }
             key={ i }
