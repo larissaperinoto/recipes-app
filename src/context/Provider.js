@@ -75,8 +75,12 @@ function Provider({ children }) {
 
   // Done Recipes
   const [doneRecipes, setDoneRecipes] = useState([]);
-  const [filterDoneRecipes, setFilterDoneRecipes] = useState([]);
-  const [filterFavoriteRecipes, setFilterFavoriteRecipes] = useState([]);
+  const [filterDoneRecipes,
+    setFilterDoneRecipes,
+  ] = useState(JSON.parse(localStorage.getItem('doneRecipes')));
+  const [filterFavoriteRecipes,
+    setFilterFavoriteRecipes,
+  ] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')));
 
   const whereSetFilter = (page, data) => {
     if (page === 'favoriteRecipes') {

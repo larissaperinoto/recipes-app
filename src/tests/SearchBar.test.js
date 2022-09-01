@@ -272,21 +272,4 @@ describe('Verifica renderização do componente Header', () => {
     expect(global.alert()).toBe('Sorry, we haven\'t found any recipes for these filters.');
     expect(global.alert).toBeCalled();
   });
-
- /*  test('Verifica se um alerta é mostrado quando não é encontrado nenhum resultado para a busca na página Drinks', async () => {
-    jest.spyOn(global, 'alert').mockImplementation(() => 'Sorry, we haven\'t found any recipes for these filters.');
-
-    const { history } = rendeWithRouter(<Provider><App /></Provider>);
-
-    history.push('/drinks');
-
-    userEvent.click(screen.getByRole("img", { name: /searchicon/i }));
-    userEvent.type(screen.getByTestId("search-input"), 'xablau');
-    userEvent.click(screen.getByText("Ingredient"));
-    userEvent.click(screen.getByTestId('exec-search-btn'));
-
-    expect(global.alert()).toBe('Sorry, we haven\'t found any recipes for these filters.');
-    expect(global.alert).toBeCalled();
-
-  }); */
 });

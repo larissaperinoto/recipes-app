@@ -78,7 +78,7 @@ function Category() {
         >
           All
         </button>
-        {categoryFoods.map((categoryFood, index) => (
+        {categoryFoods && categoryFoods.map((categoryFood, index) => (
           <button
             key={ index }
             data-testid={ `${categoryFood.strCategory}-category-filter` }

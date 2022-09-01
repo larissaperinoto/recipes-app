@@ -39,43 +39,27 @@ export const requestDrinksAPI = async (filter, value) => {
 };
 
 export const requestCategoryFood = async () => {
-  try {
-    const fetchApi = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-    const response = await fetchApi.json();
-    return response.meals;
-  } catch (error) {
-    return error;
-  }
+  const fetchApi = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+  const response = await fetchApi.json();
+  return response.meals;
 };
 
 export const requestCategoryDrinks = async () => {
-  try {
-    const fetchApi = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-    const response = await fetchApi.json();
-    return response.drinks;
-  } catch (error) {
-    return error;
-  }
+  const fetchApi = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+  const response = await fetchApi.json();
+  return response.drinks;
 };
 
 export const requestCategorysFoods = async (getCatebory) => {
-  try {
-    const fetchApi = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${getCatebory}`);
-    const response = await fetchApi.json();
-    return response.meals;
-  } catch (error) {
-    return error;
-  }
+  const fetchApi = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${getCatebory}`);
+  const response = await fetchApi.json();
+  return response.meals;
 };
 
 export const requestCategorysDrinks = async (getCatebory) => {
-  try {
-    const fetchApi = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${getCatebory}`);
-    const response = await fetchApi.json();
-    return response.drinks;
-  } catch (error) {
-    return error;
-  }
+  const fetchApi = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${getCatebory}`);
+  const response = await fetchApi.json();
+  return response.drinks;
 };
 
 export const requestMealWithId = async (id) => {
@@ -87,7 +71,6 @@ export const requestMealWithId = async (id) => {
 
 export const requestDrinkWithId = async (id) => {
   const endpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-
   const { drinks } = await fetch(endpoint).then((response) => response.json());
   return drinks;
 };

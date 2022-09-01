@@ -9,7 +9,8 @@ import {
     mockFoodWithId,
     drinksRecomendation,
     mockDrinkWithId,
-    foodsRecomendation } from './helpers/mockData';
+    foodsRecomendation,
+    aquamarineDrink } from './helpers/mockData';
 
 describe('Verifica renderização  da página de detalhes', () => {
   test('Verifica se os detalhes renderizados para uma receita de food', async () => {
@@ -58,10 +59,10 @@ describe('Verifica renderização  da página de detalhes', () => {
     const favoriteButton = screen.getByTestId('favorite-btn');
 
     expect(screen.getByRole('button', { name: /shareicon/i })).toBeInTheDocument();
+
     expect(favoriteButton).toBeInTheDocument();
     expect(favoriteButton.alt.includes('whiteHeartIcon')).toBeTruthy();
-    /* expect(screen.getByTestId('start-recipe-btn')).not.toBeInTheDocument();
- */
+
     userEvent.click(favoriteButton);
     expect(favoriteButton.alt.includes('blackHeartIcon')).toBeTruthy();
 
@@ -108,5 +109,9 @@ describe('Verifica renderização  da página de detalhes', () => {
 
     userEvent.click(screen.getByTestId('start-recipe-btn'));
 
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=178319'));
+
+    const pathname = history.location.pathname;
+    expect(pathname).toBe('/drinks/178319/in-progress');
   });
 });
