@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import clipboardCopy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import Context from './Context';
 
@@ -93,16 +92,6 @@ function Provider({ children }) {
     }
   };
 
-  function copyLink(type, id, testIdShare) {
-    if (testIdShare === 'share-btn') {
-      clipboardCopy(window.location.href.replace(/\/in-progress/i, ''));
-      setIsCopy(!isCopy);
-    } else {
-      clipboardCopy(window.location.href.replace('/done-recipes', `/${type}s/${id}`));
-      setIsCopy(true);
-    }
-  }
-
   // Done Recipes
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [filter, setFilter] = useState([]);
@@ -149,7 +138,6 @@ function Provider({ children }) {
     filter,
     setFilter,
     handleFilters,
-    copyLink,
     isCopy,
     setIsCopy,
   };

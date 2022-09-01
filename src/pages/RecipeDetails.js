@@ -41,6 +41,7 @@ function RecipeDetails({ history }) {
         id={ id }
         testIdShare="share-btn"
         testIdFavorite="favorite-btn"
+        replace="in-progress"
       />
       <div>
         { recomendations && <Slider /> }

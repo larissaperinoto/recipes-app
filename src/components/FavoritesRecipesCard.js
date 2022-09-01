@@ -14,10 +14,6 @@ export default function FavoriteRecipesCard({ favoriteRecipes }) {
     setCopy(true);
   }
 
-  /* const handleClick = (id, type) => {
-    history.push(`/${type}s/${id}`);
-  }; */
-
   return (
     favoriteRecipes && favoriteRecipes.map((recipe, index) => (
       <div id="card" key={ index }>
@@ -25,7 +21,6 @@ export default function FavoriteRecipesCard({ favoriteRecipes }) {
           src={ recipe.image }
           data-testid={ `${index}-horizontal-image` }
           alt={ recipe.name }
-          // onClick={ () => handleClick(recipe.id, recipe.type) }
         />
         <h4
           data-testid={ `${index}-horizontal-top-text` }

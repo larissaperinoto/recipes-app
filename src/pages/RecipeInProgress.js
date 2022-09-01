@@ -114,6 +114,7 @@ function RecipeInProgress() {
               id={ id }
               testIdShare="share-btn"
               testIdFavorite="favorite-btn"
+              replace="in-progress"
             />
           </span>
         </div>

@@ -12,3 +12,5 @@ export { default as MealsDetails } from './MealsDetails';
 export { default as DrinkDetails } from './DrinkDetails';
 export { default as DoneRecipesCard } from './DoneRecipesCard';
 export { default as FavoriteRecipesCard } from './FavoritesRecipesCard';
+export { default as Recipes } from './Recipes';
+export { default as Category } from './Category';

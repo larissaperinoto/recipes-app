@@ -34,6 +34,7 @@ export default function DoneRecipesCard({ doneRecipes }) {
           id={ recipe.id }
           testIdShare={ `${index}-horizontal-share-btn` }
           testIdFavorite={ `${index}-horizontal-favorite-btn` }
+          replace="done-recipes"
         />
         { recipe.tags.length > 0 && recipe.tags.map((item, i) => (
           <p
