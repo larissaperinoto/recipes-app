@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import clipboardCopy from 'clipboard-copy';
 
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import { FavoriteAndShareButtons } from './index';
 import './styles/image.css';
 
 export default function FavoriteRecipesCard({ favoriteRecipes }) {
-  const [copy, setCopy] = useState(false);
-
-  function copyLink(id, type) {
-    clipboardCopy(window.location.href.replace('/favorite-recipes', `/${type}s/${id}`));
-    setCopy(true);
-  }
-
   return (
     favoriteRecipes && favoriteRecipes.map((recipe, index) => (
       <div id="card" key={ index }>
@@ -40,28 +31,13 @@ export default function FavoriteRecipesCard({ favoriteRecipes }) {
           </h3>
         </Link>
 
-        <button
-          type="button"
-          onClick={ () => copyLink(recipe.id, recipe.type) }
-        >
-          <img
-            data-testid={ `${index}-horizontal-share-btn` }
-            src={ shareIcon }
-            alt="shareIcon"
-          />
-        </button>
-
-        { copy && <p>Link copied!</p> }
-
-        <button
-          type="button"
-        >
-          <img
-            data-testid={ `${index}-horizontal-favorite-btn` }
-            src={ blackHeartIcon }
-            alt="shareIcon"
-          />
-        </button>
+        <FavoriteAndShareButtons
+          type={ recipe.type }
+          id={ recipe.id }
+          testIdShare={ `${index}-horizontal-share-btn` }
+          testIdFavorite={ `${index}-horizontal-favorite-btn` }
+          replace="favorite-recipes"
+        />
 
       </div>
     ))

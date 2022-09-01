@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import FavoriteAndShareButtons from './FavoriteAndShareButtons';
+import { FavoriteAndShareButtons } from './index';
 import './styles/image.css';
 
 export default function DoneRecipesCard({ doneRecipes }) {

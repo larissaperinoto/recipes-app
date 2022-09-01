@@ -1,4 +1,3 @@
-// Headers
 export { default as Header } from './headerComponents/Header';
 export { default as HeaderSearchIcon } from './headerComponents/HeaderSearchIcon';
 export { default as SearchBar } from './headerComponents/SearchBar';
@@ -10,7 +9,6 @@ export { default as FavoriteAndShareButtons } from './FavoriteAndShareButtons';
 export { default as StartRecipeButton } from './StartRecipeButton';
 export { default as MealsDetails } from './MealsDetails';
 export { default as DrinkDetails } from './DrinkDetails';
-export { default as DoneRecipesCard } from './DoneRecipesCard';
-export { default as FavoriteRecipesCard } from './FavoritesRecipesCard';
 export { default as Recipes } from './Recipes';
 export { default as Category } from './Category';
+export { default as FilterButtons } from './FilterButtons';

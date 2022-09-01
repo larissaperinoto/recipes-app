@@ -10,12 +10,15 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite, replace }) {
   const {
     favoriteRecipes,
-    handleFavoriteRecipes,
+    setFavoriteRecipes,
+    setFilterFavoriteRecipes,
+    recipeDetails,
     isCopy,
     setIsCopy } = useContext(Context);
 
   useEffect(() => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+    setFilterFavoriteRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')));
   }, [favoriteRecipes]);
 
   function copyLink() {
@@ -28,6 +31,25 @@ function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite, replac
       setIsCopy(true);
     }
   }
+
+  const handleFavoriteRecipes = (paramType, paramId) => {
+    if (favoriteRecipes.some((recipe) => recipe.id === paramId)) {
+      setFavoriteRecipes(favoriteRecipes.filter((recipe) => recipe.id !== paramId));
+    } else {
+      const { details } = recipeDetails;
+      setFavoriteRecipes([
+        ...favoriteRecipes,
+        { id,
+          type,
+          nationality: paramType === 'food' ? details.strArea : '',
+          category: details.strCategory,
+          alcoholicOrNot: paramType === 'food' ? '' : details.strAlcoholic,
+          name: details.strMeal || details.strDrink,
+          image: details.strMealThumb || details.strDrinkThumb,
+        },
+      ]);
+    }
+  };
 
   return (
     <main>
