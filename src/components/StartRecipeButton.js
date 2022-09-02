@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function StartRecipeButton({ handleStartRecipe }) {
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-
+  // Arrumar quando a chave inProgressRecipes estiver correto.
   return (
     <button
       type="button"

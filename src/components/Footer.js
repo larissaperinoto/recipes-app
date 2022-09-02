@@ -1,5 +1,3 @@
-// Obs: Para os testes passarem é necessário que o componente seja chamado de Footer.js
-// Este requisito também inclui testes de cobertura do componente Footer.js
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import drinkIcon from '../images/drinkIcon.svg';

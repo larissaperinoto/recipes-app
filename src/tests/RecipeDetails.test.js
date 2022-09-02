@@ -9,40 +9,66 @@ import {
     mockFoodWithId,
     drinksRecomendation,
     mockDrinkWithId,
-    foodsRecomendation } from './helpers/mockData';
+    foodsRecomendation,
+    aquamarineDrink } from './helpers/mockData';
 
 describe('Verifica renderização  da página de detalhes', () => {
   test('Verifica se os detalhes renderizados para uma receita de food', async () => {
 
-  fetch = jest.fn().mockImplementation((url) => {
-    if (url == 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771') {
-      return Promise.resolve({
-        json: jest.fn().mockResolvedValue(mockFoodWithId)
-      })
-    } else {
-      return Promise.resolve({
-        json: jest.fn().mockResolvedValue(drinksRecomendation)
-      })
-    }
-  })
+    fetch = jest.fn().mockImplementation((url) => {
+      if (url == 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771') {
+        return Promise.resolve({
+          json: jest.fn().mockResolvedValue(mockFoodWithId)
+        })
+      } else {
+        return Promise.resolve({
+          json: jest.fn().mockResolvedValue(drinksRecomendation)
+        })
+      }
+    });
 
-  const { history } = rendeWithRouter(<Provider><App /></Provider>);
+    const doneRecipes = [{
+      id: '52771',
+      type: 'food',
+      nationality: 'Italian',
+      category: 'Vegetarian',
+      alcoholicOrNot: '',
+      name: 'Spicy Arrabiata Penne',
+      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+      doneDate: '22/6/2020',
+      tags: ['Pasta', 'Curry']
+    }];
 
-  history.push('/foods/52771');
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
 
-  await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771'));
-  await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s='));
+    const { history } = rendeWithRouter(<Provider><App /></Provider>);
 
-  expect(screen.getByTestId('recipe-photo').src).toBe('https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg');
-  expect(screen.getByTestId('recipe-title').innerHTML).toBe('Spicy Arrabiata Penne');
-  expect(screen.getByTestId('recipe-category').innerHTML).toBe('Vegetarian');
-  expect(screen.getAllByTestId(/ingredient-name-and-measure/i).length).toBe(8);
-  expect(screen.getByTestId('instructions')).toBeInTheDocument();
-  expect(screen.getByTestId('video')).toBeInTheDocument();
-  expect(screen.getAllByTestId(/recomendation-card/i).length).toBe(6);
+    history.push('/foods/52771');
+
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771'));
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s='));
+
+    expect(screen.getByTestId('recipe-photo').src).toBe('https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg');
+    expect(screen.getByTestId('recipe-title').innerHTML).toBe('Spicy Arrabiata Penne');
+    expect(screen.getByTestId('recipe-category').innerHTML).toBe('Vegetarian');
+    expect(screen.getAllByTestId(/ingredient-name-and-measure/i).length).toBe(8);
+    expect(screen.getByTestId('instructions')).toBeInTheDocument();
+    expect(screen.getByTestId('video')).toBeInTheDocument();
+    expect(screen.getAllByTestId(/recomendation-card/i).length).toBe(6);
+
+    const favoriteButton = screen.getByTestId('favorite-btn');
+
+    expect(screen.getByRole('button', { name: /shareicon/i })).toBeInTheDocument();
+
+    expect(favoriteButton).toBeInTheDocument();
+    expect(favoriteButton.alt.includes('whiteHeartIcon')).toBeTruthy();
+
+    userEvent.click(favoriteButton);
+    expect(favoriteButton.alt.includes('blackHeartIcon')).toBeTruthy();
+
   });
 
-  test('Verifica se os detalhes renderizados para uma receita de drink', async () => {
+  test('Verifica se os detalhes são renderizados para uma receita de drink', async () => {
 
     fetch = jest.fn().mockImplementation((url) => {
       if (url == 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=178319') {
@@ -70,5 +96,22 @@ describe('Verifica renderização  da página de detalhes', () => {
     expect(screen.getByTestId('instructions')).toBeInTheDocument();
     expect(screen.getByTestId('start-recipe-btn')).toBeInTheDocument();
     expect(screen.getAllByTestId(/recomendation-card/i).length).toBe(6);
-    });
+
+    const favoriteButton = screen.getByTestId('favorite-btn');
+
+    expect(screen.getByRole('button', { name: /shareicon/i })).toBeInTheDocument();
+    expect(favoriteButton).toBeInTheDocument();
+    expect(favoriteButton.alt.includes('whiteHeartIcon')).toBeTruthy();
+    expect(screen.getByTestId('start-recipe-btn')).toBeInTheDocument();
+
+    userEvent.click(favoriteButton);
+    expect(favoriteButton.alt.includes('blackHeartIcon')).toBeTruthy();
+
+    userEvent.click(screen.getByTestId('start-recipe-btn'));
+
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=178319'));
+
+    const pathname = history.location.pathname;
+    expect(pathname).toBe('/drinks/178319/in-progress');
+  });
 });

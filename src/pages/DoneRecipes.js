@@ -1,53 +1,17 @@
-import React, { useState } from 'react';
-import { Header, DoneRecipesCard } from '../components/index';
+import React, { useContext } from 'react';
+import { Header, FilterButtons } from '../components/index';
+import DoneRecipesCard from '../components/DoneRecipesCard';
+import Context from '../context/Context';
 
 function DoneRecipes() {
-  const [filter, setFilter] = useState([]);
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-
-  const handleFilters = ({ target: { name } }) => {
-    if (name === 'all') setFilter(doneRecipes);
-    if (name === 'food') setFilter(doneRecipes.filter((done) => done.type === 'food'));
-    if (name === 'drinks') {
-      setFilter(doneRecipes.filter((done) => done.type === 'drink'));
-    }
-  };
-
+  const { filterDoneRecipes } = useContext(Context);
   return (
     <>
       <Header title="Done Recipes" />
-      <div id="button-group">
-        <button
-          type="button"
-          name="all"
-          data-testid="filter-by-all-btn"
-          onClick={ handleFilters }
-        >
-          All
-        </button>
-
-        <button
-          type="button"
-          name="food"
-          data-testid="filter-by-food-btn"
-          onClick={ handleFilters }
-        >
-          Food
-        </button>
-
-        <button
-          type="button"
-          name="drinks"
-          data-testid="filter-by-drink-btn"
-          onClick={ handleFilters }
-        >
-          Drinks
-        </button>
-      </div>
+      <FilterButtons page="doneRecipes" />
       <div id="cards">
-        { filter.length > 0
-          ? <DoneRecipesCard doneRecipes={ filter } />
-          : <DoneRecipesCard doneRecipes={ doneRecipes } />}
+        { filterDoneRecipes
+          && <DoneRecipesCard doneRecipes={ filterDoneRecipes } /> }
       </div>
     </>
   );

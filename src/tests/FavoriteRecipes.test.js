@@ -7,6 +7,13 @@ import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
 describe('Verifica a renderização da tela de receitas favoritas', () => {
+
+  beforeEach(() => {
+    navigator.clipboard = {
+      writeText: jest.fn(),
+    }
+  })
+
    test('Verifica se o ícone Profile redireciona para a rota /profile', () => {
      const { history } = renderWithRouter(<Provider><App /></Provider>);
 
@@ -60,6 +67,9 @@ describe('Verifica a renderização da tela de receitas favoritas', () => {
      expect(screen.getAllByTestId(/horizontal-top-text/i).length).toBe(2);
      expect(screen.getAllByTestId(/horizontal-name/i).length).toBe(2);
      expect(screen.getAllByTestId(/horizontal-share-btn/i).length).toBe(2);
+
+     userEvent.click(screen.getAllByTestId(/horizontal-share-btn/i)[0]);
+     expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(1)
    });
 
    test('Verifica se os botões All, Food e Drink funcionam corretamente', () => {
@@ -110,7 +120,12 @@ describe('Verifica a renderização da tela de receitas favoritas', () => {
     expect(screen.getAllByTestId(/horizontal-top-text/i).length).toBe(2);
     expect(screen.getAllByTestId(/horizontal-name/i).length).toBe(2);
     expect(screen.getAllByTestId(/horizontal-share-btn/i).length).toBe(2);
+
+    userEvent.click(screen.getAllByRole("button", { name: /blackhearticon/i })[0]);
+
+    expect(screen.getAllByTestId(/horizontal-image/i).length).toBe(1);
+    expect(screen.getAllByTestId(/horizontal-top-text/i).length).toBe(1);
+    expect(screen.getAllByTestId(/horizontal-name/i).length).toBe(1);
+    expect(screen.getAllByTestId(/horizontal-share-btn/i).length).toBe(1);
    });
-
-
 });

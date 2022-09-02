@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Provider from '../context/Provider';
@@ -7,10 +7,11 @@ import rendeWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 import {
     mockFoodWithId,
-    drinksRecomendation } from './helpers/mockData';
+    drinksRecomendation,
+    ggDrinkRecipe, foodsRecomendation } from './helpers/mockData';
 
 describe('Verifica renderização  da página de In progress', () => {
-  test('Verifica se os detalhes renderizados para uma receita de food', async () => {
+  test('Verifica se os detalhes renderizados para uma receita na rota /foods', async () => {
 
   fetch = jest.fn().mockImplementation((url) => {
     if (url == 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771') {
@@ -70,8 +71,40 @@ describe('Verifica renderização  da página de In progress', () => {
   userEvent.click(screen.getByRole("button", { name: /finish recipe/i }));
 
   const { pathname } = history.location;
-
   expect(pathname).toBe('/done-recipes');
+
+  });
+
+  test('Verifica o progresso de uma receita na rota /drinks', async () => {
+
+  fetch = jest.fn().mockImplementation((url) => {
+    if (url == 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=15997') {
+      return Promise.resolve({
+        json: jest.fn().mockResolvedValue(ggDrinkRecipe)
+    })
+    } else {
+      return Promise.resolve({
+        json: jest.fn().mockResolvedValue(foodsRecomendation)
+      })
+    }
+  })
+
+    const { history } = rendeWithRouter(<Provider><App /></Provider>);
+
+    history.push('/drinks/15997/in-progress');
+
+    await waitFor(() => expect(fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=15997'));
+
+    userEvent.click(screen.getAllByRole("checkbox")[0]);
+    userEvent.click(screen.getAllByRole("checkbox")[1]);
+    userEvent.click(screen.getAllByRole("checkbox")[2]);
+
+    userEvent.click(screen.getByRole("button", { name: /finish recipe/i }));
+
+    history.push('/done-recipes');
+
+    const { pathname } = history.location;
+    expect(pathname).toBe('/done-recipes');
 
   });
 
@@ -93,13 +126,9 @@ describe('Verifica renderização  da página de In progress', () => {
 
     const { history } = rendeWithRouter(<Provider><App /></Provider>);
 
-    history.push('/foods/52771');
+    history.push('/foods/52771/in-progress');
 
     await waitFor(() => expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771'));
-
-    userEvent.click(screen.getByRole("button", { name: /continue recipe/i }));
-
-    history.push('/foods/52771/in-progress');
 
     const pathname = history.location.pathname;
     expect(pathname).toBe('/foods/52771/in-progress');
@@ -109,5 +138,9 @@ describe('Verifica renderização  da página de In progress', () => {
 
     expect(screen.getByText("1/4 cup olive oil").className).toBe('riscado');
     expect(screen.getAllByRole("checkbox")[1].checked).toBeTruthy();
+
+    userEvent.click(screen.getAllByRole("checkbox")[1]);
+
+    expect(screen.getByText("1/4 cup olive oil").className).toBe('');
   });
 });

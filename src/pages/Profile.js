@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-// import Context from '../context/Context';
 import Footer from '../components/Footer';
 import Header from '../components/headerComponents/Header';
 
@@ -8,8 +7,6 @@ export default function Profile() {
   const history = useHistory();
 
   function getEmail() {
-    // return JSON.parse(localStorage.getItem('user')).email;
-    // return localStorage.getItem('user');
     const userEmail = JSON.parse(localStorage.getItem('user'));
     return userEmail?.email;
   }

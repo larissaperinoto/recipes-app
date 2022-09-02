@@ -3,21 +3,24 @@ import PropTypes from 'prop-types';
 
 import '../css/RecipeDetails.css';
 import Context from '../context/Context';
-import MealsDetails from '../components/MealsDetails';
-import DrinkDetails from '../components/DrinkDetails';
-import StartRecipeButton from '../components/StartRecipeButton';
+import {
+  MealsDetails,
+  DrinkDetails,
+  StartRecipeButton,
+  FavoriteAndShareButtons,
+  Slider } from '../components/index';
 
 function RecipeDetails({ history }) {
-  const { requestData } = useContext(Context);
+  const { requestData, recipeDetails: { recomendations } } = useContext(Context);
 
   const { location: { pathname } } = history;
   const id = pathname.split('/')[2];
-  const type = pathname.split('/')[1];
+  const type = pathname.split('/')[1].split('s')[0];
 
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
 
   const handleStartRecipe = () => {
-    if (type === 'foods') {
+    if (type === 'food') {
       history.push(`/foods/${id}/in-progress`);
     } else {
       history.push(`/drinks/${id}/in-progress`);
@@ -30,11 +33,22 @@ function RecipeDetails({ history }) {
 
   return (
     <div>
-      { type === 'foods'
+      { type === 'food'
         ? <MealsDetails />
         : <DrinkDetails /> }
+      <FavoriteAndShareButtons
+        type={ type }
+        id={ id }
+        testIdShare="share-btn"
+        testIdFavorite="favorite-btn"
+        replace="in-progress"
+      />
+      <div>
+        { recomendations && <Slider /> }
+      </div>
 
-      { !doneRecipes && <StartRecipeButton handleStartRecipe={ handleStartRecipe } /> }
+      { !doneRecipes.some((recipe) => Number(recipe.id) === Number(id))
+        && <StartRecipeButton handleStartRecipe={ handleStartRecipe } /> }
     </div>
   );
 }

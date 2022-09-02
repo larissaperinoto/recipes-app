@@ -51,9 +51,9 @@ function Provider({ children }) {
   };
 
   const requestData = async (type, id) => {
-    const data = type === 'foods'
+    const data = type === 'food'
       ? await requestMealWithId(id) : await requestDrinkWithId(id);
-    const recomendationList = type === 'foods'
+    const recomendationList = type === 'food'
       ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
     const ingredientsList = getIngredients(data[0]);
     setRecipeDetails({
@@ -67,12 +67,68 @@ function Provider({ children }) {
   const [inProgressRecipes, setInProgressRecipes] = useState({ id: '', arr: [] });
 
   // Favorite Button
-  const [isFavorite, setIsFavorite] = useState({ id: [], isFavorite: false });
-  const [isCopy, setisCopy] = useState(false);
-  const [isFavoriteId, setIsFavoriteId] = useState(false);
+  const [favoriteRecipes,
+    setFavoriteRecipes,
+  ] = useState(JSON.parse((localStorage.getItem('favoriteRecipes'))) || []);
+
+  const [isCopy, setIsCopy] = useState(false);
 
   // Done Recipes
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [filterDoneRecipes,
+    setFilterDoneRecipes,
+  ] = useState(JSON.parse(localStorage.getItem('doneRecipes')));
+  const [filterFavoriteRecipes,
+    setFilterFavoriteRecipes,
+  ] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')));
+
+  const whereSetFilter = (page, data) => {
+    if (page === 'favoriteRecipes') {
+      setFilterFavoriteRecipes(data);
+    } else {
+      setFilterDoneRecipes(data);
+    }
+  };
+
+  const dateGenerator = () => {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleSendDone = (type, id) => {
+    const { details } = recipeDetails;
+    setDoneRecipes([
+      ...doneRecipes,
+      {
+        id,
+        type: type.split('s')[0],
+        nationality: type === 'food' ? details.strArea : '',
+        category: type === 'food' ? details.strCategory : '',
+        alcoholicOrNot: type === 'food' ? '' : details.strAlcoholic,
+        name: details.strMeal || details.strDrink,
+        image: details.strMealThumb || details.strDrinkThumb,
+        doneDate: dateGenerator(),
+        tags: details.strTags
+          ? details.strTags.split(',') : '',
+      },
+    ]);
+  };
+
+  const handleFilters = ({ target: { name } }, param) => {
+    const data = JSON.parse(localStorage.getItem(param)) || [];
+    if (name === 'all') {
+      whereSetFilter(param, data);
+    }
+    if (name === 'food') {
+      whereSetFilter(param, data.filter((done) => done.type === 'food'));
+    }
+    if (name === 'drinks') {
+      whereSetFilter(param, data.filter((done) => done.type === 'drink'));
+    }
+  };
 
   const value = {
     setSearch,
@@ -97,14 +153,17 @@ function Provider({ children }) {
     requestData,
     inProgressRecipes,
     setInProgressRecipes,
-    isFavorite,
-    setIsFavorite,
-    isCopy,
-    setisCopy,
-    isFavoriteId,
-    setIsFavoriteId,
+    favoriteRecipes,
+    setFavoriteRecipes,
     doneRecipes,
-    setDoneRecipes,
+    handleSendDone,
+    filterFavoriteRecipes,
+    setFilterFavoriteRecipes,
+    filterDoneRecipes,
+    setFilterDoneRecipes,
+    handleFilters,
+    isCopy,
+    setIsCopy,
   };
 
   return (
