@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import FavoriteAndShareButtons from '../components/FavoriteAndShareButtons';
+import { FavoriteAndShareButtons } from '../components/index';
 import Context from '../context/Context';
 import '../css/Footer.css';
 import '../css/RecipesInProgress.css';
@@ -14,10 +14,8 @@ function RecipeInProgress() {
     setInProgressRecipes,
     requestData,
     doneRecipes,
-    setDoneRecipes,
+    handleSendDone,
   } = useContext(Context);
-
-  const { details } = recipeDetails;
 
   const { details: { strMeal,
     strDrinkThumb,
@@ -70,32 +68,6 @@ function RecipeInProgress() {
     if (doneRecipes.some((recipe) => recipe.id === id)) history.push('/done-recipes');
   }, [doneRecipes]);
 
-  const dateGenerator = () => {
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-
-  const handleSendDone = () => {
-    setDoneRecipes([
-      ...doneRecipes,
-      {
-        id,
-        type: type.split('s')[0],
-        nationality: type === 'food' ? details.strArea : '',
-        category: type === 'food' ? details.strCategory : '',
-        alcoholicOrNot: type === 'food' ? '' : details.strAlcoholic,
-        name: details.strMeal || details.strDrink,
-        image: details.strMealThumb || details.strDrinkThumb,
-        doneDate: dateGenerator(),
-        tags: details.strTags
-          ? details.strTags.split(',') : '',
-      },
-    ]);
-  };
-
   return (
     <div>
       <div>
@@ -129,34 +101,20 @@ function RecipeInProgress() {
                 key={ index }
                 data-testid={ `${index}-ingredient-step` }
               >
-                {inProgressRecipes.id === id
-                    && inProgressRecipes.arr.includes(index)
-                  ? (
-                    <input
-                      type="checkbox"
-                      name="ingredient"
-                      value={ index }
-                      onChange={ () => handleRiscar(index) }
-                      checked
-                    />
-                  )
-                  : (
-                    <input
-                      type="checkbox"
-                      name="ingredient"
-                      value={ index }
-                      onChange={ () => handleRiscar(index) }
-                    />
-                  )}
-                {inProgressRecipes.id === id
-                    && inProgressRecipes.arr.includes(index)
-                  ? (
-                    <span className="riscado">{ingredient}</span>
-                  )
-                  : (
-                    <span>{ingredient}</span>
-                  )}
-
+                <input
+                  type="checkbox"
+                  name="ingredient"
+                  value={ index }
+                  onChange={ () => handleRiscar(index) }
+                  checked={ inProgressRecipes.id === id
+                    && inProgressRecipes.arr.includes(index) }
+                />
+                <span
+                  className={ inProgressRecipes.id === id
+                  && inProgressRecipes.arr.includes(index) ? 'riscado' : '' }
+                >
+                  {ingredient}
+                </span>
               </li>
             ))}
           </ul>
@@ -172,7 +130,7 @@ function RecipeInProgress() {
           className="btn-finish-recipes"
           type="button"
           disabled={ ingredients.length !== inProgressRecipes.arr.length }
-          onClick={ handleSendDone }
+          onClick={ () => handleSendDone(type, id) }
         >
           Finish Recipe
         </button>

@@ -5,7 +5,6 @@ import { FavoriteAndShareButtons } from './index';
 import './styles/image.css';
 
 export default function FavoriteRecipesCard({ favoriteRecipes }) {
-  console.log(favoriteRecipes);
   return (
     favoriteRecipes && favoriteRecipes.map((recipe, index) => (
       <div id="card" key={ index }>

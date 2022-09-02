@@ -90,6 +90,33 @@ function Provider({ children }) {
     }
   };
 
+  const dateGenerator = () => {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleSendDone = (type, id) => {
+    const { details } = recipeDetails;
+    setDoneRecipes([
+      ...doneRecipes,
+      {
+        id,
+        type: type.split('s')[0],
+        nationality: type === 'food' ? details.strArea : '',
+        category: type === 'food' ? details.strCategory : '',
+        alcoholicOrNot: type === 'food' ? '' : details.strAlcoholic,
+        name: details.strMeal || details.strDrink,
+        image: details.strMealThumb || details.strDrinkThumb,
+        doneDate: dateGenerator(),
+        tags: details.strTags
+          ? details.strTags.split(',') : '',
+      },
+    ]);
+  };
+
   const handleFilters = ({ target: { name } }, param) => {
     const data = JSON.parse(localStorage.getItem(param)) || [];
     if (name === 'all') {
@@ -129,7 +156,7 @@ function Provider({ children }) {
     favoriteRecipes,
     setFavoriteRecipes,
     doneRecipes,
-    setDoneRecipes,
+    handleSendDone,
     filterFavoriteRecipes,
     setFilterFavoriteRecipes,
     filterDoneRecipes,

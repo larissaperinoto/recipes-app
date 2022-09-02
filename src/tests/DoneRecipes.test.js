@@ -115,6 +115,8 @@ describe('Verifica a renderização da tela de receitas cocluídas', () => {
   expect(screen.getAllByTestId(/horizontal-image/i)[0].src).toBe('https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg');
   expect(screen.getAllByTestId(/horizontal-top-text/i).length).toBe(1);
   expect(screen.getAllByTestId(/horizontal-top-text/i)[0].innerHTML).toBe('Italian - Vegetarian');
+  expect(screen.getByTestId('0-Pasta-horizontal-tag').innerHTML).toBe('Pasta');
+  expect(screen.getByTestId('0-Curry-horizontal-tag').innerHTML).toBe('Curry');
 
   userEvent.click(screen.getByRole("button", { name: /drinks/i }));
 
