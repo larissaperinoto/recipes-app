@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { Header, FilterButtons } from '../components/index';
-import FavoriteRecipesCard from '../components/FavoritesRecipesCard';
+
+import { Header, FilterButtons, DoneAndFavoriteCard } from '../components/index';
 import Context from '../context/Context';
 
 export default function FavoriteRecipes() {
@@ -12,7 +12,10 @@ export default function FavoriteRecipes() {
       <FilterButtons page="favoriteRecipes" />
       <div id="cards">
         { filterFavoriteRecipes
-          && <FavoriteRecipesCard favoriteRecipes={ filterFavoriteRecipes } /> }
+          && <DoneAndFavoriteCard
+            data={ filterFavoriteRecipes }
+            page="favorite-recipes"
+          /> }
       </div>
     </>
   );
