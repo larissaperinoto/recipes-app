@@ -1,6 +1,7 @@
 import React from 'react';
 import { arrayOf, string, object } from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { Card, Grid, Typography } from '@mui/material';
 
 export default function List({ data, type }) {
   const history = useHistory();
@@ -14,22 +15,28 @@ export default function List({ data, type }) {
   };
 
   return (
-    <form>
+    <Grid container justifyContent="center" marginBottom="100px">
       {data && data.map((recipe, index) => (
-        <button
-          type="reset"
+        <Card
+          variant="outlined"
           key={ index }
+          sx={ { padding: 3, m: 2, textAlign: 'center', cursor: 'pointer' } }
           onClick={ () => gotDetal(recipe.idMeal || recipe.idDrink) }
         >
           <img
             src={ recipe.strMealThumb || recipe.strDrinkThumb }
             alt={ recipe.strMeal || recipe.strDrink }
-            width="60px"
+            width="100px"
           />
-          <h2>{recipe.strMeal || recipe.strDrink}</h2>
-        </button>
+          <Typography
+            variant="h5"
+            sx={ { paddingTop: 1 } }
+          >
+            {recipe.strMeal || recipe.strDrink}
+          </Typography>
+        </Card>
       ))}
-    </form>
+    </Grid>
   );
 }
 
