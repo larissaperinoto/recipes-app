@@ -11,8 +11,7 @@ export default function Header({ title }) {
   const [showSearchIcon, setshowSearchIcon] = useState(true);
   const [showSearchInput, setshowSearchInput] = useState(false);
 
-  const { error, searchData } = useContext(Context);
-
+  const { error } = useContext(Context);
   const history = useHistory();
 
   const handleIcons = () => {
@@ -28,15 +27,6 @@ export default function Header({ title }) {
   };
 
   useEffect(() => handleIcons(), []);
-
-  useEffect(() => {
-    if (searchData.length === 1) {
-      const pathname = history.location;
-      const type = pathname.pathname.split('/')[1];
-      const id = type === 'foods' ? searchData[0].idMeal : searchData[0].idDrink;
-      history.push(`/${type}/${id}`);
-    }
-  }, [searchData]);
 
   return (
     <Container maxWidth="lg" sx={ { textAlign: 'center' } } className="header_container">

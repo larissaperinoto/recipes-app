@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
 import Context from './Context';
 
-import {
-  requestMealWithId,
-  requestDrinkWithId,
-  requestDrinksRecomendation,
-  requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
-
 function Provider({ children }) {
+  // Login
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   // Header
   const [search, setSearch] = useState({
     value: '',
     filter: '',
   });
 
-  const [searchData, setSearchData] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState('');
 
   const handleSearchChange = ({ target: { value, name } }) => {
     setSearch({ ...search, [name]: value });
   };
 
-  // Login
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   // Recipe
-  const [dataFoods, setDataFoods] = useState([]);
-  const [dataDrinks, setDataDrinks] = useState([]);
+  const [initialData, setInitialData] = useState([]);
+  const [byCategoryData, setByCategoryData] = useState([]);
   const [toggleFilter, setToggleFilter] = useState(false);
 
   // Recipe Details
@@ -50,45 +45,21 @@ function Provider({ children }) {
     return ingredients;
   };
 
-  const requestData = async (type, id) => {
-    const data = type === 'food'
-      ? await requestMealWithId(id) : await requestDrinkWithId(id);
-    const recomendationList = type === 'food'
-      ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
-    const ingredientsList = getIngredients(data[0]);
-    setRecipeDetails({
-      details: data[0],
-      ingredients: ingredientsList,
-      recomendations: recomendationList,
-    });
-  };
-
   // Recipe in Progress
-  const [inProgressRecipes, setInProgressRecipes] = useState({ id: '', arr: [] });
+  const [inProgressRecipes,
+    setInProgressRecipes,
+  ] = useState(JSON.parse(localStorage.getItem('inProgressRecipes')) || {
+    cocktails: {},
+    meals: {},
+  });
 
-  // Favorite Button
+  // Favorite Recipes
   const [favoriteRecipes,
     setFavoriteRecipes,
   ] = useState(JSON.parse((localStorage.getItem('favoriteRecipes'))) || []);
 
-  const [isCopy, setIsCopy] = useState(false);
-
   // Done Recipes
   const [doneRecipes, setDoneRecipes] = useState([]);
-  const [filterDoneRecipes,
-    setFilterDoneRecipes,
-  ] = useState(JSON.parse(localStorage.getItem('doneRecipes')));
-  const [filterFavoriteRecipes,
-    setFilterFavoriteRecipes,
-  ] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')));
-
-  const whereSetFilter = (page, data) => {
-    if (page === 'favoriteRecipes') {
-      setFilterFavoriteRecipes(data);
-    } else {
-      setFilterDoneRecipes(data);
-    }
-  };
 
   const dateGenerator = () => {
     const date = new Date();
@@ -117,6 +88,25 @@ function Provider({ children }) {
     ]);
   };
 
+  // Favorite and Share Buttons
+  const [isCopy, setIsCopy] = useState(false);
+
+  // Filter Buttons
+  const [filterDoneRecipes,
+    setFilterDoneRecipes,
+  ] = useState(JSON.parse(localStorage.getItem('doneRecipes')));
+  const [filterFavoriteRecipes,
+    setFilterFavoriteRecipes,
+  ] = useState(JSON.parse(localStorage.getItem('favoriteRecipes')));
+
+  const whereSetFilter = (page, data) => {
+    if (page === 'favoriteRecipes') {
+      setFilterFavoriteRecipes(data);
+    } else {
+      setFilterDoneRecipes(data);
+    }
+  };
+
   const handleFilters = ({ target: { name } }, param) => {
     const data = JSON.parse(localStorage.getItem(param)) || [];
     if (name === 'all') {
@@ -130,40 +120,48 @@ function Provider({ children }) {
     }
   };
 
+  const generateTypeAndId = (pathname) => {
+    const type = pathname.split('/')[1].split('s')[0];
+    const id = pathname.split('/')[2];
+
+    return { type, id };
+  };
+
   const value = {
-    setSearch,
-    search,
-    error,
-    searchData,
-    setError,
-    setSearchData,
-    handleSearchChange,
     email,
-    setEmail,
     password,
+    setEmail,
     setPassword,
-    recipeDetails,
-    setRecipeDetails,
-    dataFoods,
-    setDataFoods,
-    dataDrinks,
-    setDataDrinks,
+    search,
+    setSearch,
+    searchResults,
+    setSearchResults,
+    error,
+    setError,
+    handleSearchChange,
+    initialData,
+    setInitialData,
     toggleFilter,
     setToggleFilter,
-    requestData,
-    inProgressRecipes,
-    setInProgressRecipes,
     favoriteRecipes,
     setFavoriteRecipes,
-    doneRecipes,
-    handleSendDone,
-    filterFavoriteRecipes,
-    setFilterFavoriteRecipes,
-    filterDoneRecipes,
-    setFilterDoneRecipes,
-    handleFilters,
     isCopy,
     setIsCopy,
+    recipeDetails,
+    setFilterFavoriteRecipes,
+    filterDoneRecipes,
+    filterFavoriteRecipes,
+    doneRecipes,
+    setDoneRecipes,
+    handleFilters,
+    handleSendDone,
+    inProgressRecipes,
+    setInProgressRecipes,
+    byCategoryData,
+    setByCategoryData,
+    generateTypeAndId,
+    getIngredients,
+    setRecipeDetails,
   };
 
   return (

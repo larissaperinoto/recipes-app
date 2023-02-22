@@ -23,7 +23,6 @@ function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite, replac
 
   function copyLink() {
     if (testIdShare === 'share-btn') {
-      console.log(replace);
       clipboardCopy(window.location.href.replace(`/${replace}`, ''));
       setIsCopy(!isCopy);
     } else {
