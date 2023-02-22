@@ -17,7 +17,7 @@ export default function List({ data, type }) {
     <form>
       {data && data.map((recipe, index) => (
         <button
-          type="button"
+          type="reset"
           key={ index }
           onClick={ () => gotDetal(recipe.idMeal || recipe.idDrink) }
         >

@@ -1,3 +1,4 @@
+import { Button, Container } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -37,22 +38,29 @@ export default function Category() {
   }, []);
 
   return (
-    <div>
-      <button
+    <Container
+      maxWidth="lg"
+      sx={ { display: 'flex', flexWrap: 'wrap', justifyContent: 'center' } }
+    >
+      <Button
         type="button"
+        size="large"
+        color="secondary"
         onClick={ clearCategory }
       >
         All
-      </button>
+      </Button>
       {categorys && categorys.map((category, index) => (
-        <button
+        <Button
           key={ index }
           type="button"
+          size="large"
+          color="secondary"
           onClick={ () => requestByCategoryFilter(category.strCategory) }
         >
           {category.strCategory}
-        </button>
+        </Button>
       ))}
-    </div>
+    </Container>
   );
 }
