@@ -1,11 +1,18 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import {
+  TextField,
+  FormControl,
+  Button,
+  RadioGroup,
+  FormControlLabel,
+  Radio } from '@mui/material';
 import Context from '../../context/Context';
 import {
   requestMealsAPI,
   requestDrinksAPI } from '../../services/requestMealsAndDrinksAPI';
 
-function SearchBar() {
+export default function SearchBar() {
   const { setSearchData, search, setError, handleSearchChange } = useContext(Context);
   const history = useHistory();
   const { pathname } = history.location;
@@ -27,49 +34,36 @@ function SearchBar() {
   };
 
   return (
-    <form>
-      <label htmlFor="ingredient-search-radio">
-        Ingredient
-        <input
-          type="radio"
-          name="filter"
-          id="ingredient-search-radio"
-          data-testid="ingredient-search-radio"
-          value="Ingredient"
-          onChange={ handleSearchChange }
-        />
-      </label>
-      <label htmlFor="name-search-radio">
-        Name
-        <input
-          type="radio"
-          name="filter"
-          id="name-search-radio"
-          data-testid="name-search-radio"
-          value="Name"
-          onChange={ handleSearchChange }
-        />
-      </label>
-      <label htmlFor="first-letter-search-radio">
-        First letter
-        <input
-          type="radio"
-          name="filter"
-          id="first-letter-search-radio"
-          data-testid="first-letter-search-radio"
+    <FormControl sx={ { mt: 2, ml: 2 } }>
+      <RadioGroup
+        aria-labelledby="demo-radio-buttons-group-label"
+        defaultValue="Ingredient"
+        name="radio-buttons-group"
+        onChange={ handleSearchChange }
+      >
+        <FormControlLabel value="Ingredient" control={ <Radio /> } label="Ingredient" />
+        <FormControlLabel value="Name" control={ <Radio /> } label="Name" />
+        <FormControlLabel
           value="First letter"
-          onChange={ handleSearchChange }
+          control={ <Radio /> }
+          label="First letter"
         />
-      </label>
-      <button
+      </RadioGroup>
+      <TextField
+        type="text"
+        size="small"
+        margin="dense"
+        onChange={ handleSearchChange }
+      />
+      <Button
         type="button"
+        variant="contained"
+        color="secondary"
         data-testid="exec-search-btn"
-        onClick={ handleSearch }
+        onClick={ () => handleSearch() }
       >
         Search
-      </button>
-    </form>
+      </Button>
+    </FormControl>
   );
 }
-
-export default SearchBar;

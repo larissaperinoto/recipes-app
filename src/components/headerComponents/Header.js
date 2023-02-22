@@ -1,19 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { IconButton, Typography, Stack, Container } from '@mui/material';
 import profileIcon from '../../images/profileIcon.svg';
 import HeaderSearchIcon from './HeaderSearchIcon';
 import SearchBar from './SearchBar';
 import Context from '../../context/Context';
 
-function Header({ title }) {
+export default function Header({ title }) {
   const [showSearchIcon, setshowSearchIcon] = useState(true);
   const [showSearchInput, setshowSearchInput] = useState(false);
 
-  const {
-    handleSearchChange,
-    error,
-    searchData } = useContext(Context);
+  const { error, searchData } = useContext(Context);
 
   const history = useHistory();
 
@@ -23,10 +21,6 @@ function Header({ title }) {
       || title === 'Profile') {
       setshowSearchIcon(false);
     }
-  };
-
-  const handleClickProfile = () => {
-    history.push('/profile');
   };
 
   const handleShowInput = () => {
@@ -45,34 +39,24 @@ function Header({ title }) {
   }, [searchData]);
 
   return (
-    <div>
+    <Container maxWidth="lg" sx={ { textAlign: 'center' } } className="header_container">
       { error && global.alert(error) }
-      <button
-        type="button"
-        onClick={ () => handleClickProfile() }
-      >
-        <img
-          src={ profileIcon }
-          alt="profileIcon"
-          data-testid="profile-top-btn"
-        />
-      </button>
-      { showSearchIcon && <HeaderSearchIcon handleShowInput={ handleShowInput } /> }
-      { showSearchInput
-        && <input
-          type="text"
-          data-testid="search-input"
-          name="value"
-          onChange={ handleSearchChange }
-        /> }
+      <Stack direction="row" spacing={ 2 } sx={ { mt: 2, ml: 2 } }>
+        <IconButton
+          type="button"
+          variant="contained"
+          onClick={ () => history.push('/profile') }
+        >
+          <img src={ profileIcon } alt="Profile Settings" />
+        </IconButton>
+        { showSearchIcon && <HeaderSearchIcon handleShowInput={ handleShowInput } /> }
+      </Stack>
       { showSearchInput && <SearchBar /> }
-      <h1 data-testid="page-title">{ title }</h1>
-    </div>
+      <Typography variant="h2" sx={ { padding: 5 } }>{ title }</Typography>
+    </Container>
   );
 }
 
 Header.propTypes = {
-  title: PropTypes.string,
+  title: string,
 }.isRequired;
-
-export default Header;
