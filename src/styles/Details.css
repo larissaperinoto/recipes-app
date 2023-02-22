@@ -1,0 +1,13 @@
+.details_container {
+  text-align: center;
+}
+
+.details_container img {
+  width: 100%;
+  max-width: 300px;
+  margin: 20px 0 20px 0;
+}
+
+.details_recipe_video {
+  margin: 20px 0 20px 0;
+}
