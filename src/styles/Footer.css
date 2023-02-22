@@ -1,15 +1,9 @@
 footer {
   align-items: center;
-  background-color: #1d4552;
+  background-color: #9f6eb0;
   bottom: 0;
   display: flex;
   justify-content: space-evenly;
   position: fixed;
   width: 100%;
 }
-
-/* .btn-finish-recipes {
-  bottom: 0;
-  margin-left: 100px;
-  position: fixed;
-} */

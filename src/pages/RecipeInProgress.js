@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 
 import { FavoriteAndShareButtons } from '../components/index';
 import Context from '../context/Context';
-import '../css/Footer.css';
 import '../css/RecipesInProgress.css';
 
 function RecipeInProgress() {

@@ -1,38 +1,31 @@
+import { IconButton } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
-import '../css/Footer.css';
+import '../styles/Footer.css';
 
 export default function Footer() {
   const history = useHistory();
 
-  function handleSendDrinks() {
-    history.push('/drinks');
-  }
-
-  function handleSendFoods() {
-    history.push('/foods');
-  }
-
   return (
-    <footer className="footer" data-testid="footer">
-      <button
-        data-testid="drinks-bottom-btn"
+    <footer>
+      <IconButton
         type="button"
-        onClick={ handleSendDrinks }
+        onClick={ () => history.push('/drinks') }
         src={ drinkIcon }
+        title="Drinks"
       >
-        <img src={ drinkIcon } alt="drinkIcon" />
-      </button>
-      <button
-        data-testid="food-bottom-btn"
+        <img src={ drinkIcon } alt="Drinks Page" />
+      </IconButton>
+      <IconButton
         type="button"
-        onClick={ handleSendFoods }
+        onClick={ () => history.push('/foods') }
         src={ mealIcon }
+        title="Meals"
       >
-        <img src={ mealIcon } alt="mealIcon" />
-      </button>
+        <img src={ mealIcon } alt="Meals Page" />
+      </IconButton>
     </footer>
   );
 }
