@@ -13,3 +13,4 @@ export { default as Recipes } from './Recipes';
 export { default as Category } from './Category';
 export { default as FilterButtons } from './FilterButtons';
 export { default as Details } from './Details';
+export { default as InProgressCard } from './InProgressCard';

@@ -1,141 +1,113 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { FavoriteAndShareButtons } from '../components/index';
+import { FavoriteAndShareButtons, InProgressCard } from '../components/index';
 import Context from '../context/Context';
-import '../css/RecipesInProgress.css';
 
-function RecipeInProgress() {
+import {
+  requestMealWithId,
+  requestDrinkWithId,
+  requestDrinksRecomendation,
+  requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
+
+export default function RecipeInProgress() {
   const history = useHistory();
   const {
-    recipeDetails,
+    recipeDetails: { details, ingredients },
     inProgressRecipes,
-    setInProgressRecipes,
-    requestData,
     doneRecipes,
     handleSendDone,
+    generateTypeAndId,
+    getIngredients,
+    setInProgressRecipes,
+    setRecipeDetails,
   } = useContext(Context);
 
-  const { details: { strMeal,
-    strDrinkThumb,
-    strDrink,
-    strMealThumb,
-    strCategory,
-    strInstructions }, ingredients } = recipeDetails;
-
   const { location: { pathname } } = history;
-  const id = pathname.split('/')[2];
-  const type = pathname.split('/')[1].split('s')[0];
+  const { type, id } = generateTypeAndId(pathname);
 
   useEffect(() => {
-    requestData(type, id);
-  }, [type, id]);
-
-  const handleRiscar = (index) => {
-    if (inProgressRecipes.arr.some((rec) => rec === index)) {
-      setInProgressRecipes({
-        ...inProgressRecipes,
-        arr: [...inProgressRecipes.arr.filter((risco) => risco !== index)] });
-    } else {
-      setInProgressRecipes({
-        ...inProgressRecipes,
-        arr: [...inProgressRecipes.arr, index],
+    const requestData = async (recipeType, recipeId) => {
+      const data = recipeType === 'food'
+        ? await requestMealWithId(recipeId) : await requestDrinkWithId(recipeId);
+      const recomendationList = recipeType === 'food'
+        ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
+      const ingredientsList = getIngredients(data[0]);
+      setRecipeDetails({
+        details: data[0],
+        ingredients: ingredientsList,
+        recomendations: recomendationList,
       });
-    }
-  };
+    };
+    requestData(type, id);
+  }, [id, type]);
 
   useEffect(() => {
-    if (inProgressRecipes.arr.length !== 0) {
+    if (inProgressRecipes.cocktails[id] || inProgressRecipes.meals[id]) {
       localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
     }
   }, [inProgressRecipes]);
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (data === null) {
-      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
-    } else {
-      setInProgressRecipes({
-        id,
-        arr: data.arr,
-      });
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
     if (doneRecipes.some((recipe) => recipe.id === id)) history.push('/done-recipes');
   }, [doneRecipes]);
 
+  const saveRecipeId = (key) => {
+    const indexSaved = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (indexSaved && indexSaved[key][id]) {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        [key]: {
+          ...inProgressRecipes[key],
+          [id]: [...indexSaved[key][id]],
+        },
+      });
+    } else {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        [key]: {
+          ...inProgressRecipes[key],
+          [id]: [],
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (type === 'drink' && !inProgressRecipes.cocktails[id]) saveRecipeId('cocktails');
+    if (type === 'food' && !inProgressRecipes.meals[id]) saveRecipeId('meals');
+  }, []);
+
+  const finishRecipe = (key) => !(inProgressRecipes[key][id]
+      && ingredients.length === inProgressRecipes[key][id].length);
+
   return (
     <div>
-      <div>
-        <div>
-          <img
-            data-testid="recipe-photo"
-            src={ strMealThumb || strDrinkThumb }
-            alt={ strMeal || strDrink }
-          />
-        </div>
-        <div>
-          <span data-testid="recipe-title">{ strMeal || strDrink }</span>
-          <span>
-            <FavoriteAndShareButtons
-              type={ type }
-              id={ id }
-              testIdShare="share-btn"
-              testIdFavorite="favorite-btn"
-              replace="in-progress"
-            />
-          </span>
-        </div>
-        <div data-testid="recipe-category">{strCategory}</div>
-      </div>
-      <div>
-        <div>Ingredientes:</div>
-        <div>
-          <ul>
-            {ingredients.map((ingredient, index) => (
-              <li
-                key={ index }
-                data-testid={ `${index}-ingredient-step` }
-              >
-                <input
-                  type="checkbox"
-                  name="ingredient"
-                  value={ index }
-                  onChange={ () => handleRiscar(index) }
-                  checked={ inProgressRecipes.id === id
-                    && inProgressRecipes.arr.includes(index) }
-                />
-                <span
-                  className={ inProgressRecipes.id === id
-                  && inProgressRecipes.arr.includes(index) ? 'riscado' : '' }
-                >
-                  {ingredient}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div>
-        <div>Instruções:</div>
-        <div data-testid="instructions">{strInstructions}</div>
-      </div>
-      <div>
-        <button
-          data-testid="finish-recipe-btn"
-          className="btn-finish-recipes"
-          type="button"
-          disabled={ ingredients.length !== inProgressRecipes.arr.length }
-          onClick={ () => handleSendDone(type, id) }
-        >
-          Finish Recipe
-        </button>
-      </div>
+      <img
+        src={ details.strMealThumb || details.strDrinkThumb }
+        alt={ details.strMeal || details.strDrink }
+      />
+      <h2>{ details.strMeal || details.strDrink }</h2>
+      <p>{details.strCategory}</p>
+      <h3>Ingredients:</h3>
+      <InProgressCard type={ type } id={ id } />
+      <h3>Instructions:</h3>
+      <p>{details.strInstructions}</p>
+      <button
+        type="button"
+        disabled={ type === 'food' ? finishRecipe('meals') : finishRecipe('cocktails') }
+        onClick={ () => handleSendDone(type, id) }
+      >
+        Finish Recipe
+      </button>
+      <FavoriteAndShareButtons
+        type={ type }
+        id={ id }
+        testIdShare="share-btn"
+        testIdFavorite="favorite-btn"
+        replace="in-progress"
+      />
     </div>
   );
 }
-
-export default RecipeInProgress;
