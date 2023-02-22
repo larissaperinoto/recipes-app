@@ -2,26 +2,24 @@ import React, { useContext } from 'react';
 import '../styles/Slider.css';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
+import { Container } from '@mui/material';
 
 export default function Slider() {
-  const {
-    recipeDetails: { recomendations },
-  } = useContext(Context);
+  const { recipeDetails: { recomendations } } = useContext(Context);
 
   const history = useHistory();
   const { pathname } = history.location;
   const type = pathname.split('/')[1];
 
   return (
-    <section>
+    <Container>
       <ul className="slides-container">
         { recomendations.map((recommendation, index) => (
           <li
             className="slide"
             key={ index }
-            data-testid={ `${index}-recomendation-card` }
           >
-            <h3 data-testid={ `${index}-recomendation-title` }>
+            <h3>
               { type === 'foods' ? recommendation.strDrink : recommendation.strMeal }
             </h3>
             <img
@@ -34,6 +32,6 @@ export default function Slider() {
           </li>
         ))}
       </ul>
-    </section>
+    </Container>
   );
 }
