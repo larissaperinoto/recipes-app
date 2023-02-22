@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Container } from '@mui/material';
 
 import Context from '../context/Context';
 import {
@@ -38,7 +39,7 @@ export default function RecipeDetails() {
   }, [id, type]);
 
   return (
-    <main>
+    <Container sx={ { mb: 5 } }>
       <Details />
       <FavoriteAndShareButtons
         type={ type }
@@ -54,6 +55,6 @@ export default function RecipeDetails() {
           objectKey={ type === 'food' ? 'meals' : 'cocktails' }
           id={ id }
         /> }
-    </main>
+    </Container>
   );
 }

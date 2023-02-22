@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import '../styles/Slider.css';
+import { Container } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
-import { Container } from '@mui/material';
+import '../styles/Slider.css';
 
 export default function Slider() {
   const { recipeDetails: { recomendations } } = useContext(Context);

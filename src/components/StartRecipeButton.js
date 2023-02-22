@@ -1,23 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { string, number } from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { Button } from '@mui/material';
 
-function StartRecipeButton({ handleStartRecipe }) {
+export default function StartRecipeButton({ objectKey, id }) {
+  const history = useHistory();
+
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  // Arrumar quando a chave inProgressRecipes estiver correto.
+
+  const handleStartRecipe = () => {
+    if (objectKey === 'meals') {
+      history.push(`/foods/${id}/in-progress`);
+    } else {
+      history.push(`/drinks/${id}/in-progress`);
+    }
+  };
+
   return (
-    <button
+    <Button
       type="button"
-      data-testid="start-recipe-btn"
-      className="start-recipe-btn"
-      onClick={ handleStartRecipe }
+      variant="outlined"
+      color="secondary"
+      sx={ { ml: 2 } }
+      onClick={ () => handleStartRecipe() }
     >
-      { inProgressRecipes ? 'Continue Recipe' : 'Start Recipe' }
-    </button>
+      { inProgressRecipes && inProgressRecipes[objectKey][id]
+        ? 'Continue Recipe' : 'Start Recipe' }
+    </Button>
   );
 }
 
 StartRecipeButton.propTypes = {
-  handleStartRecipe: PropTypes.func,
+  objectKey: string,
+  id: number,
 }.isRequired;
-
-export default StartRecipeButton;
