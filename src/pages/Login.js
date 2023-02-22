@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Button, FormControl, TextField } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 import { emailValidation, passwordValidation } from '../services/helpers';
+import '../styles/Login.css';
 
 export default function Login() {
   const { email, setEmail, password, setPassword } = useContext(Context);
@@ -27,26 +29,37 @@ export default function Login() {
   }
 
   return (
-    <form>
-      <input
-        type="email"
-        placeholder="Email"
-        value={ email }
-        onChange={ ({ target: { value } }) => setEmail(value) }
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={ password }
-        onChange={ ({ target: { value } }) => setPassword(value) }
-      />
-      <button
-        type="button"
-        disabled={ disabled }
-        onClick={ login }
-      >
-        Enter
-      </button>
-    </form>
+    <div className="login_container">
+      <img src="https://img.icons8.com/cotton/64/null/chinese-noodle.png" alt="Box's noodle" />
+      <FormControl>
+        <TextField
+          required
+          margin="dense"
+          size="small"
+          type="email"
+          placeholder="Email"
+          value={ email }
+          onChange={ ({ target: { value } }) => setEmail(value) }
+        />
+        <TextField
+          required
+          margin="dense"
+          size="small"
+          type="password"
+          placeholder="Password"
+          value={ password }
+          onChange={ ({ target: { value } }) => setPassword(value) }
+        />
+        <Button
+          type="button"
+          color="secondary"
+          variant="contained"
+          disabled={ disabled }
+          onClick={ () => login() }
+        >
+          Enter
+        </Button>
+      </FormControl>
+    </div>
   );
 }

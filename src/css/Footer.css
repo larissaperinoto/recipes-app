@@ -8,16 +8,6 @@ footer {
   width: 100%;
 }
 
-button {
-  background-color: #b9b4b4;
-  border: none;
-  color: white;
-  cursor: pointer;
-  height: 70px;
-  margin: 8px;
-  width: 70px;
-}
-
 .btn-finish-recipes {
   bottom: 0;
   margin-left: 100px;
