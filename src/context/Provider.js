@@ -23,8 +23,8 @@ function Provider({ children }) {
   };
 
   // Login
-  const [userEmail, setUserEmail] = useState({ user: { email: '', isValid: false } });
-  const [userSenha, setUserSenha] = useState({ senha: { isValid: false } });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   // Recipe
   const [dataFoods, setDataFoods] = useState([]);
@@ -138,10 +138,10 @@ function Provider({ children }) {
     setError,
     setSearchData,
     handleSearchChange,
-    userEmail,
-    setUserEmail,
-    userSenha,
-    setUserSenha,
+    email,
+    setEmail,
+    password,
+    setPassword,
     recipeDetails,
     setRecipeDetails,
     dataFoods,

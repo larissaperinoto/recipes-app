@@ -1,60 +1,52 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
+import { emailValidation, passwordValidation } from '../services/helpers';
 
 export default function Login() {
-  const { userEmail, setUserEmail, userSenha, setUserSenha } = useContext(Context);
+  const { email, setEmail, password, setPassword } = useContext(Context);
+  const [disabled, setDisabled] = useState(true);
   const history = useHistory();
 
-  function validarEmail(email) {
-    const regexE = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
-    return setUserEmail({ user: { email, isValid: regexE.test(email) } });
-  }
+  useEffect(() => {
+    if (emailValidation(email) && passwordValidation(password)) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [email, password]);
 
-  function validarSenha(senha) {
-    const MIN_CARACTERS = 6;
-    // const regexS = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z]{6,}$/i;
-    return setUserSenha({ senha: { isValid: senha.length > MIN_CARACTERS } });
-  }
-
-  function handleSendLogin() {
-    const sendUser = {
-      email: userEmail.user.email,
-    };
+  function login() {
     const mealsToken = '1';
     const cocktailsToken = '1';
 
-    localStorage.setItem('user', JSON.stringify(sendUser));
+    localStorage.setItem('user', JSON.stringify({ email, password }));
     localStorage.setItem('mealsToken', mealsToken);
     localStorage.setItem('cocktailsToken', cocktailsToken);
     history.push('/foods');
   }
 
   return (
-    <div>
-      <form>
-        <input
-          type="email"
-          placeholder="Email"
-          data-testid="email-input"
-          value={ userEmail.email }
-          onChange={ (ev) => validarEmail(ev.target.value) }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          data-testid="password-input"
-          onChange={ (ev) => validarSenha(ev.target.value) }
-        />
-      </form>
+    <form>
+      <input
+        type="email"
+        placeholder="Email"
+        value={ email }
+        onChange={ ({ target: { value } }) => setEmail(value) }
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={ password }
+        onChange={ ({ target: { value } }) => setPassword(value) }
+      />
       <button
         type="button"
-        data-testid="login-submit-btn"
-        disabled={ !(userEmail.user.isValid && userSenha.senha.isValid) }
-        onClick={ handleSendLogin }
+        disabled={ disabled }
+        onClick={ login }
       >
         Enter
       </button>
-    </div>
+    </form>
   );
 }
