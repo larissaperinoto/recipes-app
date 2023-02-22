@@ -1,5 +1,11 @@
 import React, { useContext } from 'react';
 import { string, number } from 'prop-types';
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Checkbox } from '@mui/material';
 
 import Context from '../context/Context';
 
@@ -34,30 +40,26 @@ export default function InProgressCard({ type, id }) {
   };
 
   return (
-    <ul>
+    <List>
       { ingredients && ingredients.map((ingredient, index) => (
-        <li
-          key={ index }
-          data-testid={ `${index}-ingredient-step` }
-        >
-          <label
-            className={ isChecked(index) && 'isDone' }
-            htmlFor={ `ingredients-item-${index}` }
-          >
-            <input
-              type="checkbox"
-              id={ `ingredients-item-${index}` }
+        <ListItemButton key={ index }>
+          <ListItemIcon>
+            <Checkbox
+              edge="start"
               value={ index }
               onChange={ () => (type === 'food'
                 ? saveRecipeProgress('meals', index)
                 : saveRecipeProgress('cocktails', index)) }
               checked={ isChecked(index) }
             />
-            {ingredient}
-          </label>
-        </li>
+          </ListItemIcon>
+          <ListItemText
+            primary={ ingredient }
+            className={ isChecked(index) ? 'riscado' : '' }
+          />
+        </ListItemButton>
       ))}
-    </ul>
+    </List>
   );
 }
 

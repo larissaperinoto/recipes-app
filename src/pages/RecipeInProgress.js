@@ -1,5 +1,7 @@
+import { Button, Container, Typography } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import '../styles/RecipeInProgress.css';
 
 import { FavoriteAndShareButtons, InProgressCard } from '../components/index';
 import Context from '../context/Context';
@@ -83,24 +85,13 @@ export default function RecipeInProgress() {
       && ingredients.length === inProgressRecipes[key][id].length);
 
   return (
-    <div>
+    <Container className="recipeInProgress_container">
       <img
         src={ details.strMealThumb || details.strDrinkThumb }
         alt={ details.strMeal || details.strDrink }
       />
-      <h2>{ details.strMeal || details.strDrink }</h2>
-      <p>{details.strCategory}</p>
-      <h3>Ingredients:</h3>
-      <InProgressCard type={ type } id={ id } />
-      <h3>Instructions:</h3>
-      <p>{details.strInstructions}</p>
-      <button
-        type="button"
-        disabled={ type === 'food' ? finishRecipe('meals') : finishRecipe('cocktails') }
-        onClick={ () => handleSendDone(type, id) }
-      >
-        Finish Recipe
-      </button>
+      <Typography variant="h3">{ details.strMeal || details.strDrink }</Typography>
+      <Typography>{details.strCategory}</Typography>
       <FavoriteAndShareButtons
         type={ type }
         id={ id }
@@ -108,6 +99,20 @@ export default function RecipeInProgress() {
         testIdFavorite="favorite-btn"
         replace="in-progress"
       />
-    </div>
+      <Typography variant="h5">Ingredients:</Typography>
+      <InProgressCard type={ type } id={ id } />
+      <Typography variant="h5">Instructions:</Typography>
+      <Typography sx={ { textAlign: 'justify' } }>{details.strInstructions}</Typography>
+      <Button
+        type="button"
+        variant="contained"
+        color="secondary"
+        sx={ { m: 3 } }
+        disabled={ type === 'food' ? finishRecipe('meals') : finishRecipe('cocktails') }
+        onClick={ () => handleSendDone(type, id) }
+      >
+        Finish Recipe
+      </Button>
+    </Container>
   );
 }

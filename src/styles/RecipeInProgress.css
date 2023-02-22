@@ -1,0 +1,12 @@
+.riscado {
+  text-decoration-line: line-through;
+}
+
+.recipeInProgress_container {
+  text-align: center;
+}
+
+.recipeInProgress_container img {
+  width: 100%;
+  max-width: 300px;
+}

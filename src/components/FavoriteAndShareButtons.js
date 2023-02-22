@@ -52,7 +52,7 @@ function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite, replac
   };
 
   return (
-    <Container sx={ { mb: 3 } }>
+    <Container sx={ { mb: 3, textAlign: 'justify' } }>
       <IconButton
         type="button"
         onClick={ () => copyLink() }
