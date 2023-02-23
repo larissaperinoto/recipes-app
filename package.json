@@ -1,5 +1,4 @@
 {
-  "homepage": "https://larissaperinoto.github.io/recipes-app",
   "name": "recipes-app",
   "version": "0.1.0",
   "private": true,
@@ -20,8 +19,6 @@
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "cy": "cypress run",
     "cy:open": "cypress open",
     "start": "react-scripts start",
