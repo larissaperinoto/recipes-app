@@ -152,7 +152,7 @@ function Provider({ children }) {
     return { type, id };
   };
 
-  const saveRecipeId = (key) => {
+  const saveRecipeId = (key, id) => {
     const indexSaved = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (indexSaved && indexSaved[key][id]) {
       setInProgressRecipes({
@@ -173,7 +173,7 @@ function Provider({ children }) {
     }
   };
 
-  const finishRecipe = (key) => !(inProgressRecipes[key][id]
+  const finishRecipe = (key, id) => !(inProgressRecipes[key][id]
     && recipeDetails.ingredients.length === inProgressRecipes[key][id].length);
 
   const requestData = async (recipeType, recipeId) => {

@@ -38,8 +38,9 @@ export default function RecipeInProgress() {
   }, [doneRecipes]);
 
   useEffect(() => {
-    if (type === 'drink' && !inProgressRecipes.cocktails[id]) saveRecipeId('cocktails');
-    if (type === 'food' && !inProgressRecipes.meals[id]) saveRecipeId('meals');
+    if (type === 'drink'
+      && !inProgressRecipes.cocktails[id]) saveRecipeId('cocktails', id);
+    if (type === 'food' && !inProgressRecipes.meals[id]) saveRecipeId('meals', id);
   }, []);
 
   return (
@@ -66,7 +67,9 @@ export default function RecipeInProgress() {
         variant="contained"
         color="secondary"
         sx={ { m: 3 } }
-        disabled={ type === 'food' ? finishRecipe('meals') : finishRecipe('cocktails') }
+        disabled={ type === 'food'
+          ? finishRecipe('meals', id)
+          : finishRecipe('cocktails', id) }
         onClick={ () => handleSendDone(type, id) }
       >
         Finish Recipe
