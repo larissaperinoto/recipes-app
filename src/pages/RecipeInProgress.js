@@ -6,41 +6,23 @@ import '../styles/RecipeInProgress.css';
 import { FavoriteAndShareButtons, InProgressCard } from '../components/index';
 import Context from '../context/Context';
 
-import {
-  requestMealWithId,
-  requestDrinkWithId,
-  requestDrinksRecomendation,
-  requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
-
 export default function RecipeInProgress() {
   const history = useHistory();
   const {
-    recipeDetails: { details, ingredients },
+    recipeDetails: { details },
     inProgressRecipes,
     doneRecipes,
     handleSendDone,
     generateTypeAndId,
-    getIngredients,
-    setInProgressRecipes,
-    setRecipeDetails,
+    requestData,
+    saveRecipeId,
+    finishRecipe,
   } = useContext(Context);
 
   const { location: { pathname } } = history;
   const { type, id } = generateTypeAndId(pathname);
 
   useEffect(() => {
-    const requestData = async (recipeType, recipeId) => {
-      const data = recipeType === 'food'
-        ? await requestMealWithId(recipeId) : await requestDrinkWithId(recipeId);
-      const recomendationList = recipeType === 'food'
-        ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
-      const ingredientsList = getIngredients(data[0]);
-      setRecipeDetails({
-        details: data[0],
-        ingredients: ingredientsList,
-        recomendations: recomendationList,
-      });
-    };
     requestData(type, id);
   }, [id, type]);
 
@@ -55,34 +37,10 @@ export default function RecipeInProgress() {
     if (doneRecipes.some((recipe) => recipe.id === id)) history.push('/done-recipes');
   }, [doneRecipes]);
 
-  const saveRecipeId = (key) => {
-    const indexSaved = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (indexSaved && indexSaved[key][id]) {
-      setInProgressRecipes({
-        ...inProgressRecipes,
-        [key]: {
-          ...inProgressRecipes[key],
-          [id]: [...indexSaved[key][id]],
-        },
-      });
-    } else {
-      setInProgressRecipes({
-        ...inProgressRecipes,
-        [key]: {
-          ...inProgressRecipes[key],
-          [id]: [],
-        },
-      });
-    }
-  };
-
   useEffect(() => {
     if (type === 'drink' && !inProgressRecipes.cocktails[id]) saveRecipeId('cocktails');
     if (type === 'food' && !inProgressRecipes.meals[id]) saveRecipeId('meals');
   }, []);
-
-  const finishRecipe = (key) => !(inProgressRecipes[key][id]
-      && ingredients.length === inProgressRecipes[key][id].length);
 
   return (
     <Container className="recipeInProgress_container">

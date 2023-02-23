@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 
 import Context from './Context';
 
+import {
+  requestMealWithId,
+  requestDrinkWithId,
+  requestDrinksRecomendation,
+  requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
+
 function Provider({ children }) {
   // Login
   const [email, setEmail] = useState('');
@@ -88,6 +94,25 @@ function Provider({ children }) {
     ]);
   };
 
+  const handleFavoriteRecipes = (paramType, paramId) => {
+    if (favoriteRecipes.some((recipe) => recipe.id === paramId)) {
+      setFavoriteRecipes(favoriteRecipes.filter((recipe) => recipe.id !== paramId));
+    } else {
+      const { details } = recipeDetails;
+      setFavoriteRecipes([
+        ...favoriteRecipes,
+        { id,
+          type,
+          nationality: paramType === 'food' ? details.strArea : '',
+          category: details.strCategory,
+          alcoholicOrNot: paramType === 'food' ? '' : details.strAlcoholic,
+          name: details.strMeal || details.strDrink,
+          image: details.strMealThumb || details.strDrinkThumb,
+        },
+      ]);
+    }
+  };
+
   // Favorite and Share Buttons
   const [isCopy, setIsCopy] = useState(false);
 
@@ -127,6 +152,43 @@ function Provider({ children }) {
     return { type, id };
   };
 
+  const saveRecipeId = (key) => {
+    const indexSaved = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (indexSaved && indexSaved[key][id]) {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        [key]: {
+          ...inProgressRecipes[key],
+          [id]: [...indexSaved[key][id]],
+        },
+      });
+    } else {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        [key]: {
+          ...inProgressRecipes[key],
+          [id]: [],
+        },
+      });
+    }
+  };
+
+  const finishRecipe = (key) => !(inProgressRecipes[key][id]
+    && recipeDetails.ingredients.length === inProgressRecipes[key][id].length);
+
+  const requestData = async (recipeType, recipeId) => {
+    const data = recipeType === 'food'
+      ? await requestMealWithId(recipeId) : await requestDrinkWithId(recipeId);
+    const recomendationList = recipeType === 'food'
+      ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
+    const ingredientsList = getIngredients(data[0]);
+    setRecipeDetails({
+      details: data[0],
+      ingredients: ingredientsList,
+      recomendations: recomendationList,
+    });
+  };
+
   const value = {
     email,
     password,
@@ -162,6 +224,10 @@ function Provider({ children }) {
     generateTypeAndId,
     getIngredients,
     setRecipeDetails,
+    handleFavoriteRecipes,
+    saveRecipeId,
+    finishRecipe,
+    requestData,
   };
 
   return (
