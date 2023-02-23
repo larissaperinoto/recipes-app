@@ -1,42 +1,29 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
+import { Button, Container } from '@mui/material';
 import Context from '../context/Context';
 
 export default function FilterButtons({ page }) {
   const { handleFilters } = useContext(Context);
+  const filterButtons = ['All', 'Food', 'Drinks'];
 
   return (
-    <div id="button-group">
-      <button
-        type="button"
-        name="all"
-        data-testid="filter-by-all-btn"
-        onClick={ (event) => handleFilters(event, page) }
-      >
-        All
-      </button>
-
-      <button
-        type="button"
-        name="food"
-        data-testid="filter-by-food-btn"
-        onClick={ (event) => handleFilters(event, page) }
-      >
-        Food
-      </button>
-
-      <button
-        type="button"
-        name="drinks"
-        data-testid="filter-by-drink-btn"
-        onClick={ (event) => handleFilters(event, page) }
-      >
-        Drinks
-      </button>
-    </div>
+    <Container sx={ { textAlign: 'center' } }>
+      {filterButtons.map((buttonText, index) => (
+        <Button
+          key={ index }
+          type="button"
+          size="large"
+          color="secondary"
+          name={ buttonText.toLowerCase() }
+          onClick={ (event) => handleFilters(event, page) }
+        >
+          { buttonText }
+        </Button>))}
+    </Container>
   );
 }
 
 FilterButtons.propTypes = {
-  page: PropTypes.string,
+  page: string,
 }.isRequired;

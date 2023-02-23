@@ -42,7 +42,7 @@ export default function Header({ title }) {
         { showSearchIcon && <HeaderSearchIcon handleShowInput={ handleShowInput } /> }
       </Stack>
       { showSearchInput && <SearchBar /> }
-      <Typography variant="h2" sx={ { padding: 5 } }>{ title }</Typography>
+      <Typography variant="h4" sx={ { padding: 5 } }>{ title }</Typography>
     </Container>
   );
 }

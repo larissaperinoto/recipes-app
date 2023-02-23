@@ -8,4 +8,4 @@ export { default as StartRecipeButton } from './StartRecipeButton';
 export { default as Details } from './Details';
 export { default as InProgressCard } from './InProgressCard';
 export { default as FilterButtons } from './FilterButtons';
-export { default as DoneAndFavoriteCard } from './DoneAndFavoriteCard';
+export { default as DoneAndFavoriteList } from './DoneAndFavoriteList';
