@@ -3,7 +3,7 @@ import { arrayOf, object } from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
 import Context from '../context/Context';
-import List from './List';
+import FoodsAndDrinksList from './FoodsAndDrinksList';
 import {
   requestDrinksRecomendation,
   requestFoodsRecomendation,
@@ -32,8 +32,9 @@ export default function Recipes() {
   const condition = searchResults.length === 0 && initialData.length >= 1;
   return (
     <main>
-      { condition && <List data={ initialData } type={ type } /> }
-      { searchResults.length > 1 && <List data={ searchResults } type={ type } /> }
+      { condition && <FoodsAndDrinksList data={ initialData } type={ type } /> }
+      { searchResults.length > 1
+        && <FoodsAndDrinksList data={ searchResults } type={ type } /> }
     </main>
   );
 }

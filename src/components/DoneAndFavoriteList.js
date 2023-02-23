@@ -21,14 +21,15 @@ export default function DoneAndFavoriteList({ data, page }) {
         <Card
           key={ index }
           className="done_favorite_card"
-          onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
-          sx={ { textAlign: 'center', m: 2 } }
+          sx={ { textAlign: 'center', m: 2, cursor: 'pointer' } }
         >
           <CardMedia
             component="img"
             height="194"
             image={ recipe.image }
             alt={ recipe.name }
+            onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
+
           />
           <CardContent>
             <h4>
