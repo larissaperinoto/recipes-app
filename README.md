@@ -6,7 +6,7 @@ The project was developed with the following team: [Larissa Perinoto](https://gi
 
 ### Description
 
-The Recipes App application is a food and beverage recipe app, where the user can search and bookmark recipes, document the development and finalization of completed recipes. The application's layout is designed for use on mobile devices.
+The Recipes App application is a food and drinks recipe app, where the user can search and bookmark recipes, document the development and finalization of completed recipes. The application's layout is designed for use on mobile devices.
 
 ### Technologies and Tools
 
