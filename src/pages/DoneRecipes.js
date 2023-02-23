@@ -1,20 +1,17 @@
 import React, { useContext } from 'react';
-import { Header, FilterButtons } from '../components/index';
-import DoneRecipesCard from '../components/DoneRecipesCard';
+import { Header, FilterButtons, DoneAndFavoriteList } from '../components/index';
 import Context from '../context/Context';
 
-function DoneRecipes() {
+export default function DoneRecipes() {
   const { filterDoneRecipes } = useContext(Context);
   return (
     <>
       <Header title="Done Recipes" />
       <FilterButtons page="doneRecipes" />
-      <div id="cards">
+      <div>
         { filterDoneRecipes
-          && <DoneRecipesCard doneRecipes={ filterDoneRecipes } /> }
+          && <DoneAndFavoriteList data={ filterDoneRecipes } page="done-recipes" /> }
       </div>
     </>
   );
 }
-
-export default DoneRecipes;

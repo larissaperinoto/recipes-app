@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import clipboardCopy from 'clipboard-copy';
-import PropTypes from 'prop-types';
+import { string, number } from 'prop-types';
+import { Container, IconButton } from '@mui/material';
 
 import Context from '../context/Context';
 import shareIcon from '../images/shareIcon.svg';
@@ -23,7 +24,6 @@ function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite, replac
 
   function copyLink() {
     if (testIdShare === 'share-btn') {
-      console.log(replace);
       clipboardCopy(window.location.href.replace(`/${replace}`, ''));
       setIsCopy(!isCopy);
     } else {
@@ -52,45 +52,43 @@ function FavoriteAndShareButtons({ type, id, testIdShare, testIdFavorite, replac
   };
 
   return (
-    <main>
-      <div>
-        <div>
-          <button
-            type="button"
-            onClick={ () => copyLink() }
-            src={ shareIcon }
-          >
-            <img
-              data-testid={ testIdShare }
-              src={ shareIcon }
-              alt="shareIcon"
-            />
-          </button>
-          <button
-            type="button"
-            onClick={ () => handleFavoriteRecipes(type, id) }
-          >
-            <img
-              data-testid={ testIdFavorite }
-              alt={ favoriteRecipes.some((recipe) => Number(recipe.id) === Number(id))
-                ? 'blackHeartIcon' : 'whiteHeartIcon' }
-              src={ favoriteRecipes.some((recipe) => Number(recipe.id) === Number(id))
-                ? blackHeartIcon : whiteHeartIcon }
-            />
-          </button>
-          {isCopy && <p>Link copied!</p> }
-        </div>
-      </div>
-    </main>
+    <Container sx={ { mb: 3, textAlign: 'justify' } }>
+      <IconButton
+        type="button"
+        onClick={ () => copyLink() }
+        src={ shareIcon }
+        title="Share"
+      >
+        <img
+          data-testid={ testIdShare }
+          src={ shareIcon }
+          alt="Share"
+        />
+      </IconButton>
+      <IconButton
+        type="button"
+        title="Like"
+        onClick={ () => handleFavoriteRecipes(type, id) }
+      >
+        <img
+          data-testid={ testIdFavorite }
+          alt={ favoriteRecipes.some((recipe) => Number(recipe.id) === Number(id))
+            ? 'blackHeartIcon' : 'whiteHeartIcon' }
+          src={ favoriteRecipes.some((recipe) => Number(recipe.id) === Number(id))
+            ? blackHeartIcon : whiteHeartIcon }
+        />
+      </IconButton>
+      {isCopy && <p>Link copied!</p> }
+    </Container>
   );
 }
 
 FavoriteAndShareButtons.propTypes = {
-  type: PropTypes.string,
-  id: PropTypes.number,
-  testIdShare: PropTypes.string,
-  testIdFavorite: PropTypes.string,
-  replace: PropTypes.string,
+  type: string,
+  id: number,
+  testIdShare: string,
+  testIdFavorite: string,
+  replace: string,
 }.isRequired;
 
 export default FavoriteAndShareButtons;

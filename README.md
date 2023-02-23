@@ -1,14 +1,14 @@
-# App de Receitas
+# Recipes App
 
-A [Trybe](https://www.betrybe.com/) é uma escola de tecnologia com foco em formação de Desenvolvedores Web e o projeto App de Receitas foi proposto como atividade de aprimoramento dos estudos sobre desenvolvimento front-end. 
+[Trybe](https://www.betrybe.com/) is a technology school focused on training Web Developers and the Fast Delivery project was proposed as an activity to improve studies on front-end development.
 
-O projeto foi elaborado com o seguinte time de desenvolvedores: [Larissa Perinoto](https://github.com/larissaperinoto), [Harumi Maeda](https://github.com/harumimaeda), [Gustavo Vieira de Oliveira](https://github.com/Gusvioli), [Jean Rosa](https://github.com/Jean-Rosa19) e [Robson Mendes](https://github.com/Robsonmendes1987).
+The project was developed with the following team: [Larissa Perinoto](https://github.com/larissaperinoto), [Harumi Maeda](https://github.com/harumimaeda), [Gustavo Vieira de Oliveira](https://github.com/Gusvioli), [Jean Rosa](https://github.com/Jean-Rosa19) e [Robson Mendes](https://github.com/Robsonmendes1987).
 
-### Objetivo
+### Description
 
-A aplicação desenvolvida é um app de receitas de comidas e bebidas, onde o usuário pode pesquisar e favoritar receitas, documentar o desenvolvumento e finalização de receitas já concluídas. O layout da aplicação é voltado para a utilização em dispositivos móveis.
+The Recipes App application is a food and beverage recipe app, where the user can search and bookmark recipes, document the development and finalization of completed recipes. The application's layout is designed for use on mobile devices.
 
-### Tecnologias e Ferramentas
+### Technologies and Tools
 
 <div>
  <img src='https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white' alt='HTML' />
@@ -21,28 +21,33 @@ A aplicação desenvolvida é um app de receitas de comidas e bebidas, onde o us
 </div>
 <br>
 
-O projeto foi desenvolvido em JavaScript utilizando a biblioteca [ReactJS](https://pt-br.reactjs.org/), as rotas da aplicação foram elaboradas com [React Router](https://reactrouter.com/en/main) e o gerênciamento de estada realizado com Context API e Hooks. Os testes foram elaborados com [Jest](https://jestjs.io/pt-BR/) e a [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/). Para alinhar o código com as boas práticas de desenvolvimento foram utilizadas as ferramentas [ESLint](https://github.com/eslint/eslint) e [StyleLint](https://stylelint.io/). 
+Technologies used in the project include:
 
-### Desenvolvimento
+#### Front-end
 
-O projeto foi desenvolvido através de metodologia ágil utilizando o framework Scrum para gerênciamento do projeto e a metodologia Kanban para acompanhamento de tarefas e acompamento visual das atividades.
+- [ReactJS](https://pt-br.reactjs.org/)
+- [React Router](https://reactrouter.com/en/main)
+- [Jest](https://jestjs.io/pt-BR/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
-### Execução do projeto
+#### Code aligment
+- [ESLint](https://github.com/eslint/eslint)
+- [StyleLint](https://stylelint.io/)
 
-<details>
-   <summary>Saiba mais</summary> 
-  </br>
+### How to run
 
-  Para executar o projeto na sua máquina, inicie fazendo o clone deste repositório com o comando abaixo 
+To run the project on your machine, start by making a clone of this repository with the following command.
 
       git clone git@github.com:larissaperinoto/recipes-app.git
 
-  Utilize o comando abaixo para instalar as dependências após o clone do repositório.
+Use the command below to install the dependencies after the repository clone.
 
-        npm install
+      npm install
 
-  Para iniciar o projeto utilize o comando abaixo.
+Start the project with the command below.
 
-        npm start
-        
-</details>
+      npm start
+
+Run the tests using the following command.
+
+      npm test

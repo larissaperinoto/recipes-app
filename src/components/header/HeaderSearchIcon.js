@@ -1,24 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { func } from 'prop-types';
+import { Button } from '@mui/material';
 import searchIcon from '../../images/searchIcon.svg';
 
 function HeaderSearchIcon({ handleShowInput }) {
   return (
-    <button
+    <Button
       type="button"
       onClick={ handleShowInput }
     >
       <img
         src={ searchIcon }
         alt="searchIcon"
-        data-testid="search-top-btn"
       />
-    </button>
+    </Button>
   );
 }
 
 HeaderSearchIcon.propTypes = {
-  handleShowInput: PropTypes.func,
+  handleShowInput: func,
 }.isRequired;
 
 export default HeaderSearchIcon;

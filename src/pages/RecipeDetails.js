@@ -1,41 +1,46 @@
 import React, { useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { Container } from '@mui/material';
 
-import '../css/RecipeDetails.css';
 import Context from '../context/Context';
 import {
-  MealsDetails,
-  DrinkDetails,
-  StartRecipeButton,
+  requestMealWithId,
+  requestDrinkWithId,
+  requestDrinksRecomendation,
+  requestFoodsRecomendation } from '../services/requestMealsAndDrinksAPI';
+
+import { StartRecipeButton,
   FavoriteAndShareButtons,
-  Slider } from '../components/index';
+  Slider,
+  Details } from '../components';
 
-function RecipeDetails({ history }) {
-  const { requestData, recipeDetails: { recomendations } } = useContext(Context);
+export default function RecipeDetails() {
+  const { getIngredients, setRecipeDetails, generateTypeAndId } = useContext(Context);
 
-  const { location: { pathname } } = history;
-  const id = pathname.split('/')[2];
-  const type = pathname.split('/')[1].split('s')[0];
+  const { location: { pathname } } = useHistory();
+  const { type, id } = generateTypeAndId(pathname);
 
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
 
-  const handleStartRecipe = () => {
-    if (type === 'food') {
-      history.push(`/foods/${id}/in-progress`);
-    } else {
-      history.push(`/drinks/${id}/in-progress`);
-    }
-  };
-
   useEffect(() => {
+    const requestData = async (recipeType, itemId) => {
+      const data = recipeType === 'food'
+        ? await requestMealWithId(itemId) : await requestDrinkWithId(itemId);
+      const recomendationList = type === 'food'
+        ? await requestDrinksRecomendation() : await requestFoodsRecomendation();
+      const ingredientsList = getIngredients(data[0]);
+      setRecipeDetails({
+        details: data[0],
+        ingredients: ingredientsList,
+        recomendations: recomendationList,
+      });
+    };
     requestData(type, id);
   }, [id, type]);
 
   return (
-    <div>
-      { type === 'food'
-        ? <MealsDetails />
-        : <DrinkDetails /> }
+    <Container sx={ { mb: 5 } }>
+      <Details />
       <FavoriteAndShareButtons
         type={ type }
         id={ id }
@@ -43,18 +48,13 @@ function RecipeDetails({ history }) {
         testIdFavorite="favorite-btn"
         replace="in-progress"
       />
-      <div>
-        { recomendations && <Slider /> }
-      </div>
+      <Slider />
 
       { !doneRecipes.some((recipe) => Number(recipe.id) === Number(id))
-        && <StartRecipeButton handleStartRecipe={ handleStartRecipe } /> }
-    </div>
+        && <StartRecipeButton
+          objectKey={ type === 'food' ? 'meals' : 'cocktails' }
+          id={ id }
+        /> }
+    </Container>
   );
 }
-
-RecipeDetails.propTypes = {
-  history: PropTypes.node,
-}.isRequired;
-
-export default RecipeDetails;

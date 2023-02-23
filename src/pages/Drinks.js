@@ -1,10 +1,7 @@
 import React from 'react';
-import Header from '../components/headerComponents/Header';
-import Footer from '../components/Footer';
-import Recipes from '../components/Recipes';
-import Category from '../components/Category';
+import { Category, Footer, Header, Recipes } from '../components/index';
 
-function Drinks() {
+export default function Drinks() {
   return (
     <>
       <Header title="Drinks" />
@@ -14,5 +11,3 @@ function Drinks() {
     </>
   );
 }
-
-export default Drinks;
