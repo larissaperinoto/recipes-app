@@ -51,3 +51,14 @@ Start the project with the command below.
 Run the tests using the following command.
 
       npm test
+
+
+### How to login
+
+
+To log in to the application, just enter an email in the form **email@email.com** and any password with a number greater than or equal to six characters.
+
+
+---
+
+Developed by [Larissa Perinoto](https://larissaperinoto.com.br/), © 2023.
